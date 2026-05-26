@@ -1,0 +1,10 @@
+{
+  "meta": {
+    "version": "0.4",
+    "domain": "fixture_too_many_files",
+    "created": "2026-05-26",
+    "purpose": "Extra file.",
+    "load_condition": "Never."
+  },
+  "extra_data": "This is a 7th KDNA JSON file."
+}

@@ -1,0 +1,37 @@
+{
+  "meta": {
+    "version": "0.4",
+    "domain": "fixture_legacy",
+    "created": "2026-05-26",
+    "purpose": "Minimal valid Patterns for testing.",
+    "load_condition": "Always."
+  },
+  "terminology": {
+    "standard_terms": [
+      {
+        "term": "test",
+        "definition": "A test term."
+      }
+    ],
+    "banned_terms": [
+      {
+        "term": "bad",
+        "why": "It's bad.",
+        "replace_with": "good"
+      }
+    ]
+  },
+  "misunderstandings": [
+    {
+      "id": "mis_test",
+      "wrong": "Wrong thing.",
+      "correct": "Correct thing.",
+      "key_distinction": "The distinction.",
+      "why": "To test."
+    }
+  ],
+  "self_check": [
+    "Is this a test?",
+    "Did the test pass?"
+  ]
+}

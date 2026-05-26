@@ -1,0 +1,30 @@
+# KDNA Lab — generated outputs and temporary files
+outputs/
+reports/*.md
+
+# Keep report generator script
+!reports/generate_report.py
+
+# Keep sample reports in examples
+!examples/*/sample_report.md
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local environment
+.env
+*.local.yaml
+*.local.json

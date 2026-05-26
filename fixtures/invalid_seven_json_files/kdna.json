@@ -1,0 +1,13 @@
+{
+  "kdna_spec": "1.0-rc",
+  "name": "@aikdna/fixture_too_many_files",
+  "version": "0.1.0",
+  "status": "experimental",
+  "access": "open",
+  "language": "en",
+  "author": {
+    "name": "KDNA Lab",
+    "id": "kdna-lab"
+  },
+  "description": "Fixture: invalid_seven_json_files"
+}

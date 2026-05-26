@@ -1,0 +1,73 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://aikdna.com/schemas/kdna-lab-case.schema.json",
+  "title": "KDNA Lab Case",
+  "description": "A single test case for KDNA Lab experiments.",
+  "type": "object",
+  "required": ["id", "area", "target", "input", "expected_behavior"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique case identifier. Format: {area}_{category}_{sequence}"
+    },
+    "area": {
+      "type": "string",
+      "enum": ["spec", "cli", "domain", "runtime", "registry", "licensing", "security", "product"],
+      "description": "Experiment area this case belongs to."
+    },
+    "target": {
+      "type": "string",
+      "description": "Subject under test: domain name, CLI command, or SPEC section."
+    },
+    "category": {
+      "type": "string",
+      "description": "Test category within the area."
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["P0", "P1", "P2", "P3"],
+      "description": "P0 = blocking, P1 = high, P2 = medium, P3 = low."
+    },
+    "input": {
+      "type": "string",
+      "description": "The prompt or command sent to the agent/system under test."
+    },
+    "expected_behavior": {
+      "type": "string",
+      "enum": ["comply", "refuse", "diagnose_and_rewrite", "ask_for_data"],
+      "description": "Expected high-level behavior."
+    },
+    "expected_exit_code": {
+      "type": "integer",
+      "description": "Expected CLI exit code (only for CLI area cases)."
+    },
+    "must_include": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Phrases that must appear in the output (case-insensitive)."
+    },
+    "must_not_include": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Phrases that must not appear in the output (case-insensitive)."
+    },
+    "rubric": {
+      "type": "object",
+      "description": "L2 scoring rubric: dimension name → max points.",
+      "additionalProperties": { "type": "integer", "minimum": 1 }
+    },
+    "conditions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["no_kdna", "best_prompt", "kdna_full", "kdna_compact", "kdna_scenario"]
+      },
+      "description": "Runtime conditions under which this case should be tested."
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Arbitrary tags for filtering and grouping."
+    }
+  }
+}

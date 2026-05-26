@@ -1,0 +1,6 @@
+{
+  "meta": { "version": "0.4", "domain": "fixture_invalid_role", "created": "2026-05-26", "purpose": "Test.", "load_condition": "Always." },
+  "terminology": { "standard_terms": [{ "term": "t", "definition": "d" }], "banned_terms": [{ "term": "b", "why": "w", "replace_with": "r" }] },
+  "misunderstandings": [{ "id": "m1", "wrong": "w", "correct": "c", "key_distinction": "k", "why": "y" }],
+  "self_check": ["Test?"]
+}

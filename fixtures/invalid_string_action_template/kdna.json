@@ -1,0 +1,13 @@
+{
+  "kdna_spec": "1.0-rc",
+  "name": "@aikdna/fixture_invalid_action",
+  "version": "0.1.0",
+  "status": "experimental",
+  "access": "open",
+  "language": "en",
+  "author": {
+    "name": "KDNA Lab",
+    "id": "kdna-lab"
+  },
+  "description": "Fixture: invalid_string_action_template"
+}

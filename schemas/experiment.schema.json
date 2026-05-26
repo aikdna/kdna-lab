@@ -1,0 +1,91 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://aikdna.com/schemas/kdna-lab-experiment.schema.json",
+  "title": "KDNA Lab Experiment",
+  "description": "Structured definition of a KDNA Lab experiment (YAML).",
+  "type": "object",
+  "required": ["id", "area", "target", "hypothesis", "input"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique experiment identifier."
+    },
+    "area": {
+      "type": "string",
+      "enum": ["spec", "cli", "domain", "runtime", "registry", "licensing", "security", "product"],
+      "description": "Experiment area."
+    },
+    "target": {
+      "type": "string",
+      "description": "Subject under test."
+    },
+    "version": {
+      "type": "string",
+      "description": "Domain judgment_version or CLI version being tested."
+    },
+    "hypothesis": {
+      "type": "string",
+      "description": "What this experiment aims to verify or disprove."
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["P0", "P1", "P2", "P3"]
+    },
+    "conditions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["no_kdna", "best_prompt", "kdna_full", "kdna_compact", "kdna_scenario"]
+      }
+    },
+    "input": {
+      "type": "string",
+      "description": "The input sent to the system under test."
+    },
+    "expected": {
+      "type": "object",
+      "properties": {
+        "behavior": {
+          "type": "string",
+          "enum": ["comply", "refuse", "diagnose_and_rewrite", "ask_for_data"]
+        },
+        "exit_code": {
+          "type": ["integer", "null"],
+          "description": "Expected CLI exit code (null for non-CLI experiments)."
+        }
+      }
+    },
+    "must_include": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "must_not_include": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "rubric": {
+      "type": "object",
+      "additionalProperties": { "type": "integer", "minimum": 1 }
+    },
+    "pass_threshold": {
+      "type": "object",
+      "properties": {
+        "L1": { "type": "integer" },
+        "L2": { "type": "integer" },
+        "L3": { "type": "string" }
+      }
+    },
+    "related_axioms": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "related_misunderstandings": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "meta": { "version": "0.4", "domain": "fixture_invalid_role", "created": "2026-05-26", "purpose": "Test.", "load_condition": "Always." },
+  "judgment_role": "I am a string, not an object. This should fail validation.",
+  "axioms": [{ "id": "ax_test", "one_sentence": "Test.", "full_statement": "Test.", "why": "Test.", "applies_when": ["Test"], "does_not_apply_when": [], "failure_risk": "None.", "confidence": "low", "evidence_type": ["practice_pattern"] }],
+  "ontology": [{ "id": "ont_test", "one_sentence": "Test.", "essence": "Test.", "boundary": "Test.", "trigger_signal": "Test." }],
+  "frameworks": [{ "id": "fw_test", "name": "Test", "when_to_use": "Test.", "steps": ["Step"] }],
+  "core_structure": [{ "from": "a", "to": "b", "via": "c" }],
+  "stances": ["Test."]
+}

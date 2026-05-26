@@ -1,0 +1,58 @@
+{
+  "meta": {
+    "version": "0.4",
+    "domain": "fixture_legacy",
+    "created": "2026-05-26",
+    "purpose": "Minimal valid Core for testing.",
+    "load_condition": "Always."
+  },
+  "axioms": [
+    {
+      "id": "ax_test",
+      "one_sentence": "Test axiom.",
+      "full_statement": "This is a test axiom for fixture validation.",
+      "why": "To verify kdna validate passes on a minimal valid domain.",
+      "applies_when": [
+        "Testing"
+      ],
+      "does_not_apply_when": [
+        "Production"
+      ],
+      "failure_risk": "None.",
+      "confidence": "low",
+      "evidence_type": [
+        "practice_pattern"
+      ]
+    }
+  ],
+  "ontology": [
+    {
+      "id": "ont_test",
+      "one_sentence": "Test concept.",
+      "essence": "A minimal concept.",
+      "boundary": "Not real.",
+      "trigger_signal": "Testing."
+    }
+  ],
+  "frameworks": [
+    {
+      "id": "fw_test",
+      "name": "Test Framework",
+      "when_to_use": "Testing.",
+      "steps": [
+        "Step 1",
+        "Step 2"
+      ]
+    }
+  ],
+  "core_structure": [
+    {
+      "from": "start",
+      "to": "end",
+      "via": "test path"
+    }
+  ],
+  "stances": [
+    "Test stance."
+  ]
+}

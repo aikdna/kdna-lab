@@ -1,0 +1,35 @@
+{
+  "meta": {
+    "version": "0.4",
+    "domain": "fixture_invalid_action",
+    "created": "2026-05-26",
+    "purpose": "Test.",
+    "load_condition": "Always."
+  },
+  "scenes": [
+    {
+      "id": "s1",
+      "name": "Test",
+      "trigger_signal": "Test.",
+      "sub_scenarios": [
+        {
+          "id": "ss1",
+          "trap_belief": "Test.",
+          "three_questions": {
+            "belief": "?",
+            "state": "?",
+            "need": "?"
+          },
+          "action_template": "This should be an array, not a string.",
+          "replace": [
+            {
+              "avoid": "bad",
+              "use": "good"
+            }
+          ],
+          "expected_result": "OK"
+        }
+      ]
+    }
+  ]
+}

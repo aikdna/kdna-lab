@@ -1,0 +1,26 @@
+# KDNA Lab Configuration
+
+domain:
+  name: "@aikdna/kdna_propagation"
+  load_cmd: "kdna load"
+  format: "prompt"
+
+api:
+  provider: "openai"
+  model: "gpt-4o"
+  base_url: null
+  api_key_env: "OPENAI_API_KEY"
+
+output:
+  dir: "outputs"
+
+runners:
+  domain:
+    conditions:
+      - "kdna_full"
+  cli:
+    timeout: 30
+
+scoring:
+  L1_pass_threshold: 100
+  L2_pass_threshold: 8
