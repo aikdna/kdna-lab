@@ -13,11 +13,16 @@ Modes:
 import json
 import os
 import subprocess
+import sys
 import time
 from pathlib import Path
 from datetime import datetime
 
 LAB_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(LAB_ROOT))
+
+from lib.cases import load_cases_list
+
 
 def load_config():
     config_path = LAB_ROOT / "configs" / "default.yaml"
@@ -31,14 +36,6 @@ def load_config():
         "domain": {"load_cmd": "kdna load", "format": "prompt"}
     }
 
-def load_cases(case_file):
-    cases = []
-    with open(case_file) as f:
-        for line in f:
-            line = line.strip()
-            if line:
-                cases.append(json.loads(line))
-    return cases
 
 def load_domain_prompt(domain_name):
     cmd = f"kdna load {domain_name} --as=prompt"
@@ -48,6 +45,7 @@ def load_domain_prompt(domain_name):
         return None
     return result.stdout
 
+
 def format_prompt(domain_prompt, case):
     parts = []
     parts.append(domain_prompt)
@@ -55,6 +53,7 @@ def format_prompt(domain_prompt, case):
     parts.append("Apply silently. Do not quote KDNA to the user.\n")
     parts.append(f"\n[USER INPUT]\n{case['input']}\n")
     return "".join(parts)
+
 
 def call_api(prompt, config):
     api = config["api"]
@@ -88,6 +87,7 @@ def call_api(prompt, config):
     print(f"[ERROR] Unsupported provider: {provider}")
     return None
 
+
 def save_output(run_id, case_id, condition, output, config):
     output_dir = Path(config["output"]["dir"]) / "raw"
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -101,6 +101,7 @@ def save_output(run_id, case_id, condition, output, config):
         f.write(output)
     return str(filepath)
 
+
 def save_run_plan(plans, config):
     output_dir = Path(config["output"]["dir"])
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -108,6 +109,7 @@ def save_run_plan(plans, config):
     with open(filepath, "w") as f:
         json.dump(plans, f, indent=2, ensure_ascii=False)
     return str(filepath)
+
 
 def run_plan_mode(cases, config):
     domain = config.get("domain", {}).get("name")
@@ -140,7 +142,6 @@ def run_plan_mode(cases, config):
             }
             plans.append(plan)
 
-            # Save individual prompt file
             prompt_file = Path(config["output"]["dir"]) / "raw" / f"{run_id}_{case['id']}_prompt.txt"
             prompt_file.parent.mkdir(parents=True, exist_ok=True)
             with open(prompt_file, "w") as f:
@@ -156,6 +157,7 @@ def run_plan_mode(cases, config):
     print(f"  4. Run: python scorers/rule_scorer.py")
 
     return plans
+
 
 def run_execute_mode(cases, config):
     domain = config.get("domain", {}).get("name")
@@ -195,9 +197,8 @@ def run_execute_mode(cases, config):
             })
             print(f"OK ({len(output)} chars)")
 
-            time.sleep(0.5)  # Rate limit courtesy
+            time.sleep(0.5)
 
-    # Save results index
     index_path = Path(config["output"]["dir"]) / f"{run_id}_index.json"
     with open(index_path, "w") as f:
         json.dump([{
@@ -212,6 +213,7 @@ def run_execute_mode(cases, config):
     print(f"[EXEC] Run scorer: python scorers/rule_scorer.py")
 
     return results
+
 
 def main():
     import argparse
@@ -229,7 +231,6 @@ def main():
         with open(args.config) as f:
             config = yaml.safe_load(f)
 
-    # Resolve relative output path to LAB_ROOT
     output_dir = config.get("output", {}).get("dir", "outputs")
     if not os.path.isabs(output_dir):
         output_dir = str(LAB_ROOT / output_dir)
@@ -239,13 +240,14 @@ def main():
         config.setdefault("domain", {})["name"] = args.domain
 
     case_file = args.case_file or str(LAB_ROOT / "examples" / "kdna_propagation" / "cases.jsonl")
-    cases = load_cases(case_file)
+    cases = load_cases_list(case_file)
     print(f"[INFO] Loaded {len(cases)} cases from {case_file}")
 
     if args.execute:
         run_execute_mode(cases, config)
     else:
         run_plan_mode(cases, config)
+
 
 if __name__ == "__main__":
     main()

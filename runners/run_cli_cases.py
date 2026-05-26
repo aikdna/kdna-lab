@@ -13,10 +13,15 @@ Modes:
 import json
 import os
 import subprocess
+import sys
 from pathlib import Path
 from datetime import datetime
 
 LAB_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(LAB_ROOT))
+
+from lib.cases import load_cases_list
+
 
 def load_config():
     config_path = LAB_ROOT / "configs" / "default.yaml"
@@ -26,20 +31,13 @@ def load_config():
             return yaml.safe_load(f)
     return {"output": {"dir": str(LAB_ROOT / "outputs")}, "runners": {"cli": {"timeout": 30}}}
 
-def load_cases(case_file):
-    cases = []
-    with open(case_file) as f:
-        for line in f:
-            line = line.strip()
-            if line:
-                cases.append(json.loads(line))
-    return cases
 
 def resolve_output_dir(config):
     output_dir = config.get("output", {}).get("dir", "outputs")
     if not os.path.isabs(output_dir):
         output_dir = str(LAB_ROOT / output_dir)
     return output_dir
+
 
 def run_cli_command(command, timeout=30, env=None):
     try:
@@ -68,6 +66,7 @@ def run_cli_command(command, timeout=30, env=None):
             "success": False
         }
 
+
 def substitute_fixture(command, fixtures_dir):
     """Replace 'fixture:' references with actual paths"""
     if "fixture:" in command:
@@ -79,6 +78,7 @@ def substitute_fixture(command, fixtures_dir):
                 if fixture_path.exists():
                     parts[i] = str(fixture_path)
     return " ".join(parts)
+
 
 def run_plan_mode(cases, config):
     output_dir = resolve_output_dir(config)
@@ -110,6 +110,7 @@ def run_plan_mode(cases, config):
 
     return plans
 
+
 def run_execute_mode(cases, config):
     output_dir = resolve_output_dir(config)
     raw_dir = Path(output_dir) / "raw"
@@ -138,7 +139,6 @@ def run_execute_mode(cases, config):
         }
         results.append(result)
 
-        # Save raw output
         outpath = raw_dir / f"{run_id}_{case['id']}.json"
         with open(outpath, "w") as f:
             json.dump(result, f, indent=2, ensure_ascii=False)
@@ -147,7 +147,6 @@ def run_execute_mode(cases, config):
         status = "OK" if exit_ok else f"EXIT={output['exit_code']}"
         print(status)
 
-    # Save run index
     index_path = Path(output_dir) / f"{run_id}_cli_index.json"
     with open(index_path, "w") as f:
         json.dump(results, f, indent=2, ensure_ascii=False)
@@ -157,6 +156,7 @@ def run_execute_mode(cases, config):
     print(f"[EXEC] Results → {index_path}")
 
     return results
+
 
 def main():
     import argparse
@@ -173,20 +173,20 @@ def main():
         with open(args.config) as f:
             config = yaml.safe_load(f)
 
-    # Resolve output dir
     output_dir = config.get("output", {}).get("dir", "outputs")
     if not os.path.isabs(output_dir):
         output_dir = str(LAB_ROOT / output_dir)
     config.setdefault("output", {})["dir"] = output_dir
 
     case_file = args.case_file or str(LAB_ROOT / "examples" / "cli" / "cases.jsonl")
-    cases = load_cases(case_file)
+    cases = load_cases_list(case_file)
     print(f"[INFO] Loaded {len(cases)} CLI cases from {case_file}")
 
     if args.run:
         run_execute_mode(cases, config)
     else:
         run_plan_mode(cases, config)
+
 
 if __name__ == "__main__":
     main()
