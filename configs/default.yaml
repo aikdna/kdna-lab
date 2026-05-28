@@ -5,12 +5,12 @@ domain:
   load_cmd: "kdna load"
   format: "prompt"
 
-# Default API config (used by domain runner and portability tests)
+# Default API config — OpenRouter (tested and working)
 api:
   provider: "openai_compatible"
-  model: "deepseek-v4-pro"
-  base_url: "https://api.opencode.ai/v1"
-  api_key_env: "OPENCODE_GO_API_KEY"
+  model: "deepseek/deepseek-chat"
+  base_url: "https://openrouter.ai/api/v1"
+  api_key_env: "OPENROUTER_API_KEY"
   temperature: 0.3
   max_tokens: 4000
 
@@ -22,27 +22,32 @@ runners:
     conditions:
       - "kdna_full"
     rate_limit: 0.5
-    workers: 1               # Set > 1 for parallel execution
+    workers: 1
   cli:
     timeout: 30
   cross_model:
     rate_limit: 0.5
     workers: 1
 
-# Available models for cross-model testing
+# Cross-model tiers for comparison experiments
 models:
-  - id: opencode-deepseek-v4-pro
+  # Tier 3: Strong (论文对比用)
+  - id: claude-opus-4.7
     provider: openai_compatible
-    model: deepseek-v4-pro
-    base_url: "https://api.opencode.ai/v1"
-    api_key_env: OPENCODE_GO_API_KEY
-  - id: opencode-kimi-k2.6
+    model: anthropic/claude-opus-4.7
+    base_url: "https://openrouter.ai/api/v1"
+    api_key_env: OPENROUTER_API_KEY
+
+  # Tier 2: Medium (主力实验)
+  - id: deepseek-v3
     provider: openai_compatible
-    model: kimi-k2.6
-    base_url: "https://api.opencode.ai/v1"
-    api_key_env: OPENCODE_GO_API_KEY
-  - id: opencode-qwen3.6-plus
+    model: deepseek/deepseek-chat
+    base_url: "https://openrouter.ai/api/v1"
+    api_key_env: OPENROUTER_API_KEY
+
+  # Tier 1: Weak/budget (移植性验证)
+  - id: gemini-flash
     provider: openai_compatible
-    model: qwen3.6-plus
-    base_url: "https://api.opencode.ai/v1"
-    api_key_env: OPENCODE_GO_API_KEY
+    model: google/gemini-3.5-flash
+    base_url: "https://openrouter.ai/api/v1"
+    api_key_env: OPENROUTER_API_KEY

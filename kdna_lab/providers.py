@@ -178,6 +178,11 @@ PROVIDER_PRESETS = {
     "opencode-qwen3.6-plus": {"provider": "openai_compatible", "model": "qwen3.6-plus", "base_url": "https://api.opencode.ai/v1", "api_key_env": "OPENCODE_GO_API_KEY"},
     "opencode-minimax-m2.7": {"provider": "openai_compatible", "model": "minimax-m2.7", "base_url": "https://api.opencode.ai/v1", "api_key_env": "OPENCODE_GO_API_KEY"},
     "opencode-glm-5.1": {"provider": "openai_compatible", "model": "glm-5.1", "base_url": "https://api.opencode.ai/v1", "api_key_env": "OPENCODE_GO_API_KEY"},
+    # OpenRouter models
+    "or-deepseek-v3": {"provider": "openai_compatible", "model": "deepseek/deepseek-chat", "base_url": "https://openrouter.ai/api/v1", "api_key_env": "OPENROUTER_API_KEY"},
+    "or-claude-opus-4.7": {"provider": "openai_compatible", "model": "anthropic/claude-opus-4.7", "base_url": "https://openrouter.ai/api/v1", "api_key_env": "OPENROUTER_API_KEY"},
+    "or-qwen-3.7-max": {"provider": "openai_compatible", "model": "qwen/qwen3.7-max", "base_url": "https://openrouter.ai/api/v1", "api_key_env": "OPENROUTER_API_KEY"},
+    "or-gemini-3.5-flash": {"provider": "openai_compatible", "model": "google/gemini-3.5-flash", "base_url": "https://openrouter.ai/api/v1", "api_key_env": "OPENROUTER_API_KEY"},
 }
 
 
