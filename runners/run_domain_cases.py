@@ -124,6 +124,7 @@ def run_plan_mode(cases, config):
                 "case_id": case["id"],
                 "condition": condition,
                 "domain": domain,
+                "area": case.get("area", case.get("category", "")),
                 "category": case.get("category", ""),
                 "input": case["input"],
                 "expected_behavior": case.get("expected_behavior", ""),

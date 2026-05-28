@@ -9,7 +9,6 @@ and produces structured scores.
 import json
 import sys
 from pathlib import Path
-from datetime import datetime
 
 LAB_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(LAB_ROOT))
@@ -22,6 +21,21 @@ from lib.checks import (
     check_json_valid,
     check_character_count,
 )
+from reports.generate_report import generate_l1_report
+
+
+def _area_or_category(case: dict) -> str:
+    return case.get("area", "") or case.get("category", "")
+
+
+def _should_check_json(case: dict) -> bool:
+    tags_str = _area_or_category(case) + " " + " ".join(case.get("tags", []))
+    return "json" in tags_str.lower()
+
+
+def _should_check_char_count(case: dict) -> bool:
+    tags_str = _area_or_category(case)
+    return "x_post" in tags_str or "character" in tags_str
 
 
 def score_case(case, output_body):
@@ -48,14 +62,14 @@ def score_case(case, output_body):
         passed = False
 
     # json_valid (if applicable)
-    if "json" in case.get("category", "") or "json" in " ".join(case.get("tags", [])):
+    if _should_check_json(case):
         jv_passed, jv_detail = check_json_valid(output_body)
         checks["json_valid"] = {"passed": jv_passed, "detail": jv_detail}
         if not jv_passed:
             passed = False
 
     # character_count (if applicable)
-    if "x_post" in case.get("category", "") or "character" in case.get("category", ""):
+    if _should_check_char_count(case):
         max_chars = 280
         cc_passed, cc_actual, cc_max = check_character_count(output_body, max_chars)
         checks["character_count"] = {"passed": cc_passed, "actual": cc_actual, "max": cc_max}
@@ -68,67 +82,6 @@ def score_case(case, output_body):
             "checks": checks
         }
     }
-
-
-def generate_report(scores, output_dir):
-    report_lines = []
-    report_lines.append("# L1 Rule Score Report")
-    report_lines.append("")
-    report_lines.append(f"**Date:** {datetime.now().strftime('%Y-%m-%d %H:%M')}")
-    report_lines.append("")
-    report_lines.append("## Summary")
-    report_lines.append("")
-
-    total = len(scores)
-    passed = sum(1 for s in scores if s["score"]["L1"]["passed"])
-    failed = total - passed
-
-    report_lines.append("| Metric | Value |")
-    report_lines.append("|--------|-------|")
-    report_lines.append(f"| Total cases | {total} |")
-    report_lines.append(f"| Passed | {passed} |")
-    report_lines.append(f"| Failed | {failed} |")
-    report_lines.append(f"| Pass rate | {passed/total*100:.0f}% |" if total > 0 else "| Pass rate | N/A |")
-    report_lines.append("")
-
-    if failed > 0:
-        report_lines.append("## Failed Cases")
-        report_lines.append("")
-        for s in scores:
-            if not s["score"]["L1"]["passed"]:
-                checks = s["score"]["L1"]["checks"]
-                report_lines.append(f"### {s['case_id']}")
-                report_lines.append("")
-                if "must_include" in checks:
-                    missing = checks["must_include"].get("missing", [])
-                    if missing:
-                        report_lines.append(f"- **Missing required phrases:** {', '.join(missing)}")
-                if "must_not_include" in checks:
-                    violations = checks["must_not_include"].get("violations", [])
-                    if violations:
-                        report_lines.append(f"- **Banned phrases found:** {', '.join(violations)}")
-                if "json_valid" in checks and not checks["json_valid"]["passed"]:
-                    report_lines.append(f"- **JSON invalid:** {checks['json_valid']['detail']}")
-                report_lines.append("")
-
-    report_lines.append("## Detailed Scores")
-    report_lines.append("")
-    report_lines.append("| Case ID | Passed | Missing | Violations |")
-    report_lines.append("|---------|--------|---------|------------|")
-    for s in scores:
-        checks = s["score"]["L1"]["checks"]
-        missing = len(checks.get("must_include", {}).get("missing", []))
-        violations = len(checks.get("must_not_include", {}).get("violations", []))
-        status = "✅" if s["score"]["L1"]["passed"] else "❌"
-        report_lines.append(f"| {s['case_id']} | {status} | {missing} | {violations} |")
-    report_lines.append("")
-
-    report_path = Path(output_dir) / f"l1_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
-    report_path.parent.mkdir(parents=True, exist_ok=True)
-    with open(report_path, "w") as f:
-        f.write("\n".join(report_lines))
-
-    return str(report_path)
 
 
 def main():
@@ -177,7 +130,7 @@ def main():
             "checks": s["score"]["L1"]["checks"]
         } for s in scores], indent=2, ensure_ascii=False))
     else:
-        report_path = generate_report(scores, report_dir)
+        report_path = generate_l1_report(scores, report_dir)
         print(f"\n[INFO] Report → {report_path}")
 
 

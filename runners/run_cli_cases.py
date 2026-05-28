@@ -75,6 +75,7 @@ def run_plan_mode(cases, config):
         command = case.get("input", "")
         plan = {
             "case_id": case["id"],
+            "area": case.get("area", case.get("category", "")),
             "category": case.get("category", ""),
             "command": command,
             "expected_exit_code": case.get("expected_exit_code", 0),
