@@ -21,6 +21,7 @@ from kdna_lab.checks import check_must_include, check_must_not_include
 from kdna_lab.config import load_config, resolve_output_dir
 from kdna_lab.paths import LAB_ROOT
 from kdna_lab.runner import ExperimentRunner
+from kdna_lab.evidence_store import EvidenceStore
 
 
 # ---- Agent Profiles ----
@@ -422,6 +423,25 @@ def run_portability_test(
 
         report_path = str(LAB_ROOT / "reports" / f"portability_{runner.run_id}.md")
         generate_portability_report(analysis, report_path)
+
+        # Archive to Evidence Store
+        try:
+            store = EvidenceStore(LAB_ROOT / "evidence")
+            store.ingest_run(
+                run_id=runner.run_id,
+                run_type="portability",
+                target=domain or cfg.get("domain", {}).get("name", "unknown"),
+                results=results,
+                conditions=["cross_agent"],
+                models=[p.get("default_model", "") for p in AGENT_PROFILES.values()
+                        if p["id"] in (agents or AGENT_PROFILES.keys())],
+                extra_meta={
+                    "agents_tested": list(agent_profiles.keys()) if (agent_profiles := runner.agent_profiles) else [],
+                    "portability_score": analysis["portability_score"],
+                },
+            )
+        except Exception:
+            pass
 
         passed = analysis["overall_pass"]
         total = analysis["total_runs"]
