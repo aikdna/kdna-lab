@@ -28,6 +28,9 @@ kdna-lab-portability = "kdna_lab.portability_check:portability_cli"
 kdna-lab-pipeline = "kdna_lab.scoring_pipeline:pipeline_cli"
 kdna-lab-badge = "kdna_lab.badge_check:badge_cli"
 kdna-lab-evolution = "kdna_lab.evolution_tracker:evolution_cli"
+kdna-lab-runtime = "kdna_lab.runtime_check:runtime_check_cli"
+kdna-lab-trace = "kdna_lab.trace_check:trace_check_cli"
+kdna-lab-version = "kdna_lab.version_check:version_check_cli"
 
 [tool.setuptools.packages.find]
 include = ["kdna_lab*"]
