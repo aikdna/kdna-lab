@@ -5,11 +5,12 @@ domain:
   load_cmd: "kdna load"
   format: "prompt"
 
+# Default API config (used by domain runner and portability tests)
 api:
-  provider: "openai"
-  model: "gpt-4o"
-  base_url: null
-  api_key_env: "OPENAI_API_KEY"
+  provider: "openai_compatible"
+  model: "deepseek-v4-pro"
+  base_url: "https://api.opencode.ai/v1"
+  api_key_env: "OPENCODE_GO_API_KEY"
   temperature: 0.3
   max_tokens: 4000
 
@@ -21,5 +22,27 @@ runners:
     conditions:
       - "kdna_full"
     rate_limit: 0.5
+    workers: 1               # Set > 1 for parallel execution
   cli:
     timeout: 30
+  cross_model:
+    rate_limit: 0.5
+    workers: 1
+
+# Available models for cross-model testing
+models:
+  - id: opencode-deepseek-v4-pro
+    provider: openai_compatible
+    model: deepseek-v4-pro
+    base_url: "https://api.opencode.ai/v1"
+    api_key_env: OPENCODE_GO_API_KEY
+  - id: opencode-kimi-k2.6
+    provider: openai_compatible
+    model: kimi-k2.6
+    base_url: "https://api.opencode.ai/v1"
+    api_key_env: OPENCODE_GO_API_KEY
+  - id: opencode-qwen3.6-plus
+    provider: openai_compatible
+    model: qwen3.6-plus
+    base_url: "https://api.opencode.ai/v1"
+    api_key_env: OPENCODE_GO_API_KEY

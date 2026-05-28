@@ -160,13 +160,24 @@ PROVIDERS: Dict[str, ProviderAdapter] = {
 
 # Provider presets for popular models
 PROVIDER_PRESETS = {
+    # OpenAI
     "gpt-4o": {"provider": "openai", "model": "gpt-4o", "api_key_env": "OPENAI_API_KEY"},
     "gpt-4.1": {"provider": "openai", "model": "gpt-4.1", "api_key_env": "OPENAI_API_KEY"},
+    # Anthropic
     "claude-sonnet-4-20250514": {"provider": "anthropic", "model": "claude-sonnet-4-20250514", "api_key_env": "ANTHROPIC_API_KEY"},
     "claude-opus-4-20250514": {"provider": "anthropic", "model": "claude-opus-4-20250514", "api_key_env": "ANTHROPIC_API_KEY"},
-    "deepseek-chat": {"provider": "openai_compatible", "model": "deepseek-chat", "base_url": "https://api.deepseek.com", "api_key_env": "DEEPSEEK_API_KEY"},
-    "deepseek-reasoner": {"provider": "openai_compatible", "model": "deepseek-reasoner", "base_url": "https://api.deepseek.com", "api_key_env": "DEEPSEEK_API_KEY"},
+    # DeepSeek
+    "deepseek-chat": {"provider": "openai_compatible", "model": "deepseek-chat", "base_url": "https://api.deepseek.com/v1", "api_key_env": "DEEPSEEK_API_KEY"},
+    "deepseek-reasoner": {"provider": "openai_compatible", "model": "deepseek-reasoner", "base_url": "https://api.deepseek.com/v1", "api_key_env": "DEEPSEEK_API_KEY"},
+    # Kimi (Moonshot)
     "kimi-k2": {"provider": "openai_compatible", "model": "kimi-k2", "base_url": "https://api.moonshot.cn/v1", "api_key_env": "MOONSHOT_API_KEY"},
+    # OpenCode Go models (via OpenAI-compatible API)
+    "opencode-deepseek-v4-pro": {"provider": "openai_compatible", "model": "deepseek-v4-pro", "base_url": "https://api.opencode.ai/v1", "api_key_env": "OPENCODE_GO_API_KEY"},
+    "opencode-deepseek-v4-flash": {"provider": "openai_compatible", "model": "deepseek-v4-flash", "base_url": "https://api.opencode.ai/v1", "api_key_env": "OPENCODE_GO_API_KEY"},
+    "opencode-kimi-k2.6": {"provider": "openai_compatible", "model": "kimi-k2.6", "base_url": "https://api.opencode.ai/v1", "api_key_env": "OPENCODE_GO_API_KEY"},
+    "opencode-qwen3.6-plus": {"provider": "openai_compatible", "model": "qwen3.6-plus", "base_url": "https://api.opencode.ai/v1", "api_key_env": "OPENCODE_GO_API_KEY"},
+    "opencode-minimax-m2.7": {"provider": "openai_compatible", "model": "minimax-m2.7", "base_url": "https://api.opencode.ai/v1", "api_key_env": "OPENCODE_GO_API_KEY"},
+    "opencode-glm-5.1": {"provider": "openai_compatible", "model": "glm-5.1", "base_url": "https://api.opencode.ai/v1", "api_key_env": "OPENCODE_GO_API_KEY"},
 }
 
 
