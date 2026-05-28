@@ -1,0 +1,29 @@
+{
+  "positioning_guard": {
+    "trigger": "用户内容将 KDNA 误描述为 prompt 库、RAG 系统、知识库",
+    "response": "纠正定位：KDNA 是开放判断协议。区分协议层 vs 工具层。",
+    "must_include": ["开放判断协议", "不是 prompt"],
+    "must_not_include": ["prompt 模板", "知识库"]
+  },
+  "overclaim_resistance": {
+    "trigger": "用户要求过度宣传 KDNA（终极、彻底解决、智能）",
+    "response": "识别过度承诺，改写为可验证的主张。",
+    "must_include": ["不保证绝对正确", "可检查"],
+    "must_not_include": ["终极协议", "彻底解决", "更聪明"]
+  },
+  "fact_discipline": {
+    "trigger": "用户要求引用未经验证的数据（stars、用户数等）",
+    "response": "拒绝编造。要求提供源数据或使用占位符。",
+    "must_include": ["需要提供", "数据"],
+    "must_not_include": ["数千", "约", "估计"]
+  },
+  "platform_output": {
+    "trigger": "需要为不同平台适配 KDNA 内容",
+    "response": "根据不同平台格式调整，但保持核心定位不变。"
+  },
+  "trace": {
+    "trigger": "每次判断后",
+    "response": "生成判断 trace，记录触发的 axioms、self_check 结果。",
+    "output": "Trace 证明可检查性，不证明绝对正确。"
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "format": "kdna-manifest",
+  "format_version": "1.0-rc",
+  "spec_version": "1.0-rc",
+  "name": "@aikdna/kdna_propagation",
+  "version": "0.1.0",
+  "judgment_version": "2026.05",
+  "description": "KDNA propagation judgment — ensures all KDNA communication maintains accurate positioning.",
+  "author": {"name": "KDNA Lab", "id": "kdna-lab", "pubkey": "ed25519:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"},
+  "license": {"type": "CC-BY-4.0"},
+  "status": "experimental",
+  "quality_badge": "draft",
+  "access": "open",
+  "languages": ["zh", "en"],
+  "default_language": "zh",
+  "meta": {"domain_type": "judgment"},
+  "core": {
+    "judgment_role": "Ensure all KDNA communication accurately positions KDNA as an open judgment protocol, not as a prompt library, RAG system, knowledge base, or workflow tool.",
+    "axioms": [
+      "KDNA is an open judgment protocol, not a prompt template library.",
+      "KDNA packages domain judgment as loadable, traceable, verifiable assets.",
+      "Trace proves inspectability, not absolute correctness.",
+      "Never claim KDNA guarantees correctness — it provides structured judgment with traceability.",
+      "KDNA does not make AI smarter — it makes AI judgment more structured and inspectable.",
+      "Never fabricate usage data, benchmark results, adoption metrics, or customer numbers.",
+      "Always distinguish KDNA from prompts, RAG, skills, workflows, and fine-tuning."
+    ],
+    "boundaries": [
+      "KDNA does not replace prompts — it adds structured domain judgment on top of prompts.",
+      "KDNA is not a knowledge base or RAG system — it is a judgment protocol.",
+      "KDNA does not guarantee correctness — it provides inspectable judgment traces."
+    ],
+    "misunderstandings": [
+      "KDNA is a prompt library.",
+      "Loading KDNA makes AI expert-level automatically.",
+      "KDNA solves hallucination.",
+      "KDNA is an ultimate AI protocol.",
+      "KDNA requires no human oversight."
+    ],
+    "terminology": {
+      "banned_terms": [
+        {"term": "终极协议", "why": "KDNA is an evolving open protocol, not an ultimate solution.", "replace_with": "开放判断协议"},
+        {"term": "彻底解决", "why": "KDNA provides tools for improvement, not complete solutions.", "replace_with": "结构化改进"},
+        {"term": "更聪明", "why": "KDNA adds judgment structure, not intelligence.", "replace_with": "判断更结构化"},
+        {"term": "prompt 模板", "why": "KDNA is not a prompt library.", "replace_with": "判断协议"},
+        {"term": "知识库", "why": "KDNA is not a knowledge base.", "replace_with": "判断层"},
+        {"term": "强大的 AI 工具", "why": "KDNA is a protocol, not an AI tool.", "replace_with": "开放协议"},
+        {"term": "让 AI 拥有专家判断力", "why": "KDNA structures judgment; it does not grant expertise.", "replace_with": "让 AI 判断可追踪"}
+      ]
+    }
+  },
+  "patterns": {
+    "must_include": [
+      "开放判断协议",
+      "领域判断",
+      "可加载",
+      "可追踪",
+      "不保证绝对正确",
+      "可检查",
+      "Trace 证明可检查性",
+      "不是 prompt"
+    ],
+    "must_not_include": [
+      "更聪明",
+      "prompt 模板",
+      "知识库",
+      "彻底解决",
+      "终极协议",
+      "强大的 AI 工具",
+      "让 AI 拥有专家判断力"
+    ],
+    "self_check": [
+      {"question": "是否将 KDNA 定位为开放判断协议而非 prompt 库？", "status": "true"},
+      {"question": "是否包含了 must_include 中的关键短语？", "status": "true"},
+      {"question": "是否避免了 banned_terms 中的所有禁用词？", "status": "true"},
+      {"question": "是否包含了边界声明（KDNA 不能做什么）？", "status": "true"},
+      {"question": "是否避免了编造数据、benchmark 或用户数？", "status": "true"}
+    ]
+  }
+}
