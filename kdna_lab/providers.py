@@ -178,13 +178,22 @@ PROVIDER_PRESETS = {
     "opencode-qwen3.6-plus": {"provider": "openai_compatible", "model": "qwen3.6-plus", "base_url": "https://api.opencode.ai/v1", "api_key_env": "OPENCODE_GO_API_KEY"},
     "opencode-minimax-m2.7": {"provider": "openai_compatible", "model": "minimax-m2.7", "base_url": "https://api.opencode.ai/v1", "api_key_env": "OPENCODE_GO_API_KEY"},
     "opencode-glm-5.1": {"provider": "openai_compatible", "model": "glm-5.1", "base_url": "https://api.opencode.ai/v1", "api_key_env": "OPENCODE_GO_API_KEY"},
-    # OpenRouter models
+    # OpenRouter models (confirmed working)
     "or-deepseek-v4-pro": {"provider": "openai_compatible", "model": "deepseek/deepseek-v4-pro", "base_url": "https://openrouter.ai/api/v1", "api_key_env": "OPENROUTER_API_KEY"},
     "or-deepseek-r1": {"provider": "openai_compatible", "model": "deepseek/deepseek-r1", "base_url": "https://openrouter.ai/api/v1", "api_key_env": "OPENROUTER_API_KEY"},
     "or-claude-opus-4.7": {"provider": "openai_compatible", "model": "anthropic/claude-opus-4.7", "base_url": "https://openrouter.ai/api/v1", "api_key_env": "OPENROUTER_API_KEY"},
     "or-qwen-3.7-max": {"provider": "openai_compatible", "model": "qwen/qwen3.7-max", "base_url": "https://openrouter.ai/api/v1", "api_key_env": "OPENROUTER_API_KEY"},
     "or-qwen-3.6-plus": {"provider": "openai_compatible", "model": "qwen/qwen3.6-plus", "base_url": "https://openrouter.ai/api/v1", "api_key_env": "OPENROUTER_API_KEY"},
     "or-kimi-k2": {"provider": "openai_compatible", "model": "moonshotai/kimi-k2", "base_url": "https://openrouter.ai/api/v1", "api_key_env": "OPENROUTER_API_KEY"},
+    # OpenRouter — to be verified (proxy unstable at time of adding)
+    "or-kimi-k2.6": {"provider": "openai_compatible", "model": "moonshotai/kimi-k2.6", "base_url": "https://openrouter.ai/api/v1", "api_key_env": "OPENROUTER_API_KEY"},
+    "or-glm-5.1": {"provider": "openai_compatible", "model": "z-ai/glm-5.1", "base_url": "https://openrouter.ai/api/v1", "api_key_env": "OPENROUTER_API_KEY"},
+    "or-gemini-3-pro": {"provider": "openai_compatible", "model": "google/gemini-3-pro", "base_url": "https://openrouter.ai/api/v1", "api_key_env": "OPENROUTER_API_KEY"},
+    "or-gemini-2.5-flash": {"provider": "openai_compatible", "model": "google/gemini-2.5-flash", "base_url": "https://openrouter.ai/api/v1", "api_key_env": "OPENROUTER_API_KEY"},
+    # OpenRouter free models
+    "or-deepseek-v3-free": {"provider": "openai_compatible", "model": "deepseek/deepseek-chat-v3-0324", "base_url": "https://openrouter.ai/api/v1", "api_key_env": "OPENROUTER_API_KEY"},
+    "or-qwen3-32b-free": {"provider": "openai_compatible", "model": "qwen/qwen3-32b", "base_url": "https://openrouter.ai/api/v1", "api_key_env": "OPENROUTER_API_KEY"},
+    "or-llama-4-maverick": {"provider": "openai_compatible", "model": "meta-llama/llama-4-maverick", "base_url": "https://openrouter.ai/api/v1", "api_key_env": "OPENROUTER_API_KEY"},
 }
 
 
