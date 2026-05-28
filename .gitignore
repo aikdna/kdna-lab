@@ -28,3 +28,8 @@ Thumbs.db
 .env
 *.local.yaml
 *.local.json
+
+evidence/
+outputs/
+.pytest_cache/
+*.egg-info/
