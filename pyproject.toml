@@ -24,6 +24,10 @@ kdna-lab-registry = "kdna_lab.registry_check:registry_check_cli"
 kdna-lab-schema = "kdna_lab.schema_check:schema_check_cli"
 kdna-lab-spec = "kdna_lab.spec_check:spec_check_cli"
 kdna-lab-evidence = "kdna_lab.evidence_store:evidence_store_cli"
+kdna-lab-portability = "kdna_lab.portability_check:portability_cli"
+kdna-lab-pipeline = "kdna_lab.scoring_pipeline:pipeline_cli"
+kdna-lab-badge = "kdna_lab.badge_check:badge_cli"
+kdna-lab-evolution = "kdna_lab.evolution_tracker:evolution_cli"
 
 [tool.setuptools.packages.find]
 include = ["kdna_lab*"]

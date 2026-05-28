@@ -1,7 +1,7 @@
 # KDNA Lab Configuration
 
 domain:
-  name: "@aikdna/kdna_propagation"
+  name: "@aikdna/writing"
   load_cmd: "kdna load"
   format: "prompt"
 
