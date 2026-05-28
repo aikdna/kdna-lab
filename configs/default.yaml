@@ -10,6 +10,8 @@ api:
   model: "gpt-4o"
   base_url: null
   api_key_env: "OPENAI_API_KEY"
+  temperature: 0.3
+  max_tokens: 4000
 
 output:
   dir: "outputs"
@@ -18,9 +20,6 @@ runners:
   domain:
     conditions:
       - "kdna_full"
+    rate_limit: 0.5
   cli:
     timeout: 30
-
-scoring:
-  L1_pass_threshold: 100
-  L2_pass_threshold: 8

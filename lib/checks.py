@@ -2,7 +2,7 @@
 
 import json
 import re
-from typing import List, Tuple
+from typing import List, Optional, Tuple
 
 
 NEGATION_PATTERNS = [
@@ -24,18 +24,24 @@ def check_must_include(output: str, must_include: List[str]) -> Tuple[bool, List
     return all_passed, results
 
 
-def _is_in_negation_context(text: str, term: str, window: int = 40) -> bool:
-    """Check if a term appears in a negation context (case-insensitive)."""
+def _is_in_negation_context(text: str, term: str, window: int = 15) -> bool:
+    """Return True if ALL occurrences of term are in negation contexts."""
     text_lower = text.lower()
     term_lower = term.lower()
-    idx = text_lower.find(term_lower)
-    if idx == -1:
-        return False
-    context = text_lower[max(0, idx - window):idx]
-    for pat in NEGATION_PATTERNS:
-        if pat in context:
+    idx = 0
+    while True:
+        idx = text_lower.find(term_lower, idx)
+        if idx == -1:
             return True
-    return False
+        context = text_lower[max(0, idx - window):idx]
+        in_negation = False
+        for pat in NEGATION_PATTERNS:
+            if pat in context:
+                in_negation = True
+                break
+        if not in_negation:
+            return False
+        idx += 1
 
 
 def check_must_not_include(output: str, must_not_include: List[str]) -> Tuple[bool, List[str]]:
@@ -70,7 +76,7 @@ def check_json_valid(output: str) -> Tuple[bool, str]:
     return False, "no JSON found in output (JSON was required)"
 
 
-def check_character_count(output: str, max_chars: int = None) -> Tuple[bool, int, int]:
+def check_character_count(output: str, max_chars: Optional[int] = None) -> Tuple[bool, int, Optional[int]]:
     """Check if output length is within character limit."""
     actual = len(output)
     if max_chars and actual > max_chars:

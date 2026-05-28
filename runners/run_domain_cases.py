@@ -22,24 +22,14 @@ LAB_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(LAB_ROOT))
 
 from lib.cases import load_cases_list
-
-
-def load_config():
-    config_path = LAB_ROOT / "configs" / "default.yaml"
-    if config_path.exists():
-        import yaml
-        with open(config_path) as f:
-            return yaml.safe_load(f)
-    return {
-        "api": {"provider": "openai", "model": "gpt-4o", "base_url": None, "api_key_env": "OPENAI_API_KEY"},
-        "output": {"dir": str(LAB_ROOT / "outputs")},
-        "domain": {"load_cmd": "kdna load", "format": "prompt"}
-    }
+from lib.config import load_config, resolve_output_dir
 
 
 def load_domain_prompt(domain_name):
-    cmd = f"kdna load {domain_name} --as=prompt"
-    result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+    result = subprocess.run(
+        ["kdna", "load", domain_name, "--as=prompt"],
+        capture_output=True, text=True
+    )
     if result.returncode != 0:
         print(f"[ERROR] Failed to load domain: {result.stderr}")
         return None
@@ -61,6 +51,8 @@ def call_api(prompt, config):
     model = api.get("model", "gpt-4o")
     api_key = os.environ.get(api.get("api_key_env", "OPENAI_API_KEY"), "")
     base_url = api.get("base_url")
+    temperature = api.get("temperature", 0.3)
+    max_tokens = api.get("max_tokens", 4000)
 
     if not api_key:
         print("[ERROR] No API key found. Set environment variable or use --plan mode.")
@@ -73,8 +65,8 @@ def call_api(prompt, config):
             response = client.chat.completions.create(
                 model=model,
                 messages=[{"role": "user", "content": prompt}],
-                temperature=0.3,
-                max_tokens=4000
+                temperature=temperature,
+                max_tokens=max_tokens
             )
             return response.choices[0].message.content
         except ImportError:
@@ -197,7 +189,7 @@ def run_execute_mode(cases, config):
             })
             print(f"OK ({len(output)} chars)")
 
-            time.sleep(0.5)
+            time.sleep(config.get("runners", {}).get("domain", {}).get("rate_limit", 0.5))
 
     index_path = Path(config["output"]["dir"]) / f"{run_id}_index.json"
     with open(index_path, "w") as f:
@@ -225,16 +217,9 @@ def main():
     parser.add_argument("--config", default=None, help="Config file path")
     args = parser.parse_args()
 
-    config = load_config()
-    if args.config:
-        import yaml
-        with open(args.config) as f:
-            config = yaml.safe_load(f)
-
-    output_dir = config.get("output", {}).get("dir", "outputs")
-    if not os.path.isabs(output_dir):
-        output_dir = str(LAB_ROOT / output_dir)
-    config.setdefault("output", {})["dir"] = output_dir
+    config_path = Path(args.config) if args.config else None
+    config = load_config(LAB_ROOT, config_path)
+    config["output"]["dir"] = resolve_output_dir(config, LAB_ROOT)
 
     if args.domain:
         config.setdefault("domain", {})["name"] = args.domain

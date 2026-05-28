@@ -1,0 +1,20 @@
+[project]
+name = "kdna-lab"
+version = "2026.05.26"
+description = "KDNA Lab Core — experimental infrastructure for the KDNA ecosystem"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+
+dependencies = [
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+runner = ["openai>=1.0"]
+scorer = ["openai>=1.0"]
+dev = ["pytest>=7.0", "mypy>=1.0"]
+
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"

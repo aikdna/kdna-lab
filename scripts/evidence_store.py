@@ -14,7 +14,6 @@ Commands:
 
 import json
 import os
-import shutil
 from pathlib import Path
 from datetime import datetime
 from collections import defaultdict

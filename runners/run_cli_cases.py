@@ -12,6 +12,7 @@ Modes:
 
 import json
 import os
+import shlex
 import subprocess
 import sys
 from pathlib import Path
@@ -21,28 +22,14 @@ LAB_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(LAB_ROOT))
 
 from lib.cases import load_cases_list
-
-
-def load_config():
-    config_path = LAB_ROOT / "configs" / "default.yaml"
-    if config_path.exists():
-        import yaml
-        with open(config_path) as f:
-            return yaml.safe_load(f)
-    return {"output": {"dir": str(LAB_ROOT / "outputs")}, "runners": {"cli": {"timeout": 30}}}
-
-
-def resolve_output_dir(config):
-    output_dir = config.get("output", {}).get("dir", "outputs")
-    if not os.path.isabs(output_dir):
-        output_dir = str(LAB_ROOT / output_dir)
-    return output_dir
+from lib.config import load_config, resolve_output_dir
 
 
 def run_cli_command(command, timeout=30, env=None):
     try:
+        cmd_list = shlex.split(command)
         result = subprocess.run(
-            command, shell=True, capture_output=True, text=True,
+            cmd_list, capture_output=True, text=True,
             timeout=timeout, env=env or os.environ
         )
         return {
@@ -81,7 +68,7 @@ def substitute_fixture(command, fixtures_dir):
 
 
 def run_plan_mode(cases, config):
-    output_dir = resolve_output_dir(config)
+    output_dir = resolve_output_dir(config, LAB_ROOT)
     plans = []
 
     for case in cases:
@@ -112,7 +99,7 @@ def run_plan_mode(cases, config):
 
 
 def run_execute_mode(cases, config):
-    output_dir = resolve_output_dir(config)
+    output_dir = resolve_output_dir(config, LAB_ROOT)
     raw_dir = Path(output_dir) / "raw"
     raw_dir.mkdir(parents=True, exist_ok=True)
 
@@ -167,16 +154,9 @@ def main():
     parser.add_argument("--config", default=None, help="Config file path")
     args = parser.parse_args()
 
-    config = load_config()
-    if args.config:
-        import yaml
-        with open(args.config) as f:
-            config = yaml.safe_load(f)
-
-    output_dir = config.get("output", {}).get("dir", "outputs")
-    if not os.path.isabs(output_dir):
-        output_dir = str(LAB_ROOT / output_dir)
-    config.setdefault("output", {})["dir"] = output_dir
+    config_path = Path(args.config) if args.config else None
+    config = load_config(LAB_ROOT, config_path)
+    config.setdefault("output", {})["dir"] = resolve_output_dir(config, LAB_ROOT)
 
     case_file = args.case_file or str(LAB_ROOT / "examples" / "cli" / "cases.jsonl")
     cases = load_cases_list(case_file)
