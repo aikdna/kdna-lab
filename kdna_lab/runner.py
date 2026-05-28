@@ -6,15 +6,20 @@ import subprocess
 import time
 from pathlib import Path
 from datetime import datetime
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import Any, Callable, Dict, List, Optional
 
 
 class ExperimentRunner:
     """Base class for all KDNA Lab experiment runners.
 
-    Subclasses implement `run_case()` which processes a single case
-    and returns a result dict. The base class handles case loading,
-    output saving, run indexing, and progress reporting.
+    Subclasses implement `run_all()` which processes cases and
+    returns result dicts. The base class handles case loading,
+    output saving, run indexing, progress reporting, and parallel
+    execution.
+
+    Parallel execution: set `config.runners.<name>.workers` to a number
+    > 1 to enable concurrent API calls. Default is 1 (sequential).
     """
 
     def __init__(self, lab_root: Path, config: Dict[str, Any]):
@@ -104,3 +109,52 @@ class ExperimentRunner:
     def run_all(self, cases: List[dict]) -> List[dict]:
         """Run all cases. Override in subclasses for custom logic."""
         raise NotImplementedError
+
+    def run_parallel(
+        self,
+        items: List[Any],
+        worker_fn: Callable[[Any, int], Optional[Dict]],
+        max_workers: int = 4,
+        rate_limit: float = 0.0,
+    ) -> List[Dict]:
+        """Execute a worker function across items in parallel.
+
+        Args:
+            items: List of items to process
+            worker_fn: Function(item, index) -> Optional[Dict] result
+            max_workers: Number of parallel threads
+            rate_limit: Seconds to sleep before each worker (for rate limiting)
+
+        Returns:
+            List of result dicts (None results filtered out), in original order.
+        """
+        if max_workers <= 1:
+            results = []
+            for i, item in enumerate(items):
+                r = worker_fn(item, i)
+                if r is not None:
+                    results.append(r)
+            return results
+
+        results_map: Dict[int, Dict] = {}
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            futures = {}
+            for i, item in enumerate(items):
+                if rate_limit > 0 and i > 0:
+                    time.sleep(rate_limit)
+                futures[executor.submit(worker_fn, item, i)] = i
+
+            for future in as_completed(futures):
+                idx = futures[future]
+                try:
+                    r = future.result()
+                    if r is not None:
+                        results_map[idx] = r
+                except Exception:
+                    pass
+
+        return [results_map[i] for i in sorted(results_map.keys())]
+
+    def get_workers(self, runner_name: str = "domain") -> int:
+        """Get configured worker count for parallel execution."""
+        return self.config.get("runners", {}).get(runner_name, {}).get("workers", 1)
