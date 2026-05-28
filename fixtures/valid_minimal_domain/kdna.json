@@ -1,10 +1,45 @@
 {
-  "kdna_spec": "1.0-rc",
-  "name": "@aikdna/fixture_minimal",
+  "format": "kdna-manifest",
+  "format_version": "1.0-rc",
+  "spec_version": "1.0-rc",
+  "name": "@aikdna/test_minimal",
   "version": "0.1.0",
+  "judgment_version": "2026.05",
+  "description": "Minimal valid domain for schema testing.",
+  "author": {
+    "name": "KDNA Lab",
+    "id": "kdna-lab",
+    "pubkey": "ed25519:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "license": {
+    "type": "CC-BY-4.0"
+  },
   "status": "experimental",
+  "quality_badge": "draft",
   "access": "open",
-  "language": "en",
-  "author": { "name": "KDNA Lab", "id": "kdna-lab" },
-  "description": "Minimal valid domain for testing kdna validate."
+  "languages": ["en"],
+  "default_language": "en",
+  "meta": {
+    "domain_type": "judgment"
+  },
+  "core": {
+    "judgment_role": "Test domain schema validation.",
+    "axioms": [
+      "Test axiom: systems should be verifiable."
+    ],
+    "boundaries": [
+      "This is a test domain for infrastructure validation."
+    ],
+    "misunderstandings": [
+      "This is not a real domain."
+    ],
+    "terminology": {
+      "banned_terms": []
+    }
+  },
+  "patterns": {
+    "must_include": [],
+    "must_not_include": [],
+    "self_check": []
+  }
 }

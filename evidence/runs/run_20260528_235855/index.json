@@ -1,0 +1,200 @@
+[
+  {
+    "case_id": "cli_version",
+    "condition": "",
+    "model": "",
+    "L1_pass": true,
+    "missing": [],
+    "violations": [],
+    "output_path": "/Users/AI/K/KDNALAB/kdna-lab/outputs/raw/run_20260528_235855_cli_version.json"
+  },
+  {
+    "case_id": "cli_help",
+    "condition": "",
+    "model": "",
+    "L1_pass": true,
+    "missing": [],
+    "violations": [],
+    "output_path": "/Users/AI/K/KDNALAB/kdna-lab/outputs/raw/run_20260528_235855_cli_help.json"
+  },
+  {
+    "case_id": "cli_doctor",
+    "condition": "",
+    "model": "",
+    "L1_pass": true,
+    "missing": [],
+    "violations": [],
+    "output_path": "/Users/AI/K/KDNALAB/kdna-lab/outputs/raw/run_20260528_235855_cli_doctor.json"
+  },
+  {
+    "case_id": "cli_list",
+    "condition": "",
+    "model": "",
+    "L1_pass": true,
+    "missing": [],
+    "violations": [],
+    "output_path": "/Users/AI/K/KDNALAB/kdna-lab/outputs/raw/run_20260528_235855_cli_list.json"
+  },
+  {
+    "case_id": "cli_available_json",
+    "condition": "",
+    "model": "",
+    "L1_pass": true,
+    "missing": [],
+    "violations": [],
+    "output_path": "/Users/AI/K/KDNALAB/kdna-lab/outputs/raw/run_20260528_235855_cli_available_json.json"
+  },
+  {
+    "case_id": "cli_search",
+    "condition": "",
+    "model": "",
+    "L1_pass": true,
+    "missing": [],
+    "violations": [],
+    "output_path": "/Users/AI/K/KDNALAB/kdna-lab/outputs/raw/run_20260528_235855_cli_search.json"
+  },
+  {
+    "case_id": "cli_info",
+    "condition": "",
+    "model": "",
+    "L1_pass": true,
+    "missing": [],
+    "violations": [],
+    "output_path": "/Users/AI/K/KDNALAB/kdna-lab/outputs/raw/run_20260528_235855_cli_info.json"
+  },
+  {
+    "case_id": "cli_explain",
+    "condition": "",
+    "model": "",
+    "L1_pass": true,
+    "missing": [],
+    "violations": [],
+    "output_path": "/Users/AI/K/KDNALAB/kdna-lab/outputs/raw/run_20260528_235855_cli_explain.json"
+  },
+  {
+    "case_id": "cli_validate_valid",
+    "condition": "",
+    "model": "",
+    "L1_pass": true,
+    "missing": [],
+    "violations": [],
+    "output_path": "/Users/AI/K/KDNALAB/kdna-lab/outputs/raw/run_20260528_235855_cli_validate_valid.json"
+  },
+  {
+    "case_id": "cli_validate_invalid_type_string",
+    "condition": "",
+    "model": "",
+    "L1_pass": true,
+    "missing": [],
+    "violations": [],
+    "output_path": "/Users/AI/K/KDNALAB/kdna-lab/outputs/raw/run_20260528_235855_cli_validate_invalid_type_string.json"
+  },
+  {
+    "case_id": "cli_validate_invalid_missing",
+    "condition": "",
+    "model": "",
+    "L1_pass": true,
+    "missing": [],
+    "violations": [],
+    "output_path": "/Users/AI/K/KDNALAB/kdna-lab/outputs/raw/run_20260528_235855_cli_validate_invalid_missing.json"
+  },
+  {
+    "case_id": "cli_validate_invalid_type_array",
+    "condition": "",
+    "model": "",
+    "L1_pass": true,
+    "missing": [],
+    "violations": [],
+    "output_path": "/Users/AI/K/KDNALAB/kdna-lab/outputs/raw/run_20260528_235855_cli_validate_invalid_type_array.json"
+  },
+  {
+    "case_id": "cli_validate_invalid_type_action",
+    "condition": "",
+    "model": "",
+    "L1_pass": true,
+    "missing": [],
+    "violations": [],
+    "output_path": "/Users/AI/K/KDNALAB/kdna-lab/outputs/raw/run_20260528_235855_cli_validate_invalid_type_action.json"
+  },
+  {
+    "case_id": "cli_validate_suppressed_seven_json",
+    "condition": "",
+    "model": "",
+    "L1_pass": true,
+    "missing": [],
+    "violations": [],
+    "output_path": "/Users/AI/K/KDNALAB/kdna-lab/outputs/raw/run_20260528_235855_cli_validate_suppressed_seven_json.json"
+  },
+  {
+    "case_id": "cli_validate_suppressed_legacy",
+    "condition": "",
+    "model": "",
+    "L1_pass": true,
+    "missing": [],
+    "violations": [],
+    "output_path": "/Users/AI/K/KDNALAB/kdna-lab/outputs/raw/run_20260528_235855_cli_validate_suppressed_legacy.json"
+  },
+  {
+    "case_id": "cli_load_prompt",
+    "condition": "",
+    "model": "",
+    "L1_pass": true,
+    "missing": [],
+    "violations": [],
+    "output_path": "/Users/AI/K/KDNALAB/kdna-lab/outputs/raw/run_20260528_235855_cli_load_prompt.json"
+  },
+  {
+    "case_id": "cli_load_json",
+    "condition": "",
+    "model": "",
+    "L1_pass": true,
+    "missing": [],
+    "violations": [],
+    "output_path": "/Users/AI/K/KDNALAB/kdna-lab/outputs/raw/run_20260528_235855_cli_load_json.json"
+  },
+  {
+    "case_id": "cli_verify_domain",
+    "condition": "",
+    "model": "",
+    "L1_pass": false,
+    "missing": [],
+    "violations": [],
+    "output_path": "/Users/AI/K/KDNALAB/kdna-lab/outputs/raw/run_20260528_235855_cli_verify_domain.json"
+  },
+  {
+    "case_id": "cli_error_nonexistent",
+    "condition": "",
+    "model": "",
+    "L1_pass": true,
+    "missing": [],
+    "violations": [],
+    "output_path": "/Users/AI/K/KDNALAB/kdna-lab/outputs/raw/run_20260528_235855_cli_error_nonexistent.json"
+  },
+  {
+    "case_id": "cli_error_nonexistent_path",
+    "condition": "",
+    "model": "",
+    "L1_pass": true,
+    "missing": [],
+    "violations": [],
+    "output_path": "/Users/AI/K/KDNALAB/kdna-lab/outputs/raw/run_20260528_235855_cli_error_nonexistent_path.json"
+  },
+  {
+    "case_id": "cli_error_missing_arg",
+    "condition": "",
+    "model": "",
+    "L1_pass": false,
+    "missing": [],
+    "violations": [],
+    "output_path": "/Users/AI/K/KDNALAB/kdna-lab/outputs/raw/run_20260528_235855_cli_error_missing_arg.json"
+  },
+  {
+    "case_id": "cli_route_discover",
+    "condition": "",
+    "model": "",
+    "L1_pass": true,
+    "missing": [],
+    "violations": [],
+    "output_path": "/Users/AI/K/KDNALAB/kdna-lab/outputs/raw/run_20260528_235855_cli_route_discover.json"
+  }
+]

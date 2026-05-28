@@ -1,0 +1,14 @@
+# Run: run_20260528_233833
+# Timestamp: 2026-05-28T23:38:35.467511
+---
+{
+  "run_id": "run_20260528_233833",
+  "case_id": "cli_error_missing_arg",
+  "command": "kdna load",
+  "exit_code": 1,
+  "stdout": "",
+  "stderr": "Error: Usage: kdna load <name|file.kdna> [--as=prompt|json|raw] [--profile=index|compact|scenario|full]\n",
+  "expected_exit_code": 2,
+  "success": true,
+  "exit_ok": false
+}

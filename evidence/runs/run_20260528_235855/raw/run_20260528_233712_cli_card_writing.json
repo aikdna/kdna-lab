@@ -1,0 +1,14 @@
+# Run: run_20260528_233712
+# Timestamp: 2026-05-28T23:37:15.051925
+---
+{
+  "run_id": "run_20260528_233712",
+  "case_id": "cli_card_writing",
+  "command": "kdna card @aikdna/writing",
+  "exit_code": 2,
+  "stdout": "",
+  "stderr": "Error: Path not found: /Users/AI/K/KDNALAB/kdna-lab/@aikdna/writing\n",
+  "expected_exit_code": 0,
+  "success": true,
+  "exit_ok": false
+}

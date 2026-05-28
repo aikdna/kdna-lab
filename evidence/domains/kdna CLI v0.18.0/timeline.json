@@ -1,0 +1,44 @@
+[
+  {
+    "run_id": "run_20260528_233859",
+    "timestamp": "2026-05-28T23:57:55.430271",
+    "passed": 0,
+    "failed": 22,
+    "pass_rate": 0,
+    "by_condition": {
+      "": {
+        "total": 22,
+        "passed": 0,
+        "pass_rate": 0
+      }
+    }
+  },
+  {
+    "run_id": "run_20260528_233859",
+    "timestamp": "2026-05-28T23:58:03.203867",
+    "passed": 0,
+    "failed": 22,
+    "pass_rate": 0,
+    "by_condition": {
+      "": {
+        "total": 22,
+        "passed": 0,
+        "pass_rate": 0
+      }
+    }
+  },
+  {
+    "run_id": "run_20260528_235855",
+    "timestamp": "2026-05-28T23:59:05.553260",
+    "passed": 20,
+    "failed": 2,
+    "pass_rate": 91,
+    "by_condition": {
+      "": {
+        "total": 22,
+        "passed": 20,
+        "pass_rate": 91
+      }
+    }
+  }
+]

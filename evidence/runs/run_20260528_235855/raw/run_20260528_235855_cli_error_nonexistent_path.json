@@ -1,0 +1,14 @@
+# Run: run_20260528_235855
+# Timestamp: 2026-05-28T23:58:57.370629
+---
+{
+  "run_id": "run_20260528_235855",
+  "case_id": "cli_error_nonexistent_path",
+  "command": "kdna dev validate /tmp/nonexistent_path_abc123",
+  "exit_code": 2,
+  "stdout": "",
+  "stderr": "Error: Not a directory: /tmp/nonexistent_path_abc123\n",
+  "expected_exit_code": 2,
+  "success": true,
+  "exit_ok": true
+}

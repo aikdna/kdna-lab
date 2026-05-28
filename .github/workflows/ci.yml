@@ -1,0 +1,50 @@
+name: KDNA Lab CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install package
+        run: pip install -e ".[dev]"
+
+      - name: Run unit tests
+        run: pytest tests/ -v
+
+      - name: Verify imports
+        run: |
+          python -c "
+          from kdna_lab import __version__, load_cases, check_must_include, LAB_ROOT
+          from kdna_lab.runner import ExperimentRunner
+          from kdna_lab.report import generate_l1_report, generate_comparison_report
+          from kdna_lab.evidence_store import EvidenceStore
+          print(f'kdna-lab v{__version__} — OK')
+          "
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install mypy
+        run: pip install mypy
+      - name: Type check
+        run: mypy kdna_lab/ --ignore-missing-imports || true

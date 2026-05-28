@@ -1,0 +1,14 @@
+# Run: run_20260528_233859
+# Timestamp: 2026-05-28T23:39:00.099553
+---
+{
+  "run_id": "run_20260528_233859",
+  "case_id": "cli_version",
+  "command": "kdna version",
+  "exit_code": 0,
+  "stdout": "kdna v0.18.0\n\nUsage: kdna version bump <patch|minor|major> [path]\n       kdna version bump --suggest [path]\n",
+  "stderr": "",
+  "expected_exit_code": 0,
+  "success": true,
+  "exit_ok": true
+}

@@ -9,7 +9,7 @@ def resolve_lab_root() -> Path:
 
     Priority:
     1. KDNA_LAB_ROOT environment variable
-    2. Default: parent of the directory containing this file
+    2. Default: parent of the kdna_lab package (i.e. the repo root)
     """
     env_root = os.environ.get("KDNA_LAB_ROOT")
     if env_root:

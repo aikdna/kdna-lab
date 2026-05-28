@@ -1,0 +1,14 @@
+# Run: run_20260528_233833
+# Timestamp: 2026-05-28T23:38:34.702822
+---
+{
+  "run_id": "run_20260528_233833",
+  "case_id": "cli_validate_invalid_type_action",
+  "command": "kdna dev validate /Users/AI/K/KDNALAB/kdna-lab/fixtures/invalid_string_action_template",
+  "exit_code": 1,
+  "stdout": "",
+  "stderr": "Errors:\n  - KDNA_Scenarios.json/scenes/0/sub_scenarios/0/action_template: must be array (type)\n  - KDNA_Scenarios.json: domain name \"fixture_invalid_action\" does not match \"fixture_minimal\" from other files\n",
+  "expected_exit_code": 1,
+  "success": true,
+  "exit_ok": true
+}

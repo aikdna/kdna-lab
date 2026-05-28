@@ -1,4 +1,4 @@
-"""Shared config loading and output directory resolution for KDNA Lab runners."""
+"""Shared config loading and output directory resolution for KDNA Lab."""
 
 import os
 from pathlib import Path

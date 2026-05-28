@@ -1,0 +1,14 @@
+# Run: run_20260528_233833
+# Timestamp: 2026-05-28T23:38:35.310458
+---
+{
+  "run_id": "run_20260528_233833",
+  "case_id": "cli_error_nonexistent",
+  "command": "kdna load @aikdna/nonexistent_domain_xyz123 --as=prompt",
+  "exit_code": 2,
+  "stdout": "",
+  "stderr": "KDNA asset not found: @aikdna/nonexistent_domain_xyz123. Use an installed name or a .kdna file.\n",
+  "expected_exit_code": 2,
+  "success": true,
+  "exit_ok": true
+}

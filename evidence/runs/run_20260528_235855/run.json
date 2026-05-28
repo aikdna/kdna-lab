@@ -1,0 +1,19 @@
+{
+  "run_id": "run_20260528_235855",
+  "type": "cli",
+  "target": "kdna CLI v0.18.0",
+  "timestamp": "2026-05-28T23:59:05.524316",
+  "conditions": [],
+  "models": [],
+  "total_cases": 22,
+  "passed": 20,
+  "failed": 2,
+  "pass_rate": 91,
+  "by_condition": {
+    "": {
+      "total": 22,
+      "passed": 20,
+      "pass_rate": 91
+    }
+  }
+}

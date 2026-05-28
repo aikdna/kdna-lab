@@ -1,0 +1,14 @@
+# Run: run_20260528_233833
+# Timestamp: 2026-05-28T23:38:34.155801
+---
+{
+  "run_id": "run_20260528_233833",
+  "case_id": "cli_validate_valid",
+  "command": "kdna dev validate /Users/AI/K/KDNALAB/kdna-lab/fixtures/valid_minimal_domain",
+  "exit_code": 0,
+  "stdout": "✓ KDNA domain valid: /Users/AI/K/KDNALAB/kdna-lab/fixtures/valid_minimal_domain (2 files, schema OK)\n",
+  "stderr": "",
+  "expected_exit_code": 0,
+  "success": true,
+  "exit_ok": true
+}

@@ -1,7 +1,7 @@
 [project]
 name = "kdna-lab"
-version = "2026.05.26"
-description = "KDNA Lab Core — experimental infrastructure for the KDNA ecosystem"
+version = "2026.05.28"
+description = "KDNA Lab — experimental infrastructure for the KDNA ecosystem"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { file = "LICENSE" }
@@ -14,6 +14,22 @@ dependencies = [
 runner = ["openai>=1.0"]
 scorer = ["openai>=1.0"]
 dev = ["pytest>=7.0", "mypy>=1.0"]
+
+[project.scripts]
+kdna-lab-run-domain = "kdna_lab.domain_runner:run_domain_cases_cli"
+kdna-lab-run-cli = "kdna_lab.cli_runner:run_cli_cases_cli"
+kdna-lab-score = "kdna_lab.rule_scorer:score_cli"
+kdna-lab-report = "kdna_lab.report:report_cli"
+kdna-lab-registry = "kdna_lab.registry_check:registry_check_cli"
+kdna-lab-schema = "kdna_lab.schema_check:schema_check_cli"
+kdna-lab-spec = "kdna_lab.spec_check:spec_check_cli"
+kdna-lab-evidence = "kdna_lab.evidence_store:evidence_store_cli"
+
+[tool.setuptools.packages.find]
+include = ["kdna_lab*"]
+
+[tool.setuptools.package-data]
+kdna_lab = ["../schemas/*", "../configs/*"]
 
 [build-system]
 requires = ["setuptools>=64"]

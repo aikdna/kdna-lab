@@ -6,11 +6,8 @@ from pathlib import Path
 
 import pytest
 
-import sys
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-
-from lib.cases import load_cases, load_cases_list
-from lib.checks import (
+from kdna_lab.cases import load_cases, load_cases_list
+from kdna_lab.checks import (
     check_must_include,
     check_must_not_include,
     check_json_valid,

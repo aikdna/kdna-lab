@@ -1,0 +1,14 @@
+# Run: run_20260528_233859
+# Timestamp: 2026-05-28T23:39:02.355209
+---
+{
+  "run_id": "run_20260528_233859",
+  "case_id": "cli_verify_domain",
+  "command": "kdna verify @aikdna/writing --json",
+  "exit_code": 1,
+  "stdout": "{\n  \"name\": \"@aikdna/writing\",\n  \"path\": \"/Users/zhangling/.kdna/packages/@aikdna/writing/0.7.2/writing-0.7.2.kdna\",\n  \"asset_digest\": \"sha256:43ceef10aa6f01832974a13e9bd79c9537947debdd67c3e50c1870a2cda8c5ab\",\n  \"content_digest\": \"sha256:fbdb42273732b1d6901911c11f2bf046074dca5715ffc76fe0e536f982bac77d\",\n  \"layers\": {\n    \"structure\": {\n      \"passed\": [\n        \"has KDNA_Core.json\",\n        \"has KDNA_Patterns.json\",\n        \"has kdna.json\",\n        \"has KDNA_Scenarios.json\",\n        \"has KDNA_Cases.json\",\n        \"has KDNA_Reasoning.json\",\n        \"has KDNA_Evolution.json\",\n        \"4 axioms\",\n        \"3 misunderstandings\"\n      ],\n      \"errors\": [\n        \"kdna.json: kdna_spec is not allowed. Use spec_version.\",\n        \"kdna.json: language is not allowed. Use default_language and languages.\",\n        \"kdna.json: missing required field \\\"format\\\"\",\n        \"kdna.json: missing required field \\\"format_version\\\"\",\n        \"kdna.json: missing required field \\\"spec_version\\\"\"\n      ],\n      \"warnings\": []\n    },\n    \"trust\": {\n      \"passed\": [\n        \"author.pubkey present\",\n        \"author.pubkey matches scope trust_pubkey\",\n        \"signature present\",\n        \"embedded public_key_pem present\",\n        \"Ed25519 signature VALID over canonical payload\",\n        \"registry asset_digest declared: sha256:43ceef10aa6f0183…\",\n        \"local asset_digest matches registry\",\n        \"scope type: official\"\n      ],\n      \"errors\": [],\n      \"warnings\": []\n    },\n    \"judgment\": {\n      \"passed\": [\n        \"✓ axioms with applies_when (4/4)\",\n        \"✓ axioms with does_not_apply_when (4/4)\",\n        \"✓ axioms with failure_risk (4/4)\",\n        \"✓ axioms with confidence (4/4)\",\n        \"✓ axioms with evidence_type (4/4)\",\n        \"✓ misunderstandings with applies_when (3/3)\",\n        \"✓ misunderstandings with failure_risk (3/3)\",\n        \"✓ self_check yes/no questions (5/5)\",\n        \"✓ judgment_version: 2026.05\"\n      ],\n      \"errors\": [\n        \"README missing boundary declaration: require ## Scope + ## Out of Scope (or v2.1 Four Questions)\",\n        \"evals/ directory missing: require ≥4 evaluation cases\"\n      ],\n      \"warnings\": [],\n      \"score\": {\n        \"total\": 32,\n        \"max\": 36\n      }\n    }\n  },\n  \"ok\": false\n}\n",
+  "stderr": "",
+  "expected_exit_code": 0,
+  "success": true,
+  "exit_ok": false
+}

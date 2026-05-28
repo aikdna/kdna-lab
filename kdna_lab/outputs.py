@@ -16,7 +16,6 @@ def find_outputs(output_dir: str) -> Dict[str, List[dict]]:
     if not raw_dir.exists():
         return outputs
 
-    # Domain outputs: *.txt files with # Case: header
     for f in raw_dir.glob("*.txt"):
         if "_prompt" in f.stem:
             continue
@@ -32,7 +31,6 @@ def find_outputs(output_dir: str) -> Dict[str, List[dict]]:
             outputs[key] = []
         outputs[key].append({"file": str(f), "case_id": case_id, "content": content, "type": "domain"})
 
-    # CLI outputs: *.json files with exit_code/stdout/stderr
     for f in raw_dir.glob("*.json"):
         try:
             data = json.loads(f.read_text())
