@@ -78,8 +78,8 @@ class ExperimentRunner:
             return None
         return result.stdout
 
-    def call_api(self, prompt: str) -> Optional[str]:
-        """Call the configured LLM API."""
+    def call_api(self, prompt: str, system_prompt: str = "") -> Optional[str]:
+        """Call the configured LLM API via the multi-provider adapter."""
         api = self.config.get("api", {})
         provider = api.get("provider", "openai")
         model = api.get("model", "gpt-4o")
@@ -88,24 +88,18 @@ class ExperimentRunner:
         temperature = api.get("temperature", 0.3)
         max_tokens = api.get("max_tokens", 4000)
 
-        if not api_key:
-            return None
+        from kdna_lab.providers import call_provider
 
-        if provider == "openai" or base_url:
-            try:
-                from openai import OpenAI
-                client = OpenAI(api_key=api_key, base_url=base_url) if base_url else OpenAI(api_key=api_key)
-                response = client.chat.completions.create(
-                    model=model,
-                    messages=[{"role": "user", "content": prompt}],
-                    temperature=temperature,
-                    max_tokens=max_tokens,
-                )
-                return response.choices[0].message.content
-            except Exception:
-                return None
-
-        return None
+        return call_provider(
+            provider_name=provider,
+            prompt=prompt,
+            model=model,
+            system_prompt=system_prompt,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            api_key=api_key,
+            base_url=base_url,
+        )
 
     def run_all(self, cases: List[dict]) -> List[dict]:
         """Run all cases. Override in subclasses for custom logic."""
