@@ -4,25 +4,18 @@ Validates that KDNA judgment traces are structurally complete,
 satisfying the core KDNA claim: "Trace proves inspectability."
 
 Verifies trace JSON against the judgment-trace schema:
-  - Required fields present (domain, axioms_triggered, self_checks)
+  - Required fields present in either trace or judgment-report form
   - Self-check items are meaningful (not all mechanically true)
   - Trace is self-consistent (axioms triggered match domain axioms)
 """
 
 import json
-import subprocess
 from pathlib import Path
 from datetime import datetime
 from typing import Any, Dict, List, Optional
 
 from kdna_lab.paths import LAB_ROOT
 
-
-TRACE_REQUIRED_FIELDS = [
-    "domain",
-    "version",
-    "timestamp",
-]
 
 TRACE_RECOMMENDED_FIELDS = [
     "axioms_triggered",
@@ -52,21 +45,42 @@ def check_trace_structure(trace: Dict) -> Dict[str, Any]:
     errors = []
     warnings = []
 
-    for field in TRACE_REQUIRED_FIELDS:
-        if field not in trace:
-            errors.append(f"Missing required field: {field}")
+    timestamp = trace.get("timestamp") or trace.get("created_at")
+    if not timestamp:
+        errors.append("Missing required field: timestamp or created_at")
+
+    domain = trace.get("domain") or trace.get("domain_id")
+    loaded_domains = trace.get("loaded_domains", [])
+    if not domain and loaded_domains:
+        first = loaded_domains[0] if isinstance(loaded_domains[0], dict) else {}
+        domain = first.get("name")
+    if not domain:
+        errors.append("Missing required field: domain/domain_id or loaded_domains[0].name")
+
+    version = trace.get("version") or trace.get("domain_version")
+    if not version and loaded_domains:
+        first = loaded_domains[0] if isinstance(loaded_domains[0], dict) else {}
+        version = first.get("version")
+    if not version:
+        warnings.append("Missing version/domain_version; trace is inspectable but less reproducible")
 
     for field in TRACE_RECOMMENDED_FIELDS:
-        if field not in trace:
+        if field not in trace and not (field == "axioms_triggered" and "triggered_judgment" in trace):
             warnings.append(f"Missing recommended field: {field}")
 
     # Check axioms_triggered structure
     axioms = trace.get("axioms_triggered", [])
+    if not axioms and isinstance(trace.get("triggered_judgment"), dict):
+        axioms = trace["triggered_judgment"].get("items", [])
     if isinstance(axioms, list):
         for i, axiom in enumerate(axioms):
-            for af in TRACE_AXIOM_FIELDS:
-                if af not in axiom:
-                    errors.append(f"axioms_triggered[{i}] missing field: {af}")
+            if not isinstance(axiom, dict):
+                errors.append(f"axioms_triggered[{i}] should be an object")
+                continue
+            if "id" not in axiom:
+                errors.append(f"axioms_triggered[{i}] missing field: id")
+            if not (axiom.get("statement") or axiom.get("summary") or axiom.get("kind")):
+                warnings.append(f"axioms_triggered[{i}] missing statement/summary/kind")
             if axiom.get("triggered") is True and not axiom.get("evidence"):
                 warnings.append(f"axioms_triggered[{i}] triggered but no evidence")
     elif axioms:
@@ -94,6 +108,9 @@ def check_trace_structure(trace: Dict) -> Dict[str, Any]:
         "has_self_checks": bool(self_checks),
         "axioms_count": len(axioms) if isinstance(axioms, list) else 0,
         "self_checks_count": len(self_checks) if isinstance(self_checks, list) else 0,
+        "domain": domain,
+        "version": version,
+        "timestamp": timestamp,
         "passed": len(errors) == 0,
     }
 
@@ -129,8 +146,8 @@ def check_all_traces(kdna_home: Optional[Path] = None) -> List[Dict]:
         results.append({
             "file": trace_path.name,
             "size": trace_path.stat().st_size,
-            "timestamp": trace.get("timestamp", "unknown"),
-            "domain": trace.get("domain", "unknown"),
+            "timestamp": check.get("timestamp", "unknown"),
+            "domain": check.get("domain", "unknown"),
             "check": check,
             "passed": check["passed"],
         })

@@ -5,7 +5,6 @@ and domain entry completeness. Connects to the live registry.
 """
 
 import json
-import hashlib
 from pathlib import Path
 from typing import Any, Dict, List, Tuple
 from dataclasses import dataclass, field
@@ -16,13 +15,21 @@ from kdna_lab.runner import ExperimentRunner
 
 # Required fields for each domain entry in the registry
 REQUIRED_DOMAIN_FIELDS = [
-    "name", "version", "status", "description",
+    "name", "type", "version", "spec_version", "status", "access",
+    "description", "core_insight", "author", "license",
+    "quality_badge", "risk_level", "review_status",
+    "provenance_required", "signature_required", "deprecated", "yanked",
+    "created", "updated",
 ]
 RECOMMENDED_DOMAIN_FIELDS = [
-    "judgment_version", "core_insight", "keywords",
-    "applies_when", "does_not_apply_when", "failure_risks",
+    "languages", "default_language", "i18n_level", "known_limitations_url",
+    "file_count", "test_count", "judgment_version",
 ]
-VALID_STATUSES = ["experimental", "stable", "deprecated", "yanked"]
+VALID_TYPES = {"domain", "cluster"}
+VALID_STATUSES = {"draft", "experimental", "beta", "stable", "deprecated"}
+VALID_QUALITY_BADGES = {"untested", "tested", "validated", "expert_reviewed", "production_ready"}
+VALID_RISK_LEVELS = {"R0", "R1", "R2", "R3"}
+VALID_MEDIA_TYPE = "application/vnd.aikdna.kdna+zip"
 
 
 @dataclass
@@ -47,30 +54,53 @@ def validate_registry_entry(entry: Dict, index: int) -> Tuple[List[Dict], List[D
     name = entry.get("name", f"entry_{index}")
 
     for field in REQUIRED_DOMAIN_FIELDS:
-        if field not in entry or not entry[field]:
+        if field not in entry or entry[field] is None or entry[field] == "":
             errors.append({"domain": name, "field": field, "error": f"Missing required field: {field}"})
 
     if entry.get("status") and entry["status"] not in VALID_STATUSES:
         errors.append({"domain": name, "field": "status", "error": f"Invalid status '{entry['status']}'"})
 
+    if entry.get("type") and entry["type"] not in VALID_TYPES:
+        errors.append({"domain": name, "field": "type", "error": f"Invalid type '{entry['type']}'"})
+
+    if entry.get("spec_version") != "1.0-rc":
+        errors.append({"domain": name, "field": "spec_version", "error": "spec_version must be 1.0-rc"})
+
+    if entry.get("quality_badge") and entry["quality_badge"] not in VALID_QUALITY_BADGES:
+        errors.append({"domain": name, "field": "quality_badge", "error": f"Invalid quality_badge '{entry['quality_badge']}'"})
+
+    if entry.get("risk_level") and entry["risk_level"] not in VALID_RISK_LEVELS:
+        errors.append({"domain": name, "field": "risk_level", "error": f"Invalid risk_level '{entry['risk_level']}'"})
+
     if not entry.get("name", "").startswith("@"):
         errors.append({"domain": name, "field": "name", "error": "Domain name must start with @"})
 
     for field in RECOMMENDED_DOMAIN_FIELDS:
-        if field not in entry or not entry[field]:
+        if field not in entry or entry[field] is None or entry[field] == "":
             warnings.append({"domain": name, "field": field, "error": f"Missing recommended field: {field}"})
 
     if entry.get("keywords"):
         if not isinstance(entry["keywords"], list):
             errors.append({"domain": name, "field": "keywords", "error": "keywords must be a list"})
 
-    if entry.get("applies_when"):
-        if not isinstance(entry["applies_when"], list) or len(entry["applies_when"]) == 0:
-            warnings.append({"domain": name, "field": "applies_when", "error": "applies_when should be a non-empty list"})
+    if entry.get("asset_url"):
+        if not str(entry["asset_url"]).startswith("https://"):
+            errors.append({"domain": name, "field": "asset_url", "error": "asset_url must be https://"})
+        if entry.get("media_type") != VALID_MEDIA_TYPE:
+            errors.append({"domain": name, "field": "media_type", "error": f"media_type must be {VALID_MEDIA_TYPE}"})
+        digest = entry.get("asset_digest", "")
+        if not isinstance(digest, str) or not digest.startswith("sha256:") or len(digest) != 71:
+            errors.append({"domain": name, "field": "asset_digest", "error": "asset_digest must be sha256:<64 hex>"})
 
-    if entry.get("failure_risks"):
-        if not isinstance(entry["failure_risks"], list) or len(entry["failure_risks"]) == 0:
-            warnings.append({"domain": name, "field": "failure_risks", "error": "failure_risks should be a non-empty list"})
+    if entry.get("yanked") is True:
+        if not entry.get("yanked_reason"):
+            errors.append({"domain": name, "field": "yanked_reason", "error": "yanked entries require yanked_reason"})
+        if not entry.get("yanked_at"):
+            errors.append({"domain": name, "field": "yanked_at", "error": "yanked entries require yanked_at"})
+    elif entry.get("type") == "domain":
+        for field in ("asset_url", "asset_digest", "media_type", "signature", "content_digest"):
+            if not entry.get(field):
+                errors.append({"domain": name, "field": field, "error": f"Non-yanked domain missing {field}"})
 
     return errors, warnings
 
@@ -129,15 +159,15 @@ def load_registry_from_file(path: str | Path) -> List[Dict] | None:
 
 
 def load_registry_from_live() -> List[Dict]:
-    """Load registry data from the live kdna CLI."""
+    """Refresh and load the canonical registry cache used by the live kdna CLI."""
     import subprocess
-    result = subprocess.run(
-        ["kdna", "available", "--json"],
-        capture_output=True, text=True,
-    )
-    if result.returncode != 0:
-        raise RuntimeError(f"Failed to fetch registry: {result.stderr}")
-    return json.loads(result.stdout)
+    cache_path = Path.home() / ".kdna" / "registry" / "domains.json"
+    result = subprocess.run(["kdna", "registry", "refresh"], capture_output=True, text=True)
+    if result.returncode != 0 and not cache_path.exists():
+        raise RuntimeError(f"Failed to refresh registry: {result.stderr}")
+    if not cache_path.exists():
+        raise RuntimeError(f"Registry cache not found: {cache_path}")
+    return load_registry_from_file(cache_path) or []
 
 
 def check_registry(live: bool = True, local_path: str | None = None) -> RegistryCheckResult:
@@ -171,9 +201,12 @@ def check_registry(live: bool = True, local_path: str | None = None) -> Registry
         "name": d.get("name"),
         "version": d.get("version"),
         "status": d.get("status"),
+        "type": d.get("type"),
+        "yanked": d.get("yanked"),
+        "asset_url": bool(d.get("asset_url")),
+        "asset_digest": bool(d.get("asset_digest")),
+        "media_type": d.get("media_type"),
         "keywords": len(d.get("keywords", [])),
-        "applies_when_count": len(d.get("applies_when", [])),
-        "failure_risks_count": len(d.get("failure_risks", [])),
     } for d in data]
 
     return result
@@ -204,7 +237,8 @@ def print_registry_report(result: RegistryCheckResult):
 
     print(f"\n--- Domain Summary ---")
     for d in result.details:
-        print(f"  {d['name']} v{d['version']} [{d['status']}] kw={d['keywords']} aw={d['applies_when_count']} fr={d['failure_risks_count']}")
+        installable = "yanked" if d["yanked"] else "installable"
+        print(f"  {d['name']} v{d['version']} [{d['status']}/{installable}] type={d['type']} asset={d['asset_url']} media={d['media_type'] or '-'}")
     print()
 
 
