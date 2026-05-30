@@ -62,8 +62,13 @@ class OpenAIAdapter(ProviderAdapter):
                 temperature=temperature,
                 max_tokens=max_tokens,
             )
-            return response.choices[0].message.content
+            choice = response.choices[0]
+            content = choice.message.content
+            if not content and hasattr(choice.message, 'reasoning') and choice.message.reasoning:
+                content = choice.message.reasoning
+            return content
         except Exception:
+            return None
             return None
 
 
@@ -145,8 +150,13 @@ class OpenAICompatibleAdapter(ProviderAdapter):
                 temperature=temperature,
                 max_tokens=max_tokens,
             )
-            return response.choices[0].message.content
+            choice = response.choices[0]
+            content = choice.message.content
+            if not content and hasattr(choice.message, 'reasoning') and choice.message.reasoning:
+                content = choice.message.reasoning
+            return content
         except Exception:
+            return None
             return None
 
 

@@ -102,7 +102,7 @@ def score_case_with_l2(
     base_url: str = "https://openrouter.ai/api/v1",
     model: str = "deepseek/deepseek-v4-pro",
     temperature: float = 0.1,
-    max_tokens: int = 1000,
+    max_tokens: int = 4000,
 ) -> Dict[str, Any]:
     """Score a single case output using L2 LLM Judge.
 
