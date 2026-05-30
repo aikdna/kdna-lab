@@ -65,16 +65,16 @@ FIXTURE_VERSION_MATRIX = [
     {
         "fixture": "invalid_seven_json_files",
         "spec_version": "legacy",
-        "description": "Domain with 7 JSON files (exceeds 6 file limit)",
+        "description": "Domain with additional JSON files (KDNA_CARD and reports now allowed per v1.0+ schema)",
         "validate_exit_code": 0,
-        "load_works": False,
+        "load_works": True,
     },
     {
         "fixture": "legacy_unscoped_domain",
         "spec_version": "legacy",
-        "description": "Legacy domain without @scope naming",
+        "description": "Legacy domain without @scope naming (dev validate passes, install requires scope)",
         "validate_exit_code": 0,
-        "load_works": False,
+        "load_works": True,
     },
 ]
 
