@@ -33,71 +33,93 @@ TRACE_AXIOM_FIELDS = [
 
 
 def parse_trace_file(trace_path: str) -> Optional[Dict]:
-    """Parse a KDNA trace JSON file."""
+    """Parse a KDNA trace JSON/JSONL file."""
     try:
-        return json.loads(Path(trace_path).read_text())
+        content = Path(trace_path).read_text()
+        # Handle JSONL: take first line as the trace entry
+        if trace_path.endswith('.jsonl'):
+            lines = content.strip().split('\n')
+            if lines:
+                return json.loads(lines[0])
+            return None
+        return json.loads(content)
     except (json.JSONDecodeError, FileNotFoundError):
         return None
 
 
 def check_trace_structure(trace: Dict) -> Dict[str, Any]:
-    """Check trace structural completeness."""
+    """Check trace structural completeness. Handles both judgment-report and Product Contract formats."""
     errors = []
     warnings = []
 
+    # Format detection
+    is_report = "report_version" in trace or "report_id" in trace
+    is_contract = "domain_id" in trace or "mode" in trace
+
+    # ── Timestamp ────────────────────────────────────────
     timestamp = trace.get("timestamp") or trace.get("created_at")
     if not timestamp:
         errors.append("Missing required field: timestamp or created_at")
 
+    # ── Domain ───────────────────────────────────────────
     domain = trace.get("domain") or trace.get("domain_id")
     loaded_domains = trace.get("loaded_domains", [])
     if not domain and loaded_domains:
         first = loaded_domains[0] if isinstance(loaded_domains[0], dict) else {}
         domain = first.get("name")
     if not domain:
-        errors.append("Missing required field: domain/domain_id or loaded_domains[0].name")
+        errors.append("Missing required field: domain or loaded_domains[0].name")
 
-    version = trace.get("version") or trace.get("domain_version")
+    # ── Version ──────────────────────────────────────────
+    version = trace.get("version") or trace.get("domain_version") or trace.get("report_version")
     if not version and loaded_domains:
         first = loaded_domains[0] if isinstance(loaded_domains[0], dict) else {}
-        version = first.get("version")
+        version = first.get("version") or first.get("judgment_version")
     if not version:
-        warnings.append("Missing version/domain_version; trace is inspectable but less reproducible")
+        warnings.append("Missing version — trace is inspectable but less reproducible")
 
-    for field in TRACE_RECOMMENDED_FIELDS:
-        if field not in trace and not (field == "axioms_triggered" and "triggered_judgment" in trace):
-            warnings.append(f"Missing recommended field: {field}")
-
-    # Check axioms_triggered structure
+    # ── Axioms triggered ─────────────────────────────────
     axioms = trace.get("axioms_triggered", [])
+    # Judgment-report format: nested under triggered_judgment.items
     if not axioms and isinstance(trace.get("triggered_judgment"), dict):
         axioms = trace["triggered_judgment"].get("items", [])
+    # Product Contract format: axioms_triggered is a flat list of IDs
+    if not axioms and is_contract:
+        axiom_ids = trace.get("axioms_triggered", trace.get("triggered_axioms", []))
+        if isinstance(axiom_ids, list) and all(isinstance(a, str) for a in axiom_ids):
+            axioms = []  # IDs only — not objects, but this is valid Contract format
+
     if isinstance(axioms, list):
         for i, axiom in enumerate(axioms):
             if not isinstance(axiom, dict):
-                errors.append(f"axioms_triggered[{i}] should be an object")
                 continue
             if "id" not in axiom:
                 errors.append(f"axioms_triggered[{i}] missing field: id")
-            if not (axiom.get("statement") or axiom.get("summary") or axiom.get("kind")):
+            if not (axiom.get("statement") or axiom.get("summary") or axiom.get("kind") or axiom.get("one_sentence")):
                 warnings.append(f"axioms_triggered[{i}] missing statement/summary/kind")
             if axiom.get("triggered") is True and not axiom.get("evidence"):
                 warnings.append(f"axioms_triggered[{i}] triggered but no evidence")
     elif axioms:
         errors.append(f"axioms_triggered should be a list, got {type(axioms).__name__}")
 
-    # Check self_checks structure
+    # ── Self_checks ──────────────────────────────────────
     self_checks = trace.get("self_checks", [])
     if isinstance(self_checks, list):
         all_true = all(
-            sc.get("status") in (True, "true", "pass")
+            sc.get("status") in (True, "true", "pass", "ok")
             for sc in self_checks
             if isinstance(sc, dict)
         )
         if all_true and len(self_checks) > 0:
-            warnings.append("All self_checks are true — may indicate mechanical checking")
+            warnings.append("All self_checks are pass/true — may indicate mechanical checking")
     elif self_checks:
         errors.append(f"self_checks should be a list, got {type(self_checks).__name__}")
+
+    # ── Additional recommended fields ────────────────────
+    if not is_contract and not is_report:
+        for field in TRACE_RECOMMENDED_FIELDS:
+            if field not in trace:
+                warnings.append(f"Missing recommended field: {field}")
 
     return {
         "structural_errors": len(errors),
@@ -111,6 +133,7 @@ def check_trace_structure(trace: Dict) -> Dict[str, Any]:
         "domain": domain,
         "version": version,
         "timestamp": timestamp,
+        "format": "contract" if is_contract else ("report" if is_report else "unknown"),
         "passed": len(errors) == 0,
     }
 
@@ -122,7 +145,11 @@ def discover_traces(kdna_home: Optional[Path] = None) -> List[Path]:
     traces_dir = kdna_home / "traces"
     if not traces_dir.exists():
         return []
-    return sorted(traces_dir.glob("*.json"))
+    # Support both .json (judgment reports) and .jsonl (daily trace logs)
+    files = sorted(traces_dir.glob("*.json")) + sorted(traces_dir.glob("*.jsonl"))
+    # Exclude .md files
+    files = [f for f in files if f.suffix in ('.json', '.jsonl')]
+    return sorted(files)
 
 
 def check_all_traces(kdna_home: Optional[Path] = None) -> List[Dict]:
