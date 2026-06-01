@@ -1,0 +1,24 @@
+# KDNA Lab — Writing Eval Config (SiliconFlow / DeepSeek V4-Pro)
+
+domain:
+  name: "@aikdna/writing"
+  load_cmd: "kdna load"
+  format: "prompt"
+
+api:
+  provider: "openai_compatible"
+  model: "deepseek-ai/DeepSeek-V4-Pro"
+  base_url: "https://api.siliconflow.cn/v1"
+  api_key_env: "SILICONFLOW_API_KEY"
+  temperature: 0.3
+  max_tokens: 4000
+
+output:
+  dir: "outputs"
+
+runners:
+  domain:
+    conditions:
+      - "kdna_full"
+    rate_limit: 0.5
+    workers: 1
