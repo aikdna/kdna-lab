@@ -88,6 +88,15 @@ from kdna_lab.providers import (
     get_provider,
 )
 
+# Work Pack
+from kdna_lab.workpack_check import (
+    resolve_workpack_dir,
+    discover_workpacks,
+    validate_workpack_manifest,
+    check_workpack_structure,
+    run_workpack_checks,
+)
+
 __version__ = "2026.05.29"
 
 __all__ = [
@@ -130,4 +139,8 @@ __all__ = [
     "run_version_matrix",
     # Multi-Provider
     "PROVIDERS", "PROVIDER_PRESETS", "call_provider", "get_provider",
+    # Work Pack
+    "resolve_workpack_dir", "discover_workpacks",
+    "validate_workpack_manifest", "check_workpack_structure",
+    "run_workpack_checks",
 ]

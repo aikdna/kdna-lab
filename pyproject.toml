@@ -31,6 +31,7 @@ kdna-lab-evolution = "kdna_lab.evolution_tracker:evolution_cli"
 kdna-lab-runtime = "kdna_lab.runtime_check:runtime_check_cli"
 kdna-lab-trace = "kdna_lab.trace_check:trace_check_cli"
 kdna-lab-version = "kdna_lab.version_check:version_check_cli"
+kdna-lab-workpack = "kdna_lab.workpack_check:workpack_check_cli"
 
 [tool.setuptools.packages.find]
 include = ["kdna_lab*"]
