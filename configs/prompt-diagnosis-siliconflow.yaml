@@ -1,7 +1,7 @@
-# KDNA Lab — Writing Eval Config (SiliconFlow / DeepSeek V4-Pro)
+# KDNA Lab — Prompt Diagnosis Eval Config (SiliconFlow / DeepSeek V4-Pro)
 
 domain:
-  name: "@aikdna/writing"
+  name: "@aikdna/prompt_diagnosis"
   load_cmd: "kdna load"
   format: "prompt"
 
@@ -14,7 +14,7 @@ api:
   max_tokens: 4000
 
 output:
-  dir: "outputs/writing"
+  dir: "outputs/prompt_diagnosis"
 
 runners:
   domain:
