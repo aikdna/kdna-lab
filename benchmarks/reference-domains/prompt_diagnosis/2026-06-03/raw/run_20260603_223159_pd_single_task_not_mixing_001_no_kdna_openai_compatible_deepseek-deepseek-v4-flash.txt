@@ -1,0 +1,74 @@
+# Case: pd_single_task_not_mixing_001
+# Run: run_20260603_223159
+# Condition: no_kdna
+# Provider: openai_compatible
+# Model: deepseek/deepseek-v4-flash
+# Domain: @aikdna/prompt_diagnosis
+# Timestamp: 2026-06-03T22:58:21.826454
+---
+我来写一段Python代码来计算斐波那契数列的前20项：
+
+## 方法1：使用循环（最常用）
+
+```python
+def fibonacci_loop(n):
+    """使用循环计算斐波那契数列的前n项"""
+    fib_sequence = []
+    a, b = 0, 1
+    
+    for i in range(n):
+        fib_sequence.append(a)
+        a, b = b, a + b
+    
+    return fib_sequence
+
+# 计算前20项
+result = fibonacci_loop(20)
+print("斐波那契数列的前20项：")
+print(result)
+```
+
+## 方法2：使用递归（带记忆化）
+
+```python
+def fibonacci_recursive(n, memo={}):
+    """使用递归加记忆化计算第n个斐波那契数"""
+    if n in memo:
+        return memo[n]
+    if n <= 1:
+        return n
+    
+    memo[n] = fibonacci_recursive(n-1, memo) + fibonacci_recursive(n-2, memo)
+    return memo[n]
+
+# 计算前20项
+fib_sequence = [fibonacci_recursive(i) for i in range(20)]
+print("斐波那契数列的前20项：")
+print(fib_sequence)
+```
+
+## 方法3：使用生成器
+
+```python
+def fibonacci_generator():
+    """斐波那契数列生成器"""
+    a, b = 0, 1
+    while True:
+        yield a
+        a, b = b, a + b
+
+# 获取前20项
+fib_gen = fibonacci_generator()
+fib_sequence = [next(fib_gen) for _ in range(20)]
+print("斐波那契数列的前20项：")
+print(fib_sequence)
+```
+
+## 输出结果
+运行上述任一代码，输出结果都是：
+```
+斐波那契数列的前20项：
+[0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181]
+```
+
+**推荐使用第一种方法**，因为它简单高效，时间复杂度为O(n)，空间复杂度为O(1)（只存储结果）。

@@ -1,0 +1,71 @@
+# Case: pd_domain_knowledge_gap_001
+# Run: run_20260603_223159
+# Condition: best_prompt
+# Provider: openai_compatible
+# Model: deepseek/deepseek-v4-flash
+# Domain: @aikdna/prompt_diagnosis
+# Timestamp: 2026-06-03T22:59:28.561220
+---
+## Diagnosis Report for Prompt: "帮我用R语言重构这个pipeline，确保与现有的Spark集群兼容。"
+
+### 1. Stated Intent vs. Implicit Assumptions
+- **Stated**: Rewrite (重构) an existing pipeline in R, and make it compatible with a Spark cluster.
+- **Implicit assumptions**:
+  - The user expects the diagnostician to know what the original pipeline is (e.g., its source code, logic, dependencies).
+  - The “existing Spark cluster” is a well-defined environment (version, configuration, access method) that the diagnostician can reference.
+  - The user wants a functional rewrite that preserves the original pipeline’s behavior while switching to R and Spark compatibility.
+
+### 2. Task Ambiguity
+- **Multiple goals**: (a) Reconstruct/rearchitect the pipeline in R, (b) Ensure Spark compatibility. These are interrelated but not precisely scoped. “重构” could mean a literal translation, a performance-optimized rewrite, or a structural redesign.
+- **Success criteria unclear**:
+  - What defines “compatible”? Using SparkR? `sparklyr`? raw `spark-submit`? Should the R code run on Spark workers or only submit jobs from a driver? No specification.
+  - No benchmark for correctness (same output? same performance?).
+  - No information about whether the original pipeline is in another language (Python? Scala?) or already partly in R.
+
+### 3. Missing Context
+- **Essential missing context**:
+  - Full description or code of the existing pipeline (inputs, transformations, outputs, dependencies).
+  - Spark cluster details: Spark version, deployment mode (local, standalone, YARN, Kubernetes), resource allocation (cores, memory), authentication/security settings.
+  - R version and available packages (e.g., does the user have `sparklyr` installed?).
+  - Intended output format: code snippet, whole script, commentary, or just advice?
+  - Constraints: must maintain the same external integrations (e.g., databases, file systems)? Performance or latency requirements?
+
+### 4. Output Format Expectations
+- **Not explicit**: The user provides no indication of how the answer should be structured. The prompt is a request for action (“帮我…”), so the output is assumed to be a solution (likely R code) but the level of detail (full pipeline vs. skeleton vs. guidance) is ambiguous.
+
+### 5. Risky Phrasings
+- **Over-broad permission**: “帮我” (help me) delegates open-ended responsibility—the diagnostician might guess wrong.
+- **Ambiguous action “重构”**: Can imply a complete re‑implementation with possible architectural changes, not just a translation.
+- **Vague requirement “确保兼容”**: No verification method or fallback; if the suggested code fails on the actual cluster, the user may blame the diagnostician for missing details.
+- **Negation pitfalls**: None directly, but the combination of “R” and “Spark” can lead to subtle incompatibilities (e.g., R serialization, library versions) if not handled explicitly.
+
+### 6. Proposed Rewrite (with fixes)
+**Rewritten prompt** (in English for clarity, but the user can adapt to Chinese):
+
+> “I need to rewrite an existing data pipeline in R so that it runs on our Spark cluster. Please provide a complete R script (or detailed guidance) that:
+> - Uses **sparklyr** (preferred) or **SparkR** (specify which);
+> - Matches the original pipeline’s logic step by step (I will provide its current code/description upon request);
+> - Connects to a Spark cluster with the following details: Spark 3.4.0, YARN mode, 4 executors, 8 GB each, no authentication;
+> - Outputs the same CSV files in HDFS (same schema and partitioning);
+> - Is reproducible in our environment (list required R packages and their versions).  
+> 
+> Before answering, please ask for any missing details about the current pipeline (language, dependencies, specific transformation logic) or the cluster.”
+
+**What each fix addresses**:
+- Explicitly names the Spark interface (`sparklyr` or `SparkR`) → removes ambiguity about compatibility method.
+- Requests the original pipeline code → fills the critical missing context.
+- Specifies cluster details (version, mode, resources) → ensures the solution is tailored to the actual environment.
+- Defines output format (complete R script or detailed guidance) → sets clear deliverable expectations.
+- Asks for clarification before proceeding → prevents dangerous guesswork and builds in a safety net.
+
+### 7. Severity Ratings
+| Issue | Severity | Reason |
+|-------|----------|--------|
+| Missing context about the original pipeline | **Functional** | Without it, any rewrite is likely incorrect or incomplete. |
+| Missing context about the Spark cluster | **Functional** | Incompatible versions/configurations can cause runtime failures. |
+| Ambiguous “重构” (rewrite vs. refactor) | **Cosmetic** → **Functional** if misinterpreted (e.g., changing logic when only translation was needed). |
+| Undefined output format | **Cosmetic** | The answer may be too verbose or too sparse, but can be fixed on first reply. |
+| Over-broad “help me” | **Functional** | Encourages a guess-and-check cycle, wasting time. |
+| No verification/compatibility check | **Safety-critical** | Could lead to accidental data corruption or cluster misconfiguration if the solution assumes different defaults. |
+
+**Overall**: This prompt is **functional-critical** due to the severe lack of context. Immediate rewriting with explicit detail requests is strongly advised.

@@ -1,0 +1,38 @@
+[
+  {
+    "run_id": "run_20260603_202622",
+    "case_id": "writing_structural_diagnosis_001",
+    "condition": "no_kdna",
+    "output_path": "/Users/AI/K/KDNALAB/kdna-lab/benchmarks/reference-domains/writing/2026-06-03/raw/run_20260603_202622_writing_structural_diagnosis_001_no_kdna_openai_compatible_deepseek-ai-DeepSeek-V4-Pro.txt",
+    "exit_code": null,
+    "expected_exit_code": null,
+    "exit_ok": null,
+    "L1_pass": null,
+    "missing": [],
+    "violations": []
+  },
+  {
+    "run_id": "run_20260603_202622",
+    "case_id": "writing_structural_diagnosis_001",
+    "condition": "best_prompt",
+    "output_path": null,
+    "exit_code": null,
+    "expected_exit_code": null,
+    "exit_ok": null,
+    "L1_pass": null,
+    "missing": [],
+    "violations": []
+  },
+  {
+    "run_id": "run_20260603_202622",
+    "case_id": "writing_structural_diagnosis_001",
+    "condition": "kdna_full",
+    "output_path": null,
+    "exit_code": null,
+    "expected_exit_code": null,
+    "exit_ok": null,
+    "L1_pass": null,
+    "missing": [],
+    "violations": []
+  }
+]

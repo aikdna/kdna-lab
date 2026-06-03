@@ -1,4 +1,5 @@
 # KDNA Lab — Prompt Diagnosis Eval Config (SiliconFlow / DeepSeek V4-Pro)
+# Pipeline fixes applied: per-domain Best Prompt baseline, rel paths, scored metadata inheritance.
 
 domain:
   name: "@aikdna/prompt_diagnosis"
@@ -12,10 +13,10 @@ api:
   api_key_env: "SILICONFLOW_API_KEY"
   temperature: 0.3
   max_tokens: 4000
-  timeout: 60
+  timeout: 45
 
 output:
-  dir: "outputs/prompt_diagnosis"
+  dir: "benchmarks/reference-domains/prompt_diagnosis/2026-06-03"
 
 runners:
   domain:
@@ -23,6 +24,6 @@ runners:
       - "no_kdna"
       - "best_prompt"
       - "kdna_full"
+    rate_limit: 1.5
     retries: 1
-    rate_limit: 0.5
     workers: 1

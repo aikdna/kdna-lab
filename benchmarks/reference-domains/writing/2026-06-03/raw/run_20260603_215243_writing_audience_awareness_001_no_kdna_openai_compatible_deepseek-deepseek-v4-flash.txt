@@ -1,0 +1,16 @@
+# Case: writing_audience_awareness_001
+# Run: run_20260603_215243
+# Condition: no_kdna
+# Provider: openai_compatible
+# Model: deepseek/deepseek-v4-flash
+# Domain: @aikdna/writing
+# Timestamp: 2026-06-03T21:58:39.771640
+---
+您好！请将需要优化的技术文档内容粘贴过来，我会从以下几个方面帮您改进，让API开发者更容易理解：
+
+1. **结构清晰**：统一术语、拆分长句、增加层级标题。  
+2. **示例直观**：补充请求/响应样例，标注必选参数和可选参数。  
+3. **错误说明**：列出常见错误码及排查建议。  
+4. **语言简明**：减少被动语态和冗余描述，使用开发者熟悉的表达。
+
+期待您的文档，我会尽力帮您优化！

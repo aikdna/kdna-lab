@@ -1,0 +1,9 @@
+# Case: writing_platform_twitter_001
+# Run: run_20260603_215243
+# Condition: kdna_full
+# Provider: openai_compatible
+# Model: deepseek/deepseek-v4-flash
+# Domain: @aikdna/writing
+# Timestamp: 2026-06-03T22:11:19.587780
+---
+AI不会取代作家，但会淘汰只写不思考的人。

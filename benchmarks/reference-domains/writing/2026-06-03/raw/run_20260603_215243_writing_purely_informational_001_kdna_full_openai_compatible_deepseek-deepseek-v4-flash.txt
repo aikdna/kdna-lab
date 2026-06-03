@@ -1,0 +1,129 @@
+# Case: writing_purely_informational_001
+# Run: run_20260603_215243
+# Condition: kdna_full
+# Provider: openai_compatible
+# Model: deepseek/deepseek-v4-flash
+# Domain: @aikdna/writing
+# Timestamp: 2026-06-03T22:16:29.151094
+---
+好的，这是一份API文档简介部分的模板。它的设计目标是**清晰、无歧义、可用**，而不是“有说服力”或“有张力”。它严格遵循“信息性文档”的编写原则：先定位，再列出具体细节，避免任何不必要的解释或观点。
+
+---
+
+### API简介
+
+本文档描述了 **[请替换为你的API名称]** 的接口规范。该API允许开发者 **[请替换为核心功能，如：管理用户账户、创建和检索订单、或查询产品目录]**。
+
+**基础URL（Base URL）**
+
+所有接口请求的基础路径为：
+
+`https://api.[your-domain].com/v1`
+
+**认证（Authentication）**
+
+所有请求（除明确标注外）都需要在HTTP请求头（Header）中携带有效的API密钥进行身份验证。
+
+- **Header**: `Authorization`
+- **格式**: `Bearer [your_api_key]`
+- **获取方式**: 请在 [你的开发者控制台链接] 中申请和管理你的API密钥。
+
+**通用注意事项（General Notes）**
+
+- 请求体（Request Body）和响应体（Response Body）均为 JSON 格式。
+- 时间戳采用 ISO 8601 标准格式（例如：`2024-05-20T12:00:00Z`）。
+- 所有分页接口均支持 `page`（页码）和 `page_size`（每页数量）参数。
+- 错误响应会返回一个统一的错误对象，包含 `error_code`（错误码）和 `message`（错误描述）两个字段。
+
+---
+
+### 端点列表（Endpoints）
+
+以下是所有可用的API端点。每个端点的详细参数和返回值，请点击相应链接查看。
+
+#### 1. 用户管理
+
+| 方法 | 端点 | 说明 |
+| :--- | :--- | :--- |
+| POST | `/users` | [创建用户](#post-users) |
+| GET | `/users` | [查询用户列表](#get-users) |
+| GET | `/users/{id}` | [查询单个用户](#get-users-id) |
+| PUT | `/users/{id}` | [更新用户信息](#put-users-id) |
+| DELETE | `/users/{id}` | [删除用户](#delete-users-id) |
+
+#### 2. 订单管理
+
+| 方法 | 端点 | 说明 |
+| :--- | :--- | :--- |
+| POST | `/orders` | [创建订单](#post-orders) |
+| GET | `/orders` | [查询订单列表](#get-orders) |
+| GET | `/orders/{id}` | [查询单个订单](#get-orders-id) |
+| PATCH | `/orders/{id}/status` | [更新订单状态](#patch-orders-id-status) |
+
+#### 3. 产品目录
+
+| 方法 | 端点 | 说明 |
+| :--- | :--- | :--- |
+| GET | `/products` | [查询产品列表](#get-products) |
+| GET | `/products/{id}` | [查询单个产品](#get-products-id) |
+
+---
+
+### 详细接口文档（示例）
+
+#### **`POST /users`**  <a id="post-users"></a>
+
+**说明（Description）**
+
+创建一个新的用户账户。账户创建后，会立即发送一封包含验证链接的邮件。
+
+**请求参数（Request Parameters）**
+
+| 参数名 | 位置 | 类型 | 必填 | 说明 |
+| :--- | :--- | :--- | :--- | :--- |
+| `name` | Body | string | 是 | 用户姓名，长度限制为 2-50 个字符。 |
+| `email` | Body | string | 是 | 用户邮箱，需为合法格式且未被注册。 |
+| `password` | Body | string | 是 | 用户密码，必须包含大写字母、小写字母和数字，至少8位。 |
+
+**请求示例（Request Example）**
+
+```json
+{
+  "name": "张三",
+  "email": "zhangsan@example.com",
+  "password": "MyP@ssw0rd"
+}
+```
+
+**成功响应（Success Response）**
+
+- **状态码**: `201 Created`
+
+| 参数名 | 类型 | 说明 |
+| :--- | :--- | :--- |
+| `id` | string | 新建用户的唯一标识符（UUID）。 |
+| `name` | string | 用户姓名。 |
+| `email` | string | 用户邮箱。 |
+| `created_at` | string | 账户创建时间（ISO 8601）。 |
+
+**响应示例（Response Example）**
+
+```json
+{
+  "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+  "name": "张三",
+  "email": "zhangsan@example.com",
+  "created_at": "2024-05-20T10:30:00Z"
+}
+```
+
+**错误响应（Error Response）**
+
+- **状态码**: `400 Bad Request`
+    - 当邮箱已被注册时，返回：`{ "error_code": "EMAIL_EXISTS", "message": "The email address is already registered." }`
+- **状态码**: `422 Unprocessable Entity`
+    - 当参数不符合校验规则时，返回：`{ "error_code": "VALIDATION_ERROR", "message": "Password must contain uppercase and lowercase letters." }`
+
+---
+
+**后续接口文档格式与 `POST /users` 相同，请根据实际接口信息填充。**

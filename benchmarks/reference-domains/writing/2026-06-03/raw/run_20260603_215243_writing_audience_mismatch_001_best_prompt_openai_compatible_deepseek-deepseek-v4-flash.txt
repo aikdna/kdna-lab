@@ -1,0 +1,15 @@
+# Case: writing_audience_mismatch_001
+# Run: run_20260603_215243
+# Condition: best_prompt
+# Provider: openai_compatible
+# Model: deepseek/deepseek-v4-flash
+# Domain: @aikdna/writing
+# Timestamp: 2026-06-03T22:02:59.478091
+---
+好的，我将以资深编辑和写作教练的身份，按照您要求的诊断框架，对您提供的这段输入进行分析。
+
+---
+
+### 1. 核心目的与论点
+
+这段文字的 **核心目的** 是：

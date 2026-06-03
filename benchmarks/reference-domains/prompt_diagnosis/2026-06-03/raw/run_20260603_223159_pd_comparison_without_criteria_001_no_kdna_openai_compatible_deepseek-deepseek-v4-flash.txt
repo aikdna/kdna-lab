@@ -1,0 +1,88 @@
+# Case: pd_comparison_without_criteria_001
+# Run: run_20260603_223159
+# Condition: no_kdna
+# Provider: openai_compatible
+# Model: deepseek/deepseek-v4-flash
+# Domain: @aikdna/prompt_diagnosis
+# Timestamp: 2026-06-03T23:00:06.246201
+---
+这是一个很经典的云服务选型问题。AWS、Azure和GCP（Google Cloud Platform）虽然是全球前三的公有云，但各自的基因、强项和适用场景差异很大。
+
+下面从**市场地位、核心优势、特色服务、以及适用场景**四个维度来做一个全面的对比。
+
+---
+
+### 一、核心总结速览
+
+| 维度 | **AWS** | **Azure** | **GCP** |
+| :--- | :--- | :--- | :--- |
+| **核心理念** | 服务超市（品类最全） | 企业集成（混合云+微软生态） | 数据原生（AI/大数据最强） |
+| **最大优势** | 生态成熟、功能最丰富、全球第一 | 与微软产品无缝集成、企业级支持 | 数据分析和AI/ML能力、Kubernetes |
+| **显著短板** | 计费复杂、学习曲线陡峭 | 对非微软生态支持较弱 | 市场份额小、企业服务经验偏弱 |
+| **代表用户** | Netflix、Airbnb、大型互联网公司 | 财富500强、政府、使用Office 365的企业 | Snapchat、Spotify、数据驱动型初创公司 |
+
+---
+
+### 二、详细对比（分维度）
+
+#### 1. 计算能力（Compute）
+
+-   **AWS (EC2)**：无可争议的领导者。实例类型极多（数百种），从通用到GPU加速、裸金属一应俱全。**适合任何工作负载**。
+-   **Azure (Virtual Machines)**：与Windows生态和.NET应用集成最好，支持Active Directory、SQL Server等开箱即用。**如果公司重度使用微软技术栈，Azure是首选**。
+-   **GCP (Compute Engine)**：实例种类相对较少，但**性能稳定**。对Linux和开源技术（如Node.js、Python）极其友好。**GCP的虚拟机启动速度快，价格更透明**。
+
+#### 2. 容器与编排（最重要赛道之一）
+
+-   **AWS (EKS/ECS)**：提供**ECS**（自家服务，易用）和**EKS**（托管Kubernetes）。功能最丰富，但EKS的管理费用较高。
+-   **Azure (AKS)**：AKS是业界增长最快的Kubernetes服务之一，与Visual Studio和DevOps流水线集成极佳。**对.NET开发者和混合云场景支持好**。
+-   **GCP (GKE)**：**公认的K8s鼻祖和最强平台**。GKE拥有自动扩缩容、自动升级、节点池管理等最成熟的功能。**如果你的团队专注于Kubernetes，GCP是技术上的最优解**。
+
+#### 3. 存储与数据库
+
+-   **AWS (S3 + RDS)**：**S3**是对象存储标准，无出其右。**DynamoDB**是NoSQL领域标杆。数据库服务种类最全（Aurora、Redshift等）。
+-   **Azure (Blob Storage + SQL Database)**：**Blob存储**性能优异。**Azure SQL**与SQL Server高度兼容。适合需要混合云存储（Azure Stack）的场景。
+-   **GCP (Cloud Storage + Bigtable/Spanner)**：**Cloud Storage**性能好且成本低（Nearline/Archive归档便宜）。**BigQuery**是无服务器数仓的代表，**Spanner**是全球分布式关系型数据库的标杆。
+
+#### 4. 网络与混合云
+
+-   **AWS (Direct Connect, VPC)**：全球网络基础设施最庞大，VPC设计灵活但复杂。**Direct Connect**成熟稳定。
+-   **Azure (ExpressRoute, Azure Arc)**：**混合云之王**。Azure Arc可以将管理扩展到本地和边缘。**与本地数据中心打通最顺畅**。
+-   **GCP (Cloud Interconnect, VPC)**：**全球私有网络质量极高**，利用Google的全球光纤网络。VPC是扁平化的，设计更现代、更简单。
+
+#### 5. 人工智能与机器学习（AI/ML）
+
+-   **AWS (SageMaker, Rekognition)**：**SageMaker**是端到端的机器学习平台，功能非常全面，适合从入门到精通的开发者。
+-   **Azure (Cognitive Services, Azure ML)**：**预训练模型最丰富**（计算机视觉、语音、NLP）。与Office 365和Power BI集成，适合企业快速落地AI。
+-   **GCP (Vertex AI, BigQuery ML, TensorFlow)**：**AI/ML原生能力最强**。TensorFlow是Google开发的。Vertex AI极简，BigQuery ML允许SQL用户直接建模。**是数据科学家和数据工程师的首选**。
+
+#### 6. 计费与成本
+
+-   **AWS**：**最复杂**。预留实例、Savings Plans、Spot实例等选项多，但容易产生意外账单。
+-   **Azure**：**混合优惠好**。如果你有微软许可（如Windows Server、SQL Server），用Azure成本显著降低。
+-   **GCP**：**最透明**。按秒计费（部分资源）、自动折扣（持续使用自动打折），**没有复杂的预留计划**。
+
+---
+
+### 三、如何选择？（实战建议）
+
+1.  **如果……选AWS**
+    -   你的公司是新创或技术驱动型，需要最全的服务矩阵。
+    -   团队已经熟悉AWS生态（如Lambda、DynamoDB）。
+    -   需要一个非常成熟的全球基础设施，尤其是亚太和北美市场。
+
+2.  **如果……选Azure**
+    -   公司是**大型企业或政府客户**，重度使用Office 365、Teams、Active Directory、SQL Server。
+    -   你需要**混合云**（本地数据中心+云）或国内合规性（Azure中国由世纪互联运营，独有牌照）。
+    -   开发团队主要使用**.NET、C#**。
+
+3.  **如果……选GCP**
+    -   你的业务是**数据密集型的**（大数据分析、数据仓库、AI/ML模型训练）。
+    -   团队技术栈偏**开源、Kubernetes、GoLang、Node.js**。
+    -   **预算敏感**，希望按秒计费，没有隐性成本。
+    -   需要**全球低延迟网络**（例如实时游戏、视频会议）。
+
+### 总结一句话
+
+-   **AWS**：最全的轮子库，什么都能做，但需要自己组装。
+-   **Azure**：微软后花园，最适合用Windows和Office的庞然大物。
+-   **GCP**：技术极客和数据狂人的乐园，一切为数据和AI服务。

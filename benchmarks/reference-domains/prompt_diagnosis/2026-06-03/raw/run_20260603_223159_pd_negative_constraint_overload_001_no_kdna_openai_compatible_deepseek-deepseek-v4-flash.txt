@@ -1,0 +1,9 @@
+# Case: pd_negative_constraint_overload_001
+# Run: run_20260603_223159
+# Condition: no_kdna
+# Provider: openai_compatible
+# Model: deepseek/deepseek-v4-flash
+# Domain: @aikdna/prompt_diagnosis
+# Timestamp: 2026-06-03T22:55:26.698775
+---
+这款智能水杯能准确记录你的每日饮水量。它内置感应芯片，自动识别每一次饮水动作，数据同步至手机应用。杯身采用安全材质，耐摔且易清洗。你可以设定目标，应用会推送提醒，帮助你养成规律饮水习惯。充电一次可使用两周，适合日常办公或运动场景。

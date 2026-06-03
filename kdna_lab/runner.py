@@ -228,7 +228,7 @@ class ExperimentRunner:
                         "base_url": prov["base_url"],
                         "timeout": timeout,
                     }
-                    result = self._call_provider_with_timeout(call_kwargs, timeout)
+                    result = self._call_provider_with_timeout(call_kwargs, 0)  # 0 = skip process isolation, rely on SDK timeout
                     if result is not None:
                         self._api_call_count += 1
                         return result

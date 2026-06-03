@@ -1,0 +1,11 @@
+# Case: writing_audience_awareness_001
+# Run: run_20260603_215243
+# Condition: kdna_full
+# Provider: openai_compatible
+# Model: deepseek/deepseek-v4-flash
+# Domain: @aikdna/writing
+# Timestamp: 2026-06-03T21:58:53.507072
+---
+好的，请提供您需要优化的技术文档内容。我看到您希望让它对API开发者更易理解——我会在收到原文后，先检查其结构是否清晰、论点是否明确，再针对性地调整语言和表达方式。
+
+请直接粘贴文档或发送文件链接。

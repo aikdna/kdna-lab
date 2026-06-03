@@ -1,0 +1,108 @@
+# Case: writing_purely_informational_001
+# Run: run_20260603_215243
+# Condition: no_kdna
+# Provider: openai_compatible
+# Model: deepseek/deepseek-v4-flash
+# Domain: @aikdna/writing
+# Timestamp: 2026-06-03T22:15:04.104420
+---
+好的，我可以帮你撰写一份结构清晰、内容完整的 API 文档简介部分。为了更贴合你的实际需求，请先告诉我以下信息：
+
+1. **API 的名称和用途**（例如：用户管理系统、天气查询服务等）
+2. **基础 URL**（例如：`https://api.example.com/v1`）
+3. **认证方式**（例如：API Key、Bearer Token、无认证）
+4. **你希望包含哪些端点**（例如：用户注册、登录、获取用户信息等）
+5. **每个端点的请求方法、参数、返回值示例**（如果你有初步设计，请列出；如果没有，我可以为你设计一个通用的示例）
+
+---
+
+如果你暂时没有具体内容，我可以先为你提供一个 **通用的 API 文档简介模板**，你可以直接在此基础上修改：
+
+---
+
+## API 文档简介
+
+### 概述
+本 API 提供 [系统名称] 的核心数据接口，支持 [主要功能描述，如用户管理、数据查询等]。所有请求均需通过 HTTPS 协议，并携带有效的认证凭证。
+
+### 基础 URL
+```
+https://api.example.com/v1
+```
+
+### 认证方式
+所有请求需在 HTTP 头部添加 `Authorization: Bearer <your_token>`。
+
+---
+
+### 端点列表
+
+#### 1. 用户注册
+- **方法**: `POST`
+- **路径**: `/users/register`
+- **请求参数**:
+
+| 参数名     | 类型   | 必填 | 描述     |
+|------------|--------|------|----------|
+| username   | string | 是   | 用户名   |
+| password   | string | 是   | 密码     |
+| email      | string | 是   | 邮箱地址 |
+
+- **返回值示例**:
+```json
+{
+  "code": 201,
+  "message": "注册成功",
+  "data": {
+    "user_id": 12345,
+    "username": "example_user"
+  }
+}
+```
+
+#### 2. 用户登录
+- **方法**: `POST`
+- **路径**: `/users/login`
+- **请求参数**:
+
+| 参数名   | 类型   | 必填 | 描述     |
+|----------|--------|------|----------|
+| username | string | 是   | 用户名   |
+| password | string | 是   | 密码     |
+
+- **返回值示例**:
+```json
+{
+  "code": 200,
+  "message": "登录成功",
+  "data": {
+    "token": "eyJhbGciOiJIUzI1NiIs..."
+  }
+}
+```
+
+#### 3. 获取用户信息
+- **方法**: `GET`
+- **路径**: `/users/{user_id}`
+- **路径参数**:
+
+| 参数名  | 类型 | 必填 | 描述   |
+|---------|------|------|--------|
+| user_id | int  | 是   | 用户ID |
+
+- **返回值示例**:
+```json
+{
+  "code": 200,
+  "data": {
+    "user_id": 12345,
+    "username": "example_user",
+    "email": "user@example.com",
+    "created_at": "2025-01-01T12:00:00Z"
+  }
+}
+```
+
+---
+
+如果你能提供更具体的业务场景，我可以为你定制更精确的文档内容。

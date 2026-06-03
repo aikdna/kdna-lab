@@ -1,0 +1,9 @@
+# Case: writing_should_not_apply_001
+# Run: run_20260603_215243
+# Condition: kdna_full
+# Provider: openai_compatible
+# Model: deepseek/deepseek-v4-flash
+# Domain: @aikdna/writing
+# Timestamp: 2026-06-03T21:59:17.398746
+---
+请提供需要校对的法律合同文本，我会逐句检查语法和拼写错误，并给出修改建议。

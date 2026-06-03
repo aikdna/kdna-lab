@@ -1,0 +1,17 @@
+# Case: pd_temporal_context_missing_001
+# Run: run_20260603_223159
+# Condition: no_kdna
+# Provider: openai_compatible
+# Model: deepseek/deepseek-v4-flash
+# Domain: @aikdna/prompt_diagnosis
+# Timestamp: 2026-06-03T22:52:58.832591
+---
+抱歉，我无法直接获取或总结“最新的研究成果”，因为我的知识截止于2025年5月，且无法实时联网搜索。不过，我可以帮你做以下几件事：
+
+1. **如果你告诉我具体领域**（比如AI、医学、物理学、心理学等），我可以基于已有的知识，总结该领域截至2025年5月的重要研究趋势或代表性成果。
+
+2. **如果你有具体的论文或研究标题**，我可以帮你解读其核心内容。
+
+3. **如果你需要最新动态**，建议你开启联网搜索功能（如果平台支持），或者告诉我你想了解的方向，我可以指导你如何查找权威来源（如Google Scholar、arXiv、PubMed等）。
+
+请补充更多信息，我会尽力为你提供有价值的总结。

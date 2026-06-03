@@ -1,0 +1,37 @@
+# Case: pd_goal_ambiguity_no_output_format_001
+# Run: run_20260603_223159
+# Condition: kdna_full
+# Provider: openai_compatible
+# Model: deepseek/deepseek-v4-flash
+# Domain: @aikdna/prompt_diagnosis
+# Timestamp: 2026-06-03T22:36:11.522638
+---
+Looking at this prompt, I can see several issues that explain why it produces poor results.
+
+**Primary problem: Goal ambiguity**
+
+The prompt "帮我写点关于AI的东西" (Help me write something about AI) has no defined outcome. You can't describe what a perfect output would enable you to do next because the goal itself is undefined. "Something about AI" could mean:
+- An introductory article for beginners
+- A technical deep-dive on transformer architectures
+- A marketing piece for an AI product
+- A critical analysis of AI risks
+- A comparison of AI tools
+
+Without knowing what you need the output *for*, the model has to guess, and it will default to generic, surface-level content that satisfies no specific need.
+
+**Secondary issue: Missing context**
+
+Even with a clearer goal, this prompt provides zero context about:
+- Who is the audience?
+- What's the desired length or depth?
+- What specific aspect of AI matters to you?
+- What's the tone or format needed?
+
+**What to fix first**
+
+Before adding any formatting or role instructions, clarify: **What would a perfect output enable you to do next?** For example:
+- "I need to explain AI basics to my 60-year-old parents in a 2-minute read"
+- "I'm writing a proposal for my boss to justify investing in an AI customer service tool"
+- "I want a technical comparison of GPT-4 vs Claude for a developer audience"
+
+Once you have that outcome defined, the rest (format, structure, role) becomes straightforward to add if needed.
