@@ -28,6 +28,7 @@ def _load_benchmark_run_json(path: Path) -> List[Tuple[str, dict]]:
             "type": "domain",
             "benchmark_run": data.get("run_id"),
             "scores": item.get("scores", {}),
+            "error": item.get("error"),
         }))
     return rows
 
@@ -55,10 +56,12 @@ def find_outputs(output_dir: str) -> Dict[str, List[dict]]:
             and data.get("status", "raw") in {"raw", "raw_partial"}
         ):
             benchmark_files.append(f)
-            for cid, info in _load_benchmark_run_json(f):
-                _append_output(outputs, cid, info)
 
     has_benchmark_runs = len(benchmark_files) > 0
+    if has_benchmark_runs:
+        latest = max(benchmark_files, key=lambda path: path.stat().st_mtime)
+        for cid, info in _load_benchmark_run_json(latest):
+            _append_output(outputs, cid, info)
 
     for f in raw_dir.glob("*.txt"):
         if has_benchmark_runs:

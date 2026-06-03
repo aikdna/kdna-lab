@@ -2,6 +2,7 @@
 
 import json
 import multiprocessing
+import os
 import sys
 import tempfile
 import time
@@ -391,6 +392,49 @@ class TestBenchmarkArtifacts:
             outputs = find_outputs(tmp)
             assert len(outputs["case-1"]) == 1
             assert outputs["case-1"][0]["content"] == "raw output"
+            assert outputs["case-1"][0]["error"] is None
+
+    def test_find_outputs_uses_latest_raw_benchmark_artifact(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            raw = Path(tmp) / "raw"
+            raw.mkdir()
+            old_artifact = {
+                "schema": "https://aikdna.com/schemas/benchmark-run-v1.json",
+                "run_id": "run_old",
+                "status": "raw",
+                "cases": [
+                    {
+                        "case_id": "case-1",
+                        "condition": "kdna_full",
+                        "output": "old output",
+                        "scores": {},
+                    }
+                ],
+            }
+            new_artifact = {
+                "schema": "https://aikdna.com/schemas/benchmark-run-v1.json",
+                "run_id": "run_new",
+                "status": "raw",
+                "cases": [
+                    {
+                        "case_id": "case-1",
+                        "condition": "kdna_full",
+                        "output": "new output",
+                        "scores": {},
+                    }
+                ],
+            }
+            old_path = raw / "run_old_benchmark-run-v1.raw.json"
+            new_path = raw / "run_new_benchmark-run-v1.raw.json"
+            old_path.write_text(json.dumps(old_artifact))
+            new_path.write_text(json.dumps(new_artifact))
+            os.utime(old_path, (1, 1))
+            os.utime(new_path, (2, 2))
+
+            outputs = find_outputs(tmp)
+            assert len(outputs["case-1"]) == 1
+            assert outputs["case-1"][0]["benchmark_run"] == "run_new"
+            assert outputs["case-1"][0]["content"] == "new output"
 
     def test_scoring_pipeline_emits_scored_benchmark_artifact(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -420,8 +464,9 @@ class TestBenchmarkArtifacts:
                     {
                         "case_id": "case-1",
                         "condition": "kdna_full",
-                        "output": "The structure is missing a clear argument.",
+                        "output": "",
                         "scores": {},
+                        "error": "provider_call_failed_or_timed_out",
                     }
                 ],
             }
@@ -441,10 +486,12 @@ class TestBenchmarkArtifacts:
             )
 
             assert result["L2"]["total"] == 1
+            assert result["results"][0]["error"] == "provider_call_failed_or_timed_out"
             assert result["results"][0]["L2_score"]["passed"] is True
             scored = Path(result["benchmark_run_artifact"])
             assert scored.exists()
             scored_payload = json.loads(scored.read_text())
+            assert scored_payload["cases"][0]["error"] == "provider_call_failed_or_timed_out"
             assert scored_payload["cases"][0]["scores"]["L2"]["passed"] is True
 
     def test_pipeline_cli_l2_flag_assigns_judge(self, monkeypatch, capsys):

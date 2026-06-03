@@ -105,6 +105,7 @@ class ScoringPipeline:
                     "output_file": output_info["file"],
                     "output_type": output_info.get("type", "domain"),
                     "output_body": body,
+                    "error": output_info.get("error"),
                     "score": score,
                     "L1_pass": score["L1"]["passed"],
                     "case": case,
@@ -144,6 +145,7 @@ class ScoringPipeline:
                 "condition": r.get("condition"),
                 "output_file": r["output_file"],
                 "output_body": r.get("output_body", ""),
+                "error": r.get("error"),
                 "L1_pass": r["L1_pass"],
                 "L1_score": r["score"],
                 "L2_pass": l2_score.get("passed"),
@@ -199,6 +201,7 @@ class ScoringPipeline:
                 "output": output,
                 "scores": scores,
                 "pass": r.get("L2_pass") if r.get("L2_pass") is not None else r.get("L1_pass"),
+                "error": r.get("error"),
                 "expected_behavior": case.get("expected_behavior"),
             })
 
