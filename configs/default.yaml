@@ -20,6 +20,8 @@ output:
 runners:
   domain:
     conditions:
+      - "no_kdna"
+      - "best_prompt"
       - "kdna_full"
     rate_limit: 0.5
     workers: 1

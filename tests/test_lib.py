@@ -18,6 +18,7 @@ from kdna_lab.checks import (
 )
 from kdna_lab.outputs import find_outputs
 from kdna_lab.runner import ExperimentRunner
+from kdna_lab.domain_runner import DomainRunner
 from kdna_lab.scoring_pipeline import ScoringPipeline, pipeline_cli
 
 
@@ -173,6 +174,22 @@ class TestCharacterCount:
 
 
 class TestBenchmarkArtifacts:
+    def test_domain_runner_prefers_configured_conditions(self):
+        runner = DomainRunner(Path("/tmp"), {
+            "runners": {
+                "domain": {
+                    "conditions": ["no_kdna", "best_prompt", "kdna_full"]
+                }
+            }
+        })
+        case = {"id": "case-1", "input": "test", "conditions": ["kdna_full"]}
+        assert runner._conditions_for_case(case) == ["no_kdna", "best_prompt", "kdna_full"]
+
+    def test_domain_runner_uses_case_conditions_without_config_override(self):
+        runner = DomainRunner(Path("/tmp"), {"runners": {"domain": {}}})
+        case = {"id": "case-1", "input": "test", "conditions": ["kdna_full"]}
+        assert runner._conditions_for_case(case) == ["kdna_full"]
+
     def test_save_output_isolates_conditions(self):
         with tempfile.TemporaryDirectory() as tmp:
             runner = ExperimentRunner(Path(tmp), {"output": {"dir": str(Path(tmp) / "outputs")}})

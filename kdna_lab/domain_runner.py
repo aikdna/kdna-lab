@@ -121,6 +121,12 @@ class DomainRunner(ExperimentRunner):
         parts.append(f"\n[USER INPUT]\n{case['input']}\n")
         return "".join(parts)
 
+    def _conditions_for_case(self, case: dict) -> List[str]:
+        configured = self.config.get("runners", {}).get("domain", {}).get("conditions")
+        if configured:
+            return list(configured)
+        return case.get("conditions", ["kdna_full"])
+
     def run_all(self, cases: List[dict]) -> List[dict]:
         domain = self.config.get("domain", {}).get("name", "@aikdna/kdna_propagation")
         domain_prompt = self.load_domain_prompt(domain)
@@ -133,7 +139,7 @@ class DomainRunner(ExperimentRunner):
         rate_limit = self.config.get("runners", {}).get("domain", {}).get("rate_limit", 0.5)
 
         for i, case in enumerate(cases):
-            conditions = case.get("conditions", ["kdna_full"])
+            conditions = self._conditions_for_case(case)
             for condition in conditions:
                 prompt = self._build_prompt(domain_prompt, condition, case)
                 print(f"  [{i+1}/{len(cases)}] {case['id']} [{condition}] ... ", end="", flush=True)
@@ -178,7 +184,7 @@ class DomainRunner(ExperimentRunner):
 
         plans = []
         for case in cases:
-            conditions = case.get("conditions", ["kdna_full"])
+            conditions = self._conditions_for_case(case)
             for condition in conditions:
                 prompt = self._build_prompt(domain_prompt, condition, case)
                 plan = {
