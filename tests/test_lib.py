@@ -190,6 +190,27 @@ class TestBenchmarkArtifacts:
         case = {"id": "case-1", "input": "test", "conditions": ["kdna_full"]}
         assert runner._conditions_for_case(case) == ["kdna_full"]
 
+    def test_runner_passes_timeout_to_provider(self, monkeypatch):
+        captured = {}
+
+        def fake_call_provider(**kwargs):
+            captured.update(kwargs)
+            return "ok"
+
+        monkeypatch.setattr("kdna_lab.providers.call_provider", fake_call_provider)
+        runner = ExperimentRunner(Path("/tmp"), {
+            "api": {
+                "provider": "openai_compatible",
+                "model": "test-model",
+                "base_url": "http://example.invalid",
+                "api_key_env": "MISSING_KEY",
+                "timeout": 17,
+            }
+        })
+
+        assert runner.call_api("prompt") == "ok"
+        assert captured["timeout"] == 17
+
     def test_save_output_isolates_conditions(self):
         with tempfile.TemporaryDirectory() as tmp:
             runner = ExperimentRunner(Path(tmp), {"output": {"dir": str(Path(tmp) / "outputs")}})

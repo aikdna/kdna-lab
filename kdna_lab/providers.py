@@ -38,7 +38,8 @@ class OpenAIAdapter(ProviderAdapter):
     provider_name = "openai"
 
     def call(self, prompt, model="gpt-4o", system_prompt="",
-             temperature=0.3, max_tokens=4000, api_key=None, base_url=None, **kwargs):
+             temperature=0.3, max_tokens=4000, api_key=None, base_url=None,
+             timeout=None, **kwargs):
         try:
             from openai import OpenAI
         except ImportError:
@@ -48,7 +49,12 @@ class OpenAIAdapter(ProviderAdapter):
         if not key:
             return None
 
-        client = OpenAI(api_key=key, base_url=base_url) if base_url else OpenAI(api_key=key)
+        client_kwargs = {"api_key": key}
+        if base_url:
+            client_kwargs["base_url"] = base_url
+        if timeout:
+            client_kwargs["timeout"] = timeout
+        client = OpenAI(**client_kwargs)
 
         messages = []
         if system_prompt:
@@ -80,7 +86,7 @@ class AnthropicAdapter(ProviderAdapter):
     provider_name = "anthropic"
 
     def call(self, prompt, model="claude-sonnet-4-20250514", system_prompt="",
-             temperature=0.3, max_tokens=4000, api_key=None, **kwargs):
+             temperature=0.3, max_tokens=4000, api_key=None, timeout=None, **kwargs):
         try:
             import anthropic
         except ImportError:
@@ -90,7 +96,10 @@ class AnthropicAdapter(ProviderAdapter):
         if not key:
             return None
 
-        client = anthropic.Anthropic(api_key=key)
+        client_kwargs = {"api_key": key}
+        if timeout:
+            client_kwargs["timeout"] = timeout
+        client = anthropic.Anthropic(**client_kwargs)
 
         try:
             if system_prompt:
@@ -126,7 +135,7 @@ class OpenAICompatibleAdapter(ProviderAdapter):
 
     def call(self, prompt, model="gpt-4o", system_prompt="",
              temperature=0.3, max_tokens=4000, api_key=None,
-             base_url=None, **kwargs):
+             base_url=None, timeout=None, **kwargs):
         try:
             from openai import OpenAI
         except ImportError:
@@ -136,7 +145,10 @@ class OpenAICompatibleAdapter(ProviderAdapter):
         if not key:
             return None
 
-        client = OpenAI(api_key=key, base_url=base_url)
+        client_kwargs = {"api_key": key, "base_url": base_url}
+        if timeout:
+            client_kwargs["timeout"] = timeout
+        client = OpenAI(**client_kwargs)
 
         messages = []
         if system_prompt:
@@ -221,6 +233,7 @@ def call_provider(
     max_tokens: int = 4000,
     api_key: Optional[str] = None,
     base_url: Optional[str] = None,
+    timeout: Optional[int] = None,
 ) -> Optional[str]:
     """Convenience function: call a provider by name.
 
@@ -237,4 +250,5 @@ def call_provider(
         max_tokens=max_tokens,
         api_key=api_key,
         base_url=base_url,
+        timeout=timeout,
     )

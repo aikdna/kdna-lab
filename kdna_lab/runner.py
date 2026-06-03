@@ -146,6 +146,7 @@ class ExperimentRunner:
         primary_key_env = api.get("api_key_env", "OPENAI_API_KEY")
         temperature = api.get("temperature", 0.3)
         max_tokens = api.get("max_tokens", 4000)
+        timeout = api.get("timeout", API_CALL_TIMEOUT)
 
         max_retries = self.config.get("runners", {}).get("domain", {}).get("retries", MAX_RETRIES)
 
@@ -183,6 +184,7 @@ class ExperimentRunner:
                         max_tokens=max_tokens,
                         api_key=prov["api_key"],
                         base_url=prov["base_url"],
+                        timeout=timeout,
                     )
                     if result is not None:
                         self._api_call_count += 1

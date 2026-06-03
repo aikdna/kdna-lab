@@ -13,6 +13,7 @@ api:
   api_key_env: "OPENROUTER_API_KEY"
   temperature: 0.3
   max_tokens: 4000
+  timeout: 60
 
 output:
   dir: "outputs"
