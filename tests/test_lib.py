@@ -1,6 +1,7 @@
 """Tests for KDNA Lab core library."""
 
 import json
+import multiprocessing
 import sys
 import tempfile
 import time
@@ -221,11 +222,11 @@ class TestBenchmarkArtifacts:
     def test_runner_passes_timeout_to_provider(self, monkeypatch):
         captured = {}
 
-        def fake_call_provider(**kwargs):
-            captured.update(kwargs)
+        def fake_call_provider_with_timeout(call_kwargs, timeout):
+            captured.update(call_kwargs)
+            captured["hard_timeout"] = timeout
             return "ok"
 
-        monkeypatch.setattr("kdna_lab.providers.call_provider", fake_call_provider)
         runner = ExperimentRunner(Path("/tmp"), {
             "api": {
                 "provider": "openai_compatible",
@@ -235,15 +236,30 @@ class TestBenchmarkArtifacts:
                 "timeout": 17,
             }
         })
+        monkeypatch.setattr(runner, "_call_provider_with_timeout", fake_call_provider_with_timeout)
 
         assert runner.call_api("prompt") == "ok"
         assert captured["timeout"] == 17
+        assert captured["hard_timeout"] == 17
 
-    def test_runner_enforces_hard_provider_timeout(self):
+    def test_runner_enforces_hard_provider_timeout(self, monkeypatch):
+        if "fork" not in multiprocessing.get_all_start_methods():
+            pytest.skip("hard timeout monkeypatch test requires fork start method")
+
+        def fake_call_provider(**kwargs):
+            time.sleep(1)
+            return "late"
+
+        monkeypatch.setattr("kdna_lab.providers.call_provider", fake_call_provider)
         runner = ExperimentRunner(Path("/tmp"), {})
+        call_kwargs = {
+            "provider_name": "openai_compatible",
+            "prompt": "prompt",
+            "model": "test-model",
+        }
 
         started = time.monotonic()
-        result = runner._call_provider_with_timeout(lambda: time.sleep(1), 0.05)
+        result = runner._call_provider_with_timeout(call_kwargs, 0.05)
 
         assert result is None
         assert time.monotonic() - started < 0.5

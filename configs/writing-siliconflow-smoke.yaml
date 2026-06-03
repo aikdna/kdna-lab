@@ -1,0 +1,27 @@
+# KDNA Lab — Writing Smoke Eval Config (SiliconFlow / DeepSeek V4-Pro)
+
+domain:
+  name: "@aikdna/writing"
+  load_cmd: "kdna load"
+  format: "prompt"
+
+api:
+  provider: "openai_compatible"
+  model: "deepseek-ai/DeepSeek-V4-Pro"
+  base_url: "https://api.siliconflow.cn/v1"
+  api_key_env: "SILICONFLOW_API_KEY"
+  temperature: 0.3
+  max_tokens: 1000
+  timeout: 8
+
+output:
+  dir: "/private/tmp/kdna-lab-smoke"
+
+runners:
+  domain:
+    conditions:
+      - "no_kdna"
+      - "best_prompt"
+      - "kdna_full"
+    rate_limit: 0
+    workers: 1
