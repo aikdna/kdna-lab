@@ -76,6 +76,7 @@ class DomainRunner(ExperimentRunner):
         domain_meta: dict,
         results: List[dict],
         executed_case_count: int,
+        status: str = "raw",
     ) -> str:
         api_meta = self._api_metadata()
         artifact = {
@@ -105,7 +106,7 @@ class DomainRunner(ExperimentRunner):
                 }
                 for r in results
             ],
-            "status": "raw",
+            "status": status,
         }
         path = self.raw_dir / f"{self.run_id}_benchmark-run-v1.raw.json"
         path.write_text(json.dumps(artifact, indent=2, ensure_ascii=False))
@@ -167,6 +168,14 @@ class DomainRunner(ExperimentRunner):
                     "case": case,
                     "timestamp": datetime.utcnow().isoformat() + "Z",
                 })
+                self.save_index(results)
+                self._write_benchmark_run_artifact(
+                    domain,
+                    domain_meta,
+                    results,
+                    len(cases),
+                    status="raw_partial",
+                )
                 print(f"{len(output)} chars")
                 time.sleep(rate_limit)
 
