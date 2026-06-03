@@ -269,6 +269,76 @@ class TestBenchmarkArtifacts:
             assert outputs["case-1"][0]["condition"] == "kdna_full"
             assert outputs["case-1"][0]["content"] == "diagnose structure first"
 
+    def test_find_outputs_prefers_benchmark_run_json_over_domain_txt(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            raw = Path(tmp) / "raw"
+            raw.mkdir()
+            (raw / "run_test_case-1_kdna_full.txt").write_text(
+                "# Case: case-1\n# Condition: kdna_full\n---\nlegacy txt output"
+            )
+            artifact = {
+                "schema": "https://aikdna.com/schemas/benchmark-run-v1.json",
+                "run_id": "run_test",
+                "domain": "@aikdna/writing",
+                "provider": "test-provider",
+                "model": "test-model",
+                "case_count": 1,
+                "conditions": ["kdna_full"],
+                "cases": [
+                    {
+                        "case_id": "case-1",
+                        "condition": "kdna_full",
+                        "output": "structured output",
+                        "scores": {},
+                    }
+                ],
+            }
+            (raw / "run_test_benchmark-run-v1.raw.json").write_text(json.dumps(artifact))
+
+            outputs = find_outputs(tmp)
+            assert len(outputs["case-1"]) == 1
+            assert outputs["case-1"][0]["content"] == "structured output"
+
+    def test_find_outputs_ignores_scored_benchmark_artifacts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            raw = Path(tmp) / "raw"
+            raw.mkdir()
+            raw_artifact = {
+                "schema": "https://aikdna.com/schemas/benchmark-run-v1.json",
+                "run_id": "run_test",
+                "domain": "@aikdna/writing",
+                "provider": "test-provider",
+                "model": "test-model",
+                "case_count": 1,
+                "conditions": ["kdna_full"],
+                "cases": [
+                    {
+                        "case_id": "case-1",
+                        "condition": "kdna_full",
+                        "output": "raw output",
+                        "scores": {},
+                    }
+                ],
+                "status": "raw",
+            }
+            scored_artifact = dict(raw_artifact)
+            scored_artifact["run_id"] = "pipeline_test"
+            scored_artifact["status"] = "scored"
+            scored_artifact["cases"] = [
+                {
+                    "case_id": "case-1",
+                    "condition": "kdna_full",
+                    "output": "scored output",
+                    "scores": {"L1": {"passed": True}},
+                }
+            ]
+            (raw / "run_test_benchmark-run-v1.raw.json").write_text(json.dumps(raw_artifact))
+            (raw / "pipeline_test_benchmark-run-v1.scored.json").write_text(json.dumps(scored_artifact))
+
+            outputs = find_outputs(tmp)
+            assert len(outputs["case-1"]) == 1
+            assert outputs["case-1"][0]["content"] == "raw output"
+
     def test_scoring_pipeline_emits_scored_benchmark_artifact(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

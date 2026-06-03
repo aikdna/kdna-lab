@@ -43,7 +43,26 @@ def find_outputs(output_dir: str) -> Dict[str, List[dict]]:
     if not raw_dir.exists():
         return outputs
 
+    benchmark_files = []
+    for f in raw_dir.glob("*.json"):
+        try:
+            data = json.loads(f.read_text())
+        except json.JSONDecodeError:
+            continue
+        if (
+            isinstance(data, dict)
+            and data.get("schema") == "https://aikdna.com/schemas/benchmark-run-v1.json"
+            and data.get("status", "raw") in {"raw", "raw_partial"}
+        ):
+            benchmark_files.append(f)
+            for cid, info in _load_benchmark_run_json(f):
+                _append_output(outputs, cid, info)
+
+    has_benchmark_runs = len(benchmark_files) > 0
+
     for f in raw_dir.glob("*.txt"):
+        if has_benchmark_runs:
+            continue
         if "_prompt" in f.stem:
             continue
         content = f.read_text()
@@ -69,8 +88,6 @@ def find_outputs(output_dir: str) -> Dict[str, List[dict]]:
         except json.JSONDecodeError:
             continue
         if isinstance(data, dict) and data.get("schema") == "https://aikdna.com/schemas/benchmark-run-v1.json":
-            for cid, info in _load_benchmark_run_json(f):
-                _append_output(outputs, cid, info)
             continue
         if isinstance(data, dict) and "exit_code" in data and "stdout" in data:
             case_id = data.get("case_id", f.stem)
