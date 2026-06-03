@@ -147,7 +147,26 @@ class DomainRunner(ExperimentRunner):
                 output = self.call_api(prompt)
 
                 if output is None:
+                    results.append({
+                        "run_id": self.run_id,
+                        "case_id": case["id"],
+                        "condition": condition,
+                        "output_path": None,
+                        "output": "",
+                        "case": case,
+                        "error": "provider_call_failed_or_timed_out",
+                        "timestamp": datetime.utcnow().isoformat() + "Z",
+                    })
+                    self.save_index(results)
+                    self._write_benchmark_run_artifact(
+                        domain,
+                        domain_meta,
+                        results,
+                        len(cases),
+                        status="raw_partial",
+                    )
                     print("FAILED")
+                    time.sleep(rate_limit)
                     continue
 
                 outpath = self.save_output(

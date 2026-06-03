@@ -3,6 +3,7 @@
 import json
 import sys
 import tempfile
+import time
 import types
 from pathlib import Path
 
@@ -190,6 +191,33 @@ class TestBenchmarkArtifacts:
         case = {"id": "case-1", "input": "test", "conditions": ["kdna_full"]}
         assert runner._conditions_for_case(case) == ["kdna_full"]
 
+    def test_domain_runner_records_failed_provider_call_in_artifact(self, monkeypatch):
+        with tempfile.TemporaryDirectory() as tmp:
+            runner = DomainRunner(Path(tmp), {
+                "domain": {"name": "@aikdna/writing"},
+                "output": {"dir": str(Path(tmp) / "outputs")},
+                "runners": {
+                    "domain": {
+                        "conditions": ["kdna_full"],
+                        "rate_limit": 0,
+                    }
+                },
+            })
+            monkeypatch.setattr(runner, "load_domain_prompt", lambda domain: "domain prompt")
+            monkeypatch.setattr(runner, "_load_domain_metadata", lambda domain: {})
+            monkeypatch.setattr(runner, "call_api", lambda prompt: None)
+
+            results = runner.run_all([{"id": "case-1", "input": "test"}])
+
+            assert len(results) == 1
+            assert results[0]["error"] == "provider_call_failed_or_timed_out"
+
+            artifacts = list((Path(tmp) / "outputs" / "raw").glob("*benchmark-run-v1.raw.json"))
+            assert len(artifacts) == 1
+            artifact = json.loads(artifacts[0].read_text())
+            assert artifact["cases"][0]["case_id"] == "case-1"
+            assert artifact["cases"][0]["error"] == "provider_call_failed_or_timed_out"
+
     def test_runner_passes_timeout_to_provider(self, monkeypatch):
         captured = {}
 
@@ -210,6 +238,15 @@ class TestBenchmarkArtifacts:
 
         assert runner.call_api("prompt") == "ok"
         assert captured["timeout"] == 17
+
+    def test_runner_enforces_hard_provider_timeout(self):
+        runner = ExperimentRunner(Path("/tmp"), {})
+
+        started = time.monotonic()
+        result = runner._call_provider_with_timeout(lambda: time.sleep(1), 0.05)
+
+        assert result is None
+        assert time.monotonic() - started < 0.5
 
     def test_save_output_isolates_conditions(self):
         with tempfile.TemporaryDirectory() as tmp:

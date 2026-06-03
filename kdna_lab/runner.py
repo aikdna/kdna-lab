@@ -10,7 +10,9 @@ Features built for VPN/proxy environments:
 import json
 import os
 import re
+import signal
 import subprocess
+import threading
 import time
 from pathlib import Path
 from datetime import datetime
@@ -24,6 +26,10 @@ RETRY_BACKOFF = [1, 2, 4]          # seconds between retries
 MAX_RETRIES = 3
 HEALTH_CHECK_TIMEOUT = 10          # seconds
 API_CALL_TIMEOUT = 60              # seconds
+
+
+class ProviderCallTimeout(Exception):
+    """Raised when a provider call exceeds the configured hard deadline."""
 
 
 def safe_filename_part(value: Any) -> str:
@@ -131,6 +137,29 @@ class ExperimentRunner:
         print("OK" if ok else "FAILED")
         return ok
 
+    def _call_provider_with_timeout(self, fn: Callable[[], Optional[str]], timeout: int | float | None) -> Optional[str]:
+        """Run a provider call under a hard deadline when SIGALRM is available."""
+        if not timeout or threading.current_thread() is not threading.main_thread():
+            return fn()
+
+        if not hasattr(signal, "SIGALRM") or not hasattr(signal, "setitimer"):
+            return fn()
+
+        previous_handler = signal.getsignal(signal.SIGALRM)
+
+        def _raise_timeout(signum, frame):
+            raise ProviderCallTimeout(f"Provider call exceeded {timeout}s")
+
+        signal.signal(signal.SIGALRM, _raise_timeout)
+        signal.setitimer(signal.ITIMER_REAL, float(timeout))
+        try:
+            return fn()
+        except ProviderCallTimeout:
+            return None
+        finally:
+            signal.setitimer(signal.ITIMER_REAL, 0)
+            signal.signal(signal.SIGALRM, previous_handler)
+
     # ---- API with Retry ----
 
     def call_api(self, prompt: str, system_prompt: str = "") -> Optional[str]:
@@ -175,21 +204,24 @@ class ExperimentRunner:
 
             for attempt in range(max_retries):
                 try:
-                    result = call_provider(
-                        provider_name=prov["provider"],
-                        prompt=prompt,
-                        model=prov["model"],
-                        system_prompt=system_prompt,
-                        temperature=temperature,
-                        max_tokens=max_tokens,
-                        api_key=prov["api_key"],
-                        base_url=prov["base_url"],
-                        timeout=timeout,
+                    result = self._call_provider_with_timeout(
+                        lambda: call_provider(
+                            provider_name=prov["provider"],
+                            prompt=prompt,
+                            model=prov["model"],
+                            system_prompt=system_prompt,
+                            temperature=temperature,
+                            max_tokens=max_tokens,
+                            api_key=prov["api_key"],
+                            base_url=prov["base_url"],
+                            timeout=timeout,
+                        ),
+                        timeout,
                     )
                     if result is not None:
                         self._api_call_count += 1
                         return result
-                except Exception as e:
+                except (Exception, ProviderCallTimeout) as e:
                     last_error = str(e)
 
                 if attempt < max_retries - 1:
@@ -260,6 +292,7 @@ class ExperimentRunner:
 
     def save_index(self, results: List[Dict]) -> str:
         """Save run index and return the path."""
+        self.output_dir.mkdir(parents=True, exist_ok=True)
         index_path = self.output_dir / f"{self.run_id}_index.json"
         with open(index_path, "w") as f:
             json.dump([{
