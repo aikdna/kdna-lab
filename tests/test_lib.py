@@ -1,7 +1,9 @@
 """Tests for KDNA Lab core library."""
 
 import json
+import sys
 import tempfile
+import types
 from pathlib import Path
 
 import pytest
@@ -14,6 +16,9 @@ from kdna_lab.checks import (
     check_character_count,
     _is_in_negation_context,
 )
+from kdna_lab.outputs import find_outputs
+from kdna_lab.runner import ExperimentRunner
+from kdna_lab.scoring_pipeline import ScoringPipeline, pipeline_cli
 
 
 class TestCases:
@@ -165,3 +170,187 @@ class TestCharacterCount:
         passed, actual, max_chars = check_character_count("hello")
         assert passed is True
         assert max_chars is None
+
+
+class TestBenchmarkArtifacts:
+    def test_save_output_isolates_conditions(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            runner = ExperimentRunner(Path(tmp), {"output": {"dir": str(Path(tmp) / "outputs")}})
+            runner.run_id = "run_test"
+
+            no_kdna = runner.save_output(
+                "case-1",
+                "generic output",
+                Condition="no_kdna",
+                Provider="test-provider",
+                Model="test-model",
+            )
+            kdna = runner.save_output(
+                "case-1",
+                "kdna output",
+                Condition="kdna_full",
+                Provider="test-provider",
+                Model="test-model",
+            )
+
+            assert no_kdna != kdna
+            assert Path(no_kdna).exists()
+            assert Path(kdna).exists()
+            assert "no_kdna" in Path(no_kdna).name
+            assert "kdna_full" in Path(kdna).name
+
+            outputs = find_outputs(str(Path(tmp) / "outputs"))
+            assert "case-1" in outputs
+            conditions = {o.get("condition") for o in outputs["case-1"]}
+            assert conditions == {"no_kdna", "kdna_full"}
+
+    def test_find_outputs_reads_benchmark_run_json(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            raw = Path(tmp) / "raw"
+            raw.mkdir()
+            artifact = {
+                "schema": "https://aikdna.com/schemas/benchmark-run-v1.json",
+                "run_id": "run_test",
+                "domain": "@aikdna/writing",
+                "provider": "test-provider",
+                "model": "test-model",
+                "case_count": 1,
+                "conditions": ["kdna_full"],
+                "cases": [
+                    {
+                        "case_id": "case-1",
+                        "condition": "kdna_full",
+                        "output": "diagnose structure first",
+                        "scores": {},
+                    }
+                ],
+            }
+            (raw / "run_test_benchmark-run-v1.raw.json").write_text(json.dumps(artifact))
+
+            outputs = find_outputs(tmp)
+            assert outputs["case-1"][0]["condition"] == "kdna_full"
+            assert outputs["case-1"][0]["content"] == "diagnose structure first"
+
+    def test_scoring_pipeline_emits_scored_benchmark_artifact(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            output_dir = root / "outputs"
+            raw = output_dir / "raw"
+            raw.mkdir(parents=True)
+            case_file = root / "cases.jsonl"
+            case_file.write_text(
+                json.dumps({
+                    "id": "case-1",
+                    "target": "@aikdna/writing",
+                    "input": "review this",
+                    "must_include": ["structure"],
+                    "must_not_include": ["grammar"],
+                }) + "\n"
+            )
+            artifact = {
+                "schema": "https://aikdna.com/schemas/benchmark-run-v1.json",
+                "run_id": "run_test",
+                "domain": "@aikdna/writing",
+                "provider": "test-provider",
+                "model": "test-model",
+                "case_count": 1,
+                "conditions": ["kdna_full"],
+                "cases": [
+                    {
+                        "case_id": "case-1",
+                        "condition": "kdna_full",
+                        "output": "The structure is missing a clear argument.",
+                        "scores": {},
+                    }
+                ],
+            }
+            (raw / "run_test_benchmark-run-v1.raw.json").write_text(json.dumps(artifact))
+
+            pipeline = ScoringPipeline(root)
+            result = pipeline.run(
+                str(case_file),
+                str(output_dir),
+                l2_judge=lambda case, body, cfg: {
+                    "scores": {"judgment_path": 3},
+                    "total": 3,
+                    "max_total": 3,
+                    "passed": True,
+                },
+                run_id="pipeline_test",
+            )
+
+            assert result["L2"]["total"] == 1
+            assert result["results"][0]["L2_score"]["passed"] is True
+            scored = Path(result["benchmark_run_artifact"])
+            assert scored.exists()
+            scored_payload = json.loads(scored.read_text())
+            assert scored_payload["cases"][0]["scores"]["L2"]["passed"] is True
+
+    def test_pipeline_cli_l2_flag_assigns_judge(self, monkeypatch, capsys):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            output_dir = root / "outputs"
+            raw = output_dir / "raw"
+            raw.mkdir(parents=True)
+            case_file = root / "cases.jsonl"
+            case_file.write_text(
+                json.dumps({
+                    "id": "case-1",
+                    "target": "@aikdna/writing",
+                    "input": "review this",
+                    "must_include": ["structure"],
+                    "must_not_include": [],
+                }) + "\n"
+            )
+            artifact = {
+                "schema": "https://aikdna.com/schemas/benchmark-run-v1.json",
+                "run_id": "run_test",
+                "domain": "@aikdna/writing",
+                "provider": "test-provider",
+                "model": "test-model",
+                "case_count": 1,
+                "conditions": ["kdna_full"],
+                "cases": [
+                    {
+                        "case_id": "case-1",
+                        "condition": "kdna_full",
+                        "output": "structure",
+                        "scores": {},
+                    }
+                ],
+            }
+            (raw / "run_test_benchmark-run-v1.raw.json").write_text(json.dumps(artifact))
+
+            internal_lib = types.ModuleType("internal_lib")
+            llm_client = types.ModuleType("internal_lib.llm_client")
+            llm_client.call_llm = lambda *args, **kwargs: "ok"
+            config = types.ModuleType("internal_lib.config")
+            config.load_config = lambda lab_root: {}
+            scorer = types.ModuleType("kdna_lab_internal_scorers_llm_judge")
+            scorer.score_case = lambda case, body, cfg: {
+                "scores": {"judgment_path": 3},
+                "total": 3,
+                "max_total": 3,
+                "passed": True,
+            }
+            monkeypatch.setitem(sys.modules, "internal_lib", internal_lib)
+            monkeypatch.setitem(sys.modules, "internal_lib.llm_client", llm_client)
+            monkeypatch.setitem(sys.modules, "internal_lib.config", config)
+            monkeypatch.setitem(sys.modules, "kdna_lab_internal_scorers_llm_judge", scorer)
+            monkeypatch.setattr(
+                sys,
+                "argv",
+                [
+                    "kdna-lab-pipeline",
+                    "run",
+                    "--case-file",
+                    str(case_file),
+                    "--output-dir",
+                    str(output_dir),
+                    "--l2",
+                ],
+            )
+
+            pipeline_cli()
+            captured = capsys.readouterr()
+            assert "L2: 1/1" in captured.out

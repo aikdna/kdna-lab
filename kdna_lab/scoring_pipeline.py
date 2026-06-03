@@ -82,6 +82,9 @@ class ScoringPipeline:
         with open(out_path, "w") as f:
             json.dump(pipeline_result, f, indent=2, ensure_ascii=False)
 
+        benchmark_path = self._write_benchmark_run_artifact(pipeline_result, case_file, output_dir)
+        pipeline_result["benchmark_run_artifact"] = benchmark_path
+
         # Archive to evidence store
         self._archive(pipeline_result)
 
@@ -98,6 +101,7 @@ class ScoringPipeline:
                 score = l1_score_case(case, body)
                 results.append({
                     "case_id": case_id,
+                    "condition": output_info.get("condition"),
                     "output_file": output_info["file"],
                     "output_type": output_info.get("type", "domain"),
                     "output_body": body,
@@ -119,6 +123,7 @@ class ScoringPipeline:
                 l2 = {"error": str(e), "scores": {}, "total": 0, "max_total": 0, "passed": False}
             results.append({
                 "case_id": r["case_id"],
+                "condition": r.get("condition"),
                 "L2": l2,
             })
         return results
@@ -129,23 +134,78 @@ class ScoringPipeline:
         """Combine L1 and L2 results into unified per-case records."""
         l2_map = {}
         if l2_results:
-            l2_map = {r["case_id"]: r["L2"] for r in l2_results}
+            l2_map = {(r["case_id"], r.get("condition")): r["L2"] for r in l2_results}
 
         combined = []
         for r in l1_results:
+            l2_score = l2_map.get((r["case_id"], r.get("condition")), {})
             combined.append({
                 "case_id": r["case_id"],
+                "condition": r.get("condition"),
                 "output_file": r["output_file"],
+                "output_body": r.get("output_body", ""),
                 "L1_pass": r["L1_pass"],
                 "L1_score": r["score"],
-                "L2_pass": l2_map.get(r["case_id"], {}).get("passed"),
-                "L2_score": l2_map.get(r["case_id"], {}),
+                "L2_pass": l2_score.get("passed"),
+                "L2_score": l2_score,
                 "L3_status": "pending",
                 "L3_reviewer": None,
                 "L3_verdict": None,
                 "L3_notes": None,
             })
         return combined
+
+    def _write_benchmark_run_artifact(
+        self,
+        pipeline_result: Dict[str, Any],
+        case_file: str,
+        output_dir: str,
+    ) -> str:
+        """Write scored benchmark-run-v1 JSON for public evidence export."""
+        cases = load_cases(case_file)
+        results = pipeline_result.get("results", [])
+        domain = None
+        for case in cases.values():
+            domain = case.get("target") or case.get("domain")
+            if domain:
+                break
+
+        artifact = {
+            "schema": "https://aikdna.com/schemas/benchmark-run-v1.json",
+            "run_id": pipeline_result["run_id"],
+            "created_at": pipeline_result["timestamp"],
+            "domain": domain,
+            "domain_version": None,
+            "provider": "unknown",
+            "model": "unknown",
+            "conditions": sorted({r.get("condition") for r in results if r.get("condition")}),
+            "case_count": len(cases),
+            "case_file": case_file,
+            "cases": [],
+            "status": "scored",
+        }
+
+        for r in results:
+            case = cases.get(r["case_id"], {})
+            output = r.get("output_body", "")
+            scores = {"L1": r.get("L1_score", {}).get("L1", {})}
+            if r.get("L2_score"):
+                scores["L2"] = r["L2_score"]
+            artifact["cases"].append({
+                "case_id": r["case_id"],
+                "condition": r.get("condition"),
+                "input_hash": None,
+                "output_file": r.get("output_file"),
+                "output": output,
+                "scores": scores,
+                "pass": r.get("L2_pass") if r.get("L2_pass") is not None else r.get("L1_pass"),
+                "expected_behavior": case.get("expected_behavior"),
+            })
+
+        path = Path(output_dir) / "raw" / f"{pipeline_result['run_id']}_benchmark-run-v1.scored.json"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(artifact, indent=2, ensure_ascii=False))
+        return str(path)
 
     def _l1_summary(self, results: List[Dict]) -> Dict:
         total = len(results)
@@ -299,6 +359,7 @@ def pipeline_cli():
                     from kdna_lab_internal_scorers_llm_judge import score_case as internal_score
                     return internal_score(case, body, cfg)
 
+                l2_judge = l2_fn
                 print("[INFO] L2 judge loaded from kdna-lab-internal")
             except ImportError:
                 print("[WARN] kdna-lab-internal not available. L2 requires internal_lib.llm_client.")

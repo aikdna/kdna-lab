@@ -9,6 +9,7 @@ Features built for VPN/proxy environments:
 
 import json
 import os
+import re
 import subprocess
 import time
 from pathlib import Path
@@ -23,6 +24,14 @@ RETRY_BACKOFF = [1, 2, 4]          # seconds between retries
 MAX_RETRIES = 3
 HEALTH_CHECK_TIMEOUT = 10          # seconds
 API_CALL_TIMEOUT = 60              # seconds
+
+
+def safe_filename_part(value: Any) -> str:
+    """Convert arbitrary metadata into a stable filename segment."""
+    text = str(value or "unknown").strip()
+    text = re.sub(r"[^A-Za-z0-9_.-]+", "-", text)
+    text = text.strip("-._")
+    return text or "unknown"
 
 
 def exponential_backoff(attempt: int) -> float:
@@ -232,8 +241,14 @@ class ExperimentRunner:
     def save_output(self, case_id: str, output: str, **meta) -> str:
         """Save a single case output and return the file path."""
         ext = meta.pop("_ext", "txt")
-        filepath = self.raw_dir / f"{self.run_id}_{case_id}.{ext}"
+        filename_parts = [self.run_id, safe_filename_part(case_id)]
+        for key in ("Condition", "Provider", "Model"):
+            if meta.get(key):
+                filename_parts.append(safe_filename_part(meta[key]))
+        filepath = self.raw_dir / f"{'_'.join(filename_parts)}.{ext}"
         with open(filepath, "w") as f:
+            if "Case" not in meta:
+                f.write(f"# Case: {case_id}\n")
             for key, val in meta.items():
                 f.write(f"# {key}: {val}\n")
             f.write(f"# Timestamp: {datetime.now().isoformat()}\n")

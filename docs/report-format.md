@@ -178,3 +178,52 @@ KDNA Lab 生成的报告格式规范。
   }
 }
 ```
+
+---
+
+## benchmark-run-v1 Artifact
+
+Reference-domain validation exports MUST use structured JSON or JSONL. Plain
+`.txt` outputs are useful for debugging, but they are not sufficient public
+evidence for a `validated` KDNA domain.
+
+Required top-level fields:
+
+```json
+{
+  "schema": "https://aikdna.com/schemas/benchmark-run-v1.json",
+  "run_id": "run_20260603_120000",
+  "created_at": "2026-06-03T12:00:00Z",
+  "domain": "@aikdna/writing",
+  "domain_version": "0.7.3",
+  "asset_digest": "sha256:...",
+  "provider": "openai_compatible",
+  "model": "deepseek/deepseek-v4-pro",
+  "conditions": ["no_kdna", "best_prompt", "kdna_full"],
+  "case_count": 30,
+  "cases": [
+    {
+      "case_id": "writing_structural_diagnosis_001",
+      "condition": "kdna_full",
+      "input_hash": "sha256:...",
+      "output": "...",
+      "scores": {
+        "L1": {},
+        "L2": {}
+      },
+      "pass": true
+    }
+  ],
+  "status": "scored"
+}
+```
+
+Rules:
+
+- `case_id + condition` is the unique output key.
+- File names for raw text outputs include `case_id`, `condition`, `provider`,
+  and `model`.
+- `no_kdna`, `best_prompt`, and `kdna_full` outputs must never overwrite each
+  other.
+- Public `validated` evidence must include scored artifacts, not raw-only
+  artifacts.

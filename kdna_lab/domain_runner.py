@@ -5,7 +5,9 @@ and runs experiments via LLM API or generates execution plans.
 """
 
 import json
+import hashlib
 import time
+import subprocess
 from pathlib import Path
 from datetime import datetime
 from typing import Dict, List, Optional
@@ -36,6 +38,79 @@ class DomainRunner(ExperimentRunner):
 
     BEST_PROMPT_CONDITIONS = {"best_prompt"}
 
+    def _api_metadata(self) -> dict:
+        api = self.config.get("api", {})
+        return {
+            "provider": api.get("provider", "openai"),
+            "model": api.get("model", "gpt-4o"),
+            "base_url": api.get("base_url"),
+        }
+
+    def _load_domain_metadata(self, domain: str) -> dict:
+        try:
+            result = subprocess.run(
+                ["kdna", "load", domain, "--as=json"],
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+            if result.returncode != 0:
+                return {}
+            payload = json.loads(result.stdout)
+            manifest = payload.get("manifest", {})
+            trust = payload.get("trust", {})
+            return {
+                "domain_version": manifest.get("version"),
+                "asset_digest": trust.get("asset_digest") or manifest.get("asset_digest"),
+                "content_digest": trust.get("content_digest") or manifest.get("content_digest"),
+            }
+        except Exception:
+            return {}
+
+    def _input_hash(self, text: str) -> str:
+        return "sha256:" + hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+    def _write_benchmark_run_artifact(
+        self,
+        domain: str,
+        domain_meta: dict,
+        results: List[dict],
+        executed_case_count: int,
+    ) -> str:
+        api_meta = self._api_metadata()
+        artifact = {
+            "schema": "https://aikdna.com/schemas/benchmark-run-v1.json",
+            "run_id": self.run_id,
+            "created_at": datetime.utcnow().isoformat() + "Z",
+            "domain": domain,
+            "domain_version": domain_meta.get("domain_version"),
+            "asset_digest": domain_meta.get("asset_digest"),
+            "content_digest": domain_meta.get("content_digest"),
+            "provider": api_meta["provider"],
+            "model": api_meta["model"],
+            "base_url": api_meta.get("base_url"),
+            "conditions": sorted({r.get("condition", "") for r in results if r.get("condition")}),
+            "case_count": executed_case_count,
+            "cases": [
+                {
+                    "case_id": r["case_id"],
+                    "condition": r.get("condition"),
+                    "input_hash": self._input_hash(r.get("case", {}).get("input", "")),
+                    "output_path": r.get("output_path"),
+                    "output": r.get("output", ""),
+                    "scores": {},
+                    "pass": None,
+                    "error": r.get("error"),
+                    "timestamp": r.get("timestamp"),
+                }
+                for r in results
+            ],
+            "status": "raw",
+        }
+        path = self.raw_dir / f"{self.run_id}_benchmark-run-v1.raw.json"
+        path.write_text(json.dumps(artifact, indent=2, ensure_ascii=False))
+        return str(path)
+
     def _build_prompt(self, domain_prompt: str, condition: str, case: dict) -> str:
         if condition == "no_kdna":
             return case["input"]
@@ -51,6 +126,8 @@ class DomainRunner(ExperimentRunner):
         domain_prompt = self.load_domain_prompt(domain)
         if domain_prompt is None:
             raise RuntimeError(f"Failed to load domain: {domain}")
+        domain_meta = self._load_domain_metadata(domain)
+        api_meta = self._api_metadata()
 
         results = []
         rate_limit = self.config.get("runners", {}).get("domain", {}).get("rate_limit", 0.5)
@@ -71,6 +148,9 @@ class DomainRunner(ExperimentRunner):
                     _ext="txt",
                     Run=self.run_id,
                     Condition=condition,
+                    Provider=api_meta["provider"],
+                    Model=api_meta["model"],
+                    Domain=domain,
                 )
                 results.append({
                     "run_id": self.run_id,
@@ -79,11 +159,14 @@ class DomainRunner(ExperimentRunner):
                     "output_path": outpath,
                     "output": output,
                     "case": case,
+                    "timestamp": datetime.utcnow().isoformat() + "Z",
                 })
                 print(f"{len(output)} chars")
                 time.sleep(rate_limit)
 
         self.save_index(results)
+        artifact_path = self._write_benchmark_run_artifact(domain, domain_meta, results, len(cases))
+        print(f"[ARTIFACT] benchmark-run-v1 raw -> {artifact_path}")
         return results
 
     def run_plan(self, cases: List[dict]) -> List[dict]:
