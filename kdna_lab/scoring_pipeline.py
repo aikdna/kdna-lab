@@ -64,10 +64,11 @@ class ScoringPipeline:
 
         combined = self._combine_results(l1_results, l2_results)
 
+        rel_case_file = self._repo_rel(case_file)
         pipeline_result = {
             "run_id": run_id,
             "timestamp": datetime.now().isoformat(),
-            "case_file": case_file,
+            "case_file": rel_case_file,
             "total_cases": len(cases),
             "matched_outputs": len(l1_results),
             "L1": self._l1_summary(l1_results),
@@ -168,7 +169,7 @@ class ScoringPipeline:
             combined.append({
                 "case_id": r["case_id"],
                 "condition": r.get("condition"),
-                "output_file": r["output_file"],
+                "output_file": self._repo_rel(r.get("output_file")),
                 "output_body": r.get("output_body", ""),
                 "error": r.get("error"),
                 "L1_pass": r["L1_pass"],
@@ -216,7 +217,7 @@ class ScoringPipeline:
             "base_url": raw_meta.get("base_url"),
             "conditions": sorted({r.get("condition") for r in results if r.get("condition")}),
             "case_count": len(cases),
-            "case_file": case_file,
+            "case_file": self._repo_rel(case_file),
             "cases": [],
             "status": "scored",
         }
@@ -259,7 +260,7 @@ class ScoringPipeline:
                 "case_id": r["case_id"],
                 "condition": r.get("condition"),
                 "input_hash": input_hash,
-                "output_file": r.get("output_file"),
+                "output_file": self._repo_rel(r.get("output_file")),
                 "output": output,
                 "scores": scores,
                 "pass": pass_val,
@@ -314,6 +315,14 @@ class ScoringPipeline:
             "conditions": data.get("conditions", []),
             "input_hashes": input_hashes,
         }
+
+    def _repo_rel(self, path: Optional[str]) -> Optional[str]:
+        if not path:
+            return path
+        try:
+            return str(Path(path).relative_to(self.lab_root))
+        except ValueError:
+            return path
 
     def _l1_summary(self, results: List[Dict]) -> Dict:
         total = len(results)
