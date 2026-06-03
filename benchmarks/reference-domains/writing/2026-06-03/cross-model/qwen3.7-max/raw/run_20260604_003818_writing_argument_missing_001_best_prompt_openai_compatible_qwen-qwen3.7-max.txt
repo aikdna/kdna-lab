@@ -1,0 +1,54 @@
+# Case: writing_argument_missing_001
+# Run: run_20260604_003818
+# Condition: best_prompt
+# Provider: openai_compatible
+# Model: qwen/qwen3.7-max
+# Domain: @aikdna/writing
+# Timestamp: 2026-06-04T01:04:30.891671
+---
+As a senior editor and writing coach, I am evaluating your input not as a full article, but as a **draft of editorial feedback or a reader response**. Your goal here is to critique a piece of writing that suffers from "data dumping." 
+
+Here is my diagnostic assessment of your critique, followed by how to elevate it into professional, actionable editorial guidance.
+
+### 1. Core Argument and Purpose
+**Purpose:** To express frustration with a text that relies heavily on facts and statistics but lacks a unifying thesis, and to diagnose the root cause of the reader's confusion. 
+**Assessment:** The purpose is clear in intent, but it currently functions only as a statement of personal confusion rather than a professional diagnosis of the text's rhetorical failure.
+
+### 2. Structural Clarity
+**Assessment:** Your input follows a logical micro-structure: 
+1. *Observation* (heavy use of data) $\rightarrow$ 2. *Consequence* (reader confusion) $\rightarrow$ 3. *Diagnosis* (lack of a core argument). 
+**Critique:** While the flow is logical, it is structurally incomplete. A strong piece of editorial feedback must have a satisfying conclusion that offers a pathway forward. Your draft abruptly ends at the diagnosis, leaving the writer with a problem but no solution.
+
+### 3. Rhetoric and Tone
+**Assessment:** The tone is casual, subjective, and slightly dismissive. 
+**Critique:** Phrases like "我不清楚" (I am not clear) center the critique on your personal reaction rather than the text's objective flaws. Furthermore, stating "没有核心观点" (no core point) is an overconfident, absolute claim. The author likely *has* a point in their head, but they failed to *articulate* it on the page. As an editor, your rhetoric must shift from subjective frustration ("I don't get it") to objective analysis ("The text fails to establish a thesis").
+
+### 4. Logical Coherence
+**Assessment:** The causal link you draw is sound on a surface level: when a writer presents data without a guiding thesis, the reader cannot discern the purpose. 
+**Critique:** There is a logical leap in your diagnosis. You conclude there is "no core point." A more logically rigorous editorial assessment would recognize that the core point might exist but is either buried, poorly articulated, or completely disconnected from the data provided. You are conflating "the author didn't write it down" with "the author doesn't have one."
+
+### 5. Specific Passages: What Works and What Needs Revision
+* **What works well:** *"列举了很多事实和数据" (Lists many facts and data).* This is a strong, specific observation. It correctly identifies the mechanical symptom of the writing issue. It shows you are paying attention to the text's structural strategy (or lack thereof).
+* **Needs revision:** *"但我不清楚作者到底想说什么。没有核心观点。" (But I don't know what the author is trying to say. No core point.)* This is vague and unhelpful. It tells the writer how you feel, but it doesn't tell them what to fix. It lacks concrete examples from the text to prove your point.
+
+### 6. Explanation of Quality (The "Why")
+Your input is a highly accurate **reader reaction**, but it is a weak **editorial review**. It fails because it leaves the writer defensive and directionless. If you tell a writer "you have no core point," they will likely argue with you, insisting their point is "obvious." If you instead say, "You have presented five distinct data sets in paragraph three, but you haven't explained how they relate to your overarching theme," the writer knows exactly what to revise. Your current draft fails to bridge the gap between identifying a symptom and prescribing a cure.
+
+### 7. Actionable Revision Suggestions
+To elevate this from a casual complaint to a professional editorial critique, you must replace subjective confusion with objective analysis and actionable steps. 
+
+**Revision Strategy:**
+1. **Acknowledge the effort:** Validate the research (the data) so the writer doesn't feel their hard work is being dismissed.
+2. **Identify the disconnect:** Explain *how* the data fails to serve an argument (the "So What?" factor).
+3. **Prescribe an action:** Give the writer specific steps to extract or create a thesis from their data.
+
+**Rewritten Example (Professional Editorial Feedback):**
+
+> "本文在数据收集和事实陈述方面做了大量扎实的工作（例如第三段引用的行业数据）。然而，目前这些素材处于‘堆砌’状态，缺乏一个统领全文的核心论点（Thesis Statement）。读者看到了‘是什么’（数据），但看不到‘所以呢’（作者的洞察）。
+> 
+> **修改建议：**
+> 1. **提炼核心观点：** 请在引言部分明确写出你的核心主张——这些数据共同证明了什么趋势、问题或结论？
+> 2. **做减法：** 审视文中的每一组数据，果断删去那些不能直接支撑该核心观点的冗余信息。
+> 3. **建立逻辑桥梁：** 在每一段数据列举后，增加一到两句分析，明确向读者解释这些数据与你的核心观点之间的逻辑联系。不要让数据自己说话，你要替数据发声。"
+
+**Coach's Takeaway:** Never just tell a writer what they *didn't* do. Show them exactly *how* to do it.

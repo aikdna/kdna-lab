@@ -1,0 +1,4747 @@
+{
+  "schema": "https://aikdna.com/schemas/benchmark-run-v1.json",
+  "run_id": "writing_claude-sonnet_l2_2026-06-03",
+  "created_at": "2026-06-04T02:07:28.740378",
+  "domain": "@aikdna/writing",
+  "domain_version": "0.7.3",
+  "asset_digest": "sha256:f2b1e62b9edd5ad959cd8b836a106732b6044c23a37531c6becc2aa5e28a6b6a",
+  "content_digest": "sha256:ea5e3dea1f156a45f82590f3be02cc669db6f558a265e2cd5389e138350276a7",
+  "provider": "openai_compatible",
+  "model": "anthropic/claude-sonnet-4-20250514",
+  "base_url": "https://openrouter.ai/api/v1",
+  "conditions": [
+    "best_prompt",
+    "kdna_full",
+    "no_kdna"
+  ],
+  "case_count": 30,
+  "case_file": "examples/writing/cases.jsonl",
+  "cases": [
+    {
+      "case_id": "writing_structural_diagnosis_001",
+      "condition": "no_kdna",
+      "input_hash": "sha256:84076c67cc73e9beec1bba89fc162f21480a9206ed914075a2bf62c7b252832f",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "问题",
+                "具体"
+              ],
+              "details": [
+                {
+                  "item": "问题",
+                  "found": false
+                },
+                {
+                  "item": "具体",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_structural_diagnosis_001",
+      "condition": "best_prompt",
+      "input_hash": "sha256:84076c67cc73e9beec1bba89fc162f21480a9206ed914075a2bf62c7b252832f",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "问题",
+                "具体"
+              ],
+              "details": [
+                {
+                  "item": "问题",
+                  "found": false
+                },
+                {
+                  "item": "具体",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_structural_diagnosis_001",
+      "condition": "kdna_full",
+      "input_hash": "sha256:84076c67cc73e9beec1bba89fc162f21480a9206ed914075a2bf62c7b252832f",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "问题",
+                "具体"
+              ],
+              "details": [
+                {
+                  "item": "问题",
+                  "found": false
+                },
+                {
+                  "item": "具体",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_not_copy_editing_001",
+      "condition": "no_kdna",
+      "input_hash": "sha256:497d48e873af7d6c0a7b572899fd84699b059f8bc10d6b76e11130c270cf7e24",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "问题",
+                "结构"
+              ],
+              "details": [
+                {
+                  "item": "问题",
+                  "found": false
+                },
+                {
+                  "item": "结构",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_not_copy_editing_001",
+      "condition": "best_prompt",
+      "input_hash": "sha256:497d48e873af7d6c0a7b572899fd84699b059f8bc10d6b76e11130c270cf7e24",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "问题",
+                "结构"
+              ],
+              "details": [
+                {
+                  "item": "问题",
+                  "found": false
+                },
+                {
+                  "item": "结构",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_not_copy_editing_001",
+      "condition": "kdna_full",
+      "input_hash": "sha256:497d48e873af7d6c0a7b572899fd84699b059f8bc10d6b76e11130c270cf7e24",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "问题",
+                "结构"
+              ],
+              "details": [
+                {
+                  "item": "问题",
+                  "found": false
+                },
+                {
+                  "item": "结构",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_hook_evaluation_001",
+      "condition": "no_kdna",
+      "input_hash": "sha256:009ff547c75a03b1c84618e87b8959ef846dbbbb83870b31cd2644cb339da782",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "钩子",
+                "开头",
+                "读者"
+              ],
+              "details": [
+                {
+                  "item": "钩子",
+                  "found": false
+                },
+                {
+                  "item": "开头",
+                  "found": false
+                },
+                {
+                  "item": "读者",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_hook_evaluation_001",
+      "condition": "best_prompt",
+      "input_hash": "sha256:009ff547c75a03b1c84618e87b8959ef846dbbbb83870b31cd2644cb339da782",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "钩子",
+                "开头",
+                "读者"
+              ],
+              "details": [
+                {
+                  "item": "钩子",
+                  "found": false
+                },
+                {
+                  "item": "开头",
+                  "found": false
+                },
+                {
+                  "item": "读者",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_hook_evaluation_001",
+      "condition": "kdna_full",
+      "input_hash": "sha256:009ff547c75a03b1c84618e87b8959ef846dbbbb83870b31cd2644cb339da782",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "钩子",
+                "开头",
+                "读者"
+              ],
+              "details": [
+                {
+                  "item": "钩子",
+                  "found": false
+                },
+                {
+                  "item": "开头",
+                  "found": false
+                },
+                {
+                  "item": "读者",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_fact_discipline_001",
+      "condition": "no_kdna",
+      "input_hash": "sha256:e8ec4d7e0cdd25f91f37cf1bc061f79e9290645e0007943de6160f75c9a255b5",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "证据",
+                "数据",
+                "需要提供"
+              ],
+              "details": [
+                {
+                  "item": "证据",
+                  "found": false
+                },
+                {
+                  "item": "数据",
+                  "found": false
+                },
+                {
+                  "item": "需要提供",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_fact_discipline_001",
+      "condition": "best_prompt",
+      "input_hash": "sha256:e8ec4d7e0cdd25f91f37cf1bc061f79e9290645e0007943de6160f75c9a255b5",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "证据",
+                "数据",
+                "需要提供"
+              ],
+              "details": [
+                {
+                  "item": "证据",
+                  "found": false
+                },
+                {
+                  "item": "数据",
+                  "found": false
+                },
+                {
+                  "item": "需要提供",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_fact_discipline_001",
+      "condition": "kdna_full",
+      "input_hash": "sha256:e8ec4d7e0cdd25f91f37cf1bc061f79e9290645e0007943de6160f75c9a255b5",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "证据",
+                "数据",
+                "需要提供"
+              ],
+              "details": [
+                {
+                  "item": "证据",
+                  "found": false
+                },
+                {
+                  "item": "数据",
+                  "found": false
+                },
+                {
+                  "item": "需要提供",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_structure_only_001",
+      "condition": "no_kdna",
+      "input_hash": "sha256:c6f27c1ec8c362f1c8d5ad9e8297b54c2a81d63e7ae04c7afff5440bf214d06a",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "结构",
+                "语法",
+                "不提供行级润色"
+              ],
+              "details": [
+                {
+                  "item": "结构",
+                  "found": false
+                },
+                {
+                  "item": "语法",
+                  "found": false
+                },
+                {
+                  "item": "不提供行级润色",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_structure_only_001",
+      "condition": "best_prompt",
+      "input_hash": "sha256:c6f27c1ec8c362f1c8d5ad9e8297b54c2a81d63e7ae04c7afff5440bf214d06a",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "结构",
+                "语法",
+                "不提供行级润色"
+              ],
+              "details": [
+                {
+                  "item": "结构",
+                  "found": false
+                },
+                {
+                  "item": "语法",
+                  "found": false
+                },
+                {
+                  "item": "不提供行级润色",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_structure_only_001",
+      "condition": "kdna_full",
+      "input_hash": "sha256:c6f27c1ec8c362f1c8d5ad9e8297b54c2a81d63e7ae04c7afff5440bf214d06a",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "结构",
+                "语法",
+                "不提供行级润色"
+              ],
+              "details": [
+                {
+                  "item": "结构",
+                  "found": false
+                },
+                {
+                  "item": "语法",
+                  "found": false
+                },
+                {
+                  "item": "不提供行级润色",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_evidence_density_001",
+      "condition": "no_kdna",
+      "input_hash": "sha256:08e99f7d59066037d932a8a97fc8a937f5bf46eafc9eac547d26bba62ee3e336",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "证据",
+                "具体",
+                "数据"
+              ],
+              "details": [
+                {
+                  "item": "证据",
+                  "found": false
+                },
+                {
+                  "item": "具体",
+                  "found": false
+                },
+                {
+                  "item": "数据",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_evidence_density_001",
+      "condition": "best_prompt",
+      "input_hash": "sha256:08e99f7d59066037d932a8a97fc8a937f5bf46eafc9eac547d26bba62ee3e336",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "证据",
+                "具体",
+                "数据"
+              ],
+              "details": [
+                {
+                  "item": "证据",
+                  "found": false
+                },
+                {
+                  "item": "具体",
+                  "found": false
+                },
+                {
+                  "item": "数据",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_evidence_density_001",
+      "condition": "kdna_full",
+      "input_hash": "sha256:08e99f7d59066037d932a8a97fc8a937f5bf46eafc9eac547d26bba62ee3e336",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "证据",
+                "具体",
+                "数据"
+              ],
+              "details": [
+                {
+                  "item": "证据",
+                  "found": false
+                },
+                {
+                  "item": "具体",
+                  "found": false
+                },
+                {
+                  "item": "数据",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_audience_awareness_001",
+      "condition": "no_kdna",
+      "input_hash": "sha256:f4babcce1a3a5b217d819b5f21ac0f61f262621df7777dac474a32ff62a6317a",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "读者",
+                "受众"
+              ],
+              "details": [
+                {
+                  "item": "读者",
+                  "found": false
+                },
+                {
+                  "item": "受众",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_audience_awareness_001",
+      "condition": "best_prompt",
+      "input_hash": "sha256:f4babcce1a3a5b217d819b5f21ac0f61f262621df7777dac474a32ff62a6317a",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "读者",
+                "受众"
+              ],
+              "details": [
+                {
+                  "item": "读者",
+                  "found": false
+                },
+                {
+                  "item": "受众",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_audience_awareness_001",
+      "condition": "kdna_full",
+      "input_hash": "sha256:f4babcce1a3a5b217d819b5f21ac0f61f262621df7777dac474a32ff62a6317a",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "读者",
+                "受众"
+              ],
+              "details": [
+                {
+                  "item": "读者",
+                  "found": false
+                },
+                {
+                  "item": "受众",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_should_not_apply_001",
+      "condition": "no_kdna",
+      "input_hash": "sha256:2f0c5c5afebeb7c13c048eb54ff0f56803031bd989bba11da011e12cc4f28977",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "法律",
+                "合同",
+                "不适用"
+              ],
+              "details": [
+                {
+                  "item": "法律",
+                  "found": false
+                },
+                {
+                  "item": "合同",
+                  "found": false
+                },
+                {
+                  "item": "不适用",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_should_not_apply_001",
+      "condition": "best_prompt",
+      "input_hash": "sha256:2f0c5c5afebeb7c13c048eb54ff0f56803031bd989bba11da011e12cc4f28977",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "法律",
+                "合同",
+                "不适用"
+              ],
+              "details": [
+                {
+                  "item": "法律",
+                  "found": false
+                },
+                {
+                  "item": "合同",
+                  "found": false
+                },
+                {
+                  "item": "不适用",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_should_not_apply_001",
+      "condition": "kdna_full",
+      "input_hash": "sha256:2f0c5c5afebeb7c13c048eb54ff0f56803031bd989bba11da011e12cc4f28977",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "法律",
+                "合同",
+                "不适用"
+              ],
+              "details": [
+                {
+                  "item": "法律",
+                  "found": false
+                },
+                {
+                  "item": "合同",
+                  "found": false
+                },
+                {
+                  "item": "不适用",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_hook_misplaced_001",
+      "condition": "no_kdna",
+      "input_hash": "sha256:d054535198a2115bd4f3753624838d9bd60eaa83f8a2203e1068b7e24a333442",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "hook",
+                "读者",
+                "开头"
+              ],
+              "details": [
+                {
+                  "item": "hook",
+                  "found": false
+                },
+                {
+                  "item": "读者",
+                  "found": false
+                },
+                {
+                  "item": "开头",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_hook_misplaced_001",
+      "condition": "best_prompt",
+      "input_hash": "sha256:d054535198a2115bd4f3753624838d9bd60eaa83f8a2203e1068b7e24a333442",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "hook",
+                "读者",
+                "开头"
+              ],
+              "details": [
+                {
+                  "item": "hook",
+                  "found": false
+                },
+                {
+                  "item": "读者",
+                  "found": false
+                },
+                {
+                  "item": "开头",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_hook_misplaced_001",
+      "condition": "kdna_full",
+      "input_hash": "sha256:d054535198a2115bd4f3753624838d9bd60eaa83f8a2203e1068b7e24a333442",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "hook",
+                "读者",
+                "开头"
+              ],
+              "details": [
+                {
+                  "item": "hook",
+                  "found": false
+                },
+                {
+                  "item": "读者",
+                  "found": false
+                },
+                {
+                  "item": "开头",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_evidence_anecdotal_001",
+      "condition": "no_kdna",
+      "input_hash": "sha256:23a5bb92dc33d22b585cbb3d216a222754884b017ee8dd62238ed7ce3e0834e6",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "证据",
+                "具体",
+                "数据"
+              ],
+              "details": [
+                {
+                  "item": "证据",
+                  "found": false
+                },
+                {
+                  "item": "具体",
+                  "found": false
+                },
+                {
+                  "item": "数据",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_evidence_anecdotal_001",
+      "condition": "best_prompt",
+      "input_hash": "sha256:23a5bb92dc33d22b585cbb3d216a222754884b017ee8dd62238ed7ce3e0834e6",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "证据",
+                "具体",
+                "数据"
+              ],
+              "details": [
+                {
+                  "item": "证据",
+                  "found": false
+                },
+                {
+                  "item": "具体",
+                  "found": false
+                },
+                {
+                  "item": "数据",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_evidence_anecdotal_001",
+      "condition": "kdna_full",
+      "input_hash": "sha256:23a5bb92dc33d22b585cbb3d216a222754884b017ee8dd62238ed7ce3e0834e6",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "证据",
+                "具体",
+                "数据"
+              ],
+              "details": [
+                {
+                  "item": "证据",
+                  "found": false
+                },
+                {
+                  "item": "具体",
+                  "found": false
+                },
+                {
+                  "item": "数据",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_structural_loop_001",
+      "condition": "no_kdna",
+      "input_hash": "sha256:dd21d6f236af2a38bbcd28b1b4cdfc48a424accb4da118d0cb1d63d1a2bfe3e1",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "结构",
+                "论证",
+                "闭环"
+              ],
+              "details": [
+                {
+                  "item": "结构",
+                  "found": false
+                },
+                {
+                  "item": "论证",
+                  "found": false
+                },
+                {
+                  "item": "闭环",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_structural_loop_001",
+      "condition": "best_prompt",
+      "input_hash": "sha256:dd21d6f236af2a38bbcd28b1b4cdfc48a424accb4da118d0cb1d63d1a2bfe3e1",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "结构",
+                "论证",
+                "闭环"
+              ],
+              "details": [
+                {
+                  "item": "结构",
+                  "found": false
+                },
+                {
+                  "item": "论证",
+                  "found": false
+                },
+                {
+                  "item": "闭环",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_structural_loop_001",
+      "condition": "kdna_full",
+      "input_hash": "sha256:dd21d6f236af2a38bbcd28b1b4cdfc48a424accb4da118d0cb1d63d1a2bfe3e1",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "结构",
+                "论证",
+                "闭环"
+              ],
+              "details": [
+                {
+                  "item": "结构",
+                  "found": false
+                },
+                {
+                  "item": "论证",
+                  "found": false
+                },
+                {
+                  "item": "闭环",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_audience_mismatch_001",
+      "condition": "no_kdna",
+      "input_hash": "sha256:369ac4fb632c5306681e06fa59574d076e736a076f1a79a587d328f40aec0691",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "受众",
+                "读者",
+                "CEO"
+              ],
+              "details": [
+                {
+                  "item": "受众",
+                  "found": false
+                },
+                {
+                  "item": "读者",
+                  "found": false
+                },
+                {
+                  "item": "CEO",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_audience_mismatch_001",
+      "condition": "best_prompt",
+      "input_hash": "sha256:369ac4fb632c5306681e06fa59574d076e736a076f1a79a587d328f40aec0691",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "受众",
+                "读者",
+                "CEO"
+              ],
+              "details": [
+                {
+                  "item": "受众",
+                  "found": false
+                },
+                {
+                  "item": "读者",
+                  "found": false
+                },
+                {
+                  "item": "CEO",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_audience_mismatch_001",
+      "condition": "kdna_full",
+      "input_hash": "sha256:369ac4fb632c5306681e06fa59574d076e736a076f1a79a587d328f40aec0691",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "受众",
+                "读者",
+                "CEO"
+              ],
+              "details": [
+                {
+                  "item": "受众",
+                  "found": false
+                },
+                {
+                  "item": "读者",
+                  "found": false
+                },
+                {
+                  "item": "CEO",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_argument_missing_001",
+      "condition": "no_kdna",
+      "input_hash": "sha256:407bd97e41a0fac0439fdad6972c142d6cc397e11d9726588b270f3e1c36020d",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "论点",
+                "argument",
+                "核心"
+              ],
+              "details": [
+                {
+                  "item": "论点",
+                  "found": false
+                },
+                {
+                  "item": "argument",
+                  "found": false
+                },
+                {
+                  "item": "核心",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_argument_missing_001",
+      "condition": "best_prompt",
+      "input_hash": "sha256:407bd97e41a0fac0439fdad6972c142d6cc397e11d9726588b270f3e1c36020d",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "论点",
+                "argument",
+                "核心"
+              ],
+              "details": [
+                {
+                  "item": "论点",
+                  "found": false
+                },
+                {
+                  "item": "argument",
+                  "found": false
+                },
+                {
+                  "item": "核心",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_argument_missing_001",
+      "condition": "kdna_full",
+      "input_hash": "sha256:407bd97e41a0fac0439fdad6972c142d6cc397e11d9726588b270f3e1c36020d",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "论点",
+                "argument",
+                "核心"
+              ],
+              "details": [
+                {
+                  "item": "论点",
+                  "found": false
+                },
+                {
+                  "item": "argument",
+                  "found": false
+                },
+                {
+                  "item": "核心",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_weak_counterargument_001",
+      "condition": "no_kdna",
+      "input_hash": "sha256:dc657414707de4817047717b3927a1bf1b26342bb217fa3a1ad99b778260ca33",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "论证",
+                "反驳",
+                "读者"
+              ],
+              "details": [
+                {
+                  "item": "论证",
+                  "found": false
+                },
+                {
+                  "item": "反驳",
+                  "found": false
+                },
+                {
+                  "item": "读者",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_weak_counterargument_001",
+      "condition": "best_prompt",
+      "input_hash": "sha256:dc657414707de4817047717b3927a1bf1b26342bb217fa3a1ad99b778260ca33",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "论证",
+                "反驳",
+                "读者"
+              ],
+              "details": [
+                {
+                  "item": "论证",
+                  "found": false
+                },
+                {
+                  "item": "反驳",
+                  "found": false
+                },
+                {
+                  "item": "读者",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_weak_counterargument_001",
+      "condition": "kdna_full",
+      "input_hash": "sha256:dc657414707de4817047717b3927a1bf1b26342bb217fa3a1ad99b778260ca33",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "论证",
+                "反驳",
+                "读者"
+              ],
+              "details": [
+                {
+                  "item": "论证",
+                  "found": false
+                },
+                {
+                  "item": "反驳",
+                  "found": false
+                },
+                {
+                  "item": "读者",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_too_many_ideas_001",
+      "condition": "no_kdna",
+      "input_hash": "sha256:a7dde44688ebd0f75fe425a1e1b8996603974153088f2dc9fea7d99b92b8248a",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "聚焦",
+                "核心",
+                "结构"
+              ],
+              "details": [
+                {
+                  "item": "聚焦",
+                  "found": false
+                },
+                {
+                  "item": "核心",
+                  "found": false
+                },
+                {
+                  "item": "结构",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_too_many_ideas_001",
+      "condition": "best_prompt",
+      "input_hash": "sha256:a7dde44688ebd0f75fe425a1e1b8996603974153088f2dc9fea7d99b92b8248a",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "聚焦",
+                "核心",
+                "结构"
+              ],
+              "details": [
+                {
+                  "item": "聚焦",
+                  "found": false
+                },
+                {
+                  "item": "核心",
+                  "found": false
+                },
+                {
+                  "item": "结构",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_too_many_ideas_001",
+      "condition": "kdna_full",
+      "input_hash": "sha256:a7dde44688ebd0f75fe425a1e1b8996603974153088f2dc9fea7d99b92b8248a",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "聚焦",
+                "核心",
+                "结构"
+              ],
+              "details": [
+                {
+                  "item": "聚焦",
+                  "found": false
+                },
+                {
+                  "item": "核心",
+                  "found": false
+                },
+                {
+                  "item": "结构",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_headline_vs_body_001",
+      "condition": "no_kdna",
+      "input_hash": "sha256:e48d433e4761b332d4414dd448aec3b543e3828f645ca2ccb92f097616318a77",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "承诺",
+                "标题",
+                "正文"
+              ],
+              "details": [
+                {
+                  "item": "承诺",
+                  "found": false
+                },
+                {
+                  "item": "标题",
+                  "found": false
+                },
+                {
+                  "item": "正文",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_headline_vs_body_001",
+      "condition": "best_prompt",
+      "input_hash": "sha256:e48d433e4761b332d4414dd448aec3b543e3828f645ca2ccb92f097616318a77",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "承诺",
+                "标题",
+                "正文"
+              ],
+              "details": [
+                {
+                  "item": "承诺",
+                  "found": false
+                },
+                {
+                  "item": "标题",
+                  "found": false
+                },
+                {
+                  "item": "正文",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_headline_vs_body_001",
+      "condition": "kdna_full",
+      "input_hash": "sha256:e48d433e4761b332d4414dd448aec3b543e3828f645ca2ccb92f097616318a77",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "承诺",
+                "标题",
+                "正文"
+              ],
+              "details": [
+                {
+                  "item": "承诺",
+                  "found": false
+                },
+                {
+                  "item": "标题",
+                  "found": false
+                },
+                {
+                  "item": "正文",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_neutral_to_opinion_001",
+      "condition": "no_kdna",
+      "input_hash": "sha256:8a3c40aaae391d37a5f142b47999a796a9fd7bd133b3a41311d00a780916fbf8",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "新闻报道",
+                "中性",
+                "意见"
+              ],
+              "details": [
+                {
+                  "item": "新闻报道",
+                  "found": false
+                },
+                {
+                  "item": "中性",
+                  "found": false
+                },
+                {
+                  "item": "意见",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_neutral_to_opinion_001",
+      "condition": "best_prompt",
+      "input_hash": "sha256:8a3c40aaae391d37a5f142b47999a796a9fd7bd133b3a41311d00a780916fbf8",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "新闻报道",
+                "中性",
+                "意见"
+              ],
+              "details": [
+                {
+                  "item": "新闻报道",
+                  "found": false
+                },
+                {
+                  "item": "中性",
+                  "found": false
+                },
+                {
+                  "item": "意见",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_neutral_to_opinion_001",
+      "condition": "kdna_full",
+      "input_hash": "sha256:8a3c40aaae391d37a5f142b47999a796a9fd7bd133b3a41311d00a780916fbf8",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "新闻报道",
+                "中性",
+                "意见"
+              ],
+              "details": [
+                {
+                  "item": "新闻报道",
+                  "found": false
+                },
+                {
+                  "item": "中性",
+                  "found": false
+                },
+                {
+                  "item": "意见",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_platform_twitter_001",
+      "condition": "no_kdna",
+      "input_hash": "sha256:904f68e2374025fa6a5f7533de0d1dbce730f1b6418e7c60a27f484ef7df6632",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "Hook",
+                "证据"
+              ],
+              "details": [
+                {
+                  "item": "Hook",
+                  "found": false
+                },
+                {
+                  "item": "证据",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_platform_twitter_001",
+      "condition": "best_prompt",
+      "input_hash": "sha256:904f68e2374025fa6a5f7533de0d1dbce730f1b6418e7c60a27f484ef7df6632",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "Hook",
+                "证据"
+              ],
+              "details": [
+                {
+                  "item": "Hook",
+                  "found": false
+                },
+                {
+                  "item": "证据",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_platform_twitter_001",
+      "condition": "kdna_full",
+      "input_hash": "sha256:904f68e2374025fa6a5f7533de0d1dbce730f1b6418e7c60a27f484ef7df6632",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "Hook",
+                "证据"
+              ],
+              "details": [
+                {
+                  "item": "Hook",
+                  "found": false
+                },
+                {
+                  "item": "证据",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_platform_wechat_001",
+      "condition": "no_kdna",
+      "input_hash": "sha256:7fc36bf7faa90f58fd105f1c2d132fbbaf1db57f505e72b988a354937b126348",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "标题",
+                "Hook",
+                "结构",
+                "结尾"
+              ],
+              "details": [
+                {
+                  "item": "标题",
+                  "found": false
+                },
+                {
+                  "item": "Hook",
+                  "found": false
+                },
+                {
+                  "item": "结构",
+                  "found": false
+                },
+                {
+                  "item": "结尾",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_platform_wechat_001",
+      "condition": "best_prompt",
+      "input_hash": "sha256:7fc36bf7faa90f58fd105f1c2d132fbbaf1db57f505e72b988a354937b126348",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "标题",
+                "Hook",
+                "结构",
+                "结尾"
+              ],
+              "details": [
+                {
+                  "item": "标题",
+                  "found": false
+                },
+                {
+                  "item": "Hook",
+                  "found": false
+                },
+                {
+                  "item": "结构",
+                  "found": false
+                },
+                {
+                  "item": "结尾",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_platform_wechat_001",
+      "condition": "kdna_full",
+      "input_hash": "sha256:7fc36bf7faa90f58fd105f1c2d132fbbaf1db57f505e72b988a354937b126348",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "标题",
+                "Hook",
+                "结构",
+                "结尾"
+              ],
+              "details": [
+                {
+                  "item": "标题",
+                  "found": false
+                },
+                {
+                  "item": "Hook",
+                  "found": false
+                },
+                {
+                  "item": "结构",
+                  "found": false
+                },
+                {
+                  "item": "结尾",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_purely_informational_001",
+      "condition": "no_kdna",
+      "input_hash": "sha256:b57eb60fc70d29b07cce2bf8b5babd2674306af7c3a40ee9846ac4c7631813fc",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "文档",
+                "技术",
+                "API"
+              ],
+              "details": [
+                {
+                  "item": "文档",
+                  "found": false
+                },
+                {
+                  "item": "技术",
+                  "found": false
+                },
+                {
+                  "item": "API",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_purely_informational_001",
+      "condition": "best_prompt",
+      "input_hash": "sha256:b57eb60fc70d29b07cce2bf8b5babd2674306af7c3a40ee9846ac4c7631813fc",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "文档",
+                "技术",
+                "API"
+              ],
+              "details": [
+                {
+                  "item": "文档",
+                  "found": false
+                },
+                {
+                  "item": "技术",
+                  "found": false
+                },
+                {
+                  "item": "API",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_purely_informational_001",
+      "condition": "kdna_full",
+      "input_hash": "sha256:b57eb60fc70d29b07cce2bf8b5babd2674306af7c3a40ee9846ac4c7631813fc",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "文档",
+                "技术",
+                "API"
+              ],
+              "details": [
+                {
+                  "item": "文档",
+                  "found": false
+                },
+                {
+                  "item": "技术",
+                  "found": false
+                },
+                {
+                  "item": "API",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_emotional_vs_rational_001",
+      "condition": "no_kdna",
+      "input_hash": "sha256:8a1cbf27c5f04f9b3d28698cc7b423b27782c993c06be9a686c6735ace639365",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "情感",
+                "数据",
+                "连接"
+              ],
+              "details": [
+                {
+                  "item": "情感",
+                  "found": false
+                },
+                {
+                  "item": "数据",
+                  "found": false
+                },
+                {
+                  "item": "连接",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_emotional_vs_rational_001",
+      "condition": "best_prompt",
+      "input_hash": "sha256:8a1cbf27c5f04f9b3d28698cc7b423b27782c993c06be9a686c6735ace639365",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "情感",
+                "数据",
+                "连接"
+              ],
+              "details": [
+                {
+                  "item": "情感",
+                  "found": false
+                },
+                {
+                  "item": "数据",
+                  "found": false
+                },
+                {
+                  "item": "连接",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_emotional_vs_rational_001",
+      "condition": "kdna_full",
+      "input_hash": "sha256:8a1cbf27c5f04f9b3d28698cc7b423b27782c993c06be9a686c6735ace639365",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "情感",
+                "数据",
+                "连接"
+              ],
+              "details": [
+                {
+                  "item": "情感",
+                  "found": false
+                },
+                {
+                  "item": "数据",
+                  "found": false
+                },
+                {
+                  "item": "连接",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_longform_pacing_001",
+      "condition": "no_kdna",
+      "input_hash": "sha256:b3fecc95301959e3a6f3ddee3df96f9086782f6010c4eabae2e4c57e44aa8c2a",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "节奏",
+                "结构",
+                "读者"
+              ],
+              "details": [
+                {
+                  "item": "节奏",
+                  "found": false
+                },
+                {
+                  "item": "结构",
+                  "found": false
+                },
+                {
+                  "item": "读者",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_longform_pacing_001",
+      "condition": "best_prompt",
+      "input_hash": "sha256:b3fecc95301959e3a6f3ddee3df96f9086782f6010c4eabae2e4c57e44aa8c2a",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "节奏",
+                "结构",
+                "读者"
+              ],
+              "details": [
+                {
+                  "item": "节奏",
+                  "found": false
+                },
+                {
+                  "item": "结构",
+                  "found": false
+                },
+                {
+                  "item": "读者",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_longform_pacing_001",
+      "condition": "kdna_full",
+      "input_hash": "sha256:b3fecc95301959e3a6f3ddee3df96f9086782f6010c4eabae2e4c57e44aa8c2a",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "节奏",
+                "结构",
+                "读者"
+              ],
+              "details": [
+                {
+                  "item": "节奏",
+                  "found": false
+                },
+                {
+                  "item": "结构",
+                  "found": false
+                },
+                {
+                  "item": "读者",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_call_to_action_weak_001",
+      "condition": "no_kdna",
+      "input_hash": "sha256:053298ad8e55e0749287636bd6a957eed913bb80d50358855b6f447275e304bc",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "结尾",
+                "弱",
+                "行动"
+              ],
+              "details": [
+                {
+                  "item": "结尾",
+                  "found": false
+                },
+                {
+                  "item": "弱",
+                  "found": false
+                },
+                {
+                  "item": "行动",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_call_to_action_weak_001",
+      "condition": "best_prompt",
+      "input_hash": "sha256:053298ad8e55e0749287636bd6a957eed913bb80d50358855b6f447275e304bc",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "结尾",
+                "弱",
+                "行动"
+              ],
+              "details": [
+                {
+                  "item": "结尾",
+                  "found": false
+                },
+                {
+                  "item": "弱",
+                  "found": false
+                },
+                {
+                  "item": "行动",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_call_to_action_weak_001",
+      "condition": "kdna_full",
+      "input_hash": "sha256:053298ad8e55e0749287636bd6a957eed913bb80d50358855b6f447275e304bc",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "结尾",
+                "弱",
+                "行动"
+              ],
+              "details": [
+                {
+                  "item": "结尾",
+                  "found": false
+                },
+                {
+                  "item": "弱",
+                  "found": false
+                },
+                {
+                  "item": "行动",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_introduction_length_001",
+      "condition": "no_kdna",
+      "input_hash": "sha256:f2a1ffed6813d7a517c6b613f12c0571195996da3364d1cb12e88ba58dd6cd8a",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "引言",
+                "核心",
+                "读者耐心"
+              ],
+              "details": [
+                {
+                  "item": "引言",
+                  "found": false
+                },
+                {
+                  "item": "核心",
+                  "found": false
+                },
+                {
+                  "item": "读者耐心",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_introduction_length_001",
+      "condition": "best_prompt",
+      "input_hash": "sha256:f2a1ffed6813d7a517c6b613f12c0571195996da3364d1cb12e88ba58dd6cd8a",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "引言",
+                "核心",
+                "读者耐心"
+              ],
+              "details": [
+                {
+                  "item": "引言",
+                  "found": false
+                },
+                {
+                  "item": "核心",
+                  "found": false
+                },
+                {
+                  "item": "读者耐心",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_introduction_length_001",
+      "condition": "kdna_full",
+      "input_hash": "sha256:f2a1ffed6813d7a517c6b613f12c0571195996da3364d1cb12e88ba58dd6cd8a",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "引言",
+                "核心",
+                "读者耐心"
+              ],
+              "details": [
+                {
+                  "item": "引言",
+                  "found": false
+                },
+                {
+                  "item": "核心",
+                  "found": false
+                },
+                {
+                  "item": "读者耐心",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_technical_depth_mismatch_001",
+      "condition": "no_kdna",
+      "input_hash": "sha256:d45c78a5267824b8ce8c098705cc46319859354e082a2f349e96e42a036137f9",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "受众",
+                "技术深度",
+                "CTO"
+              ],
+              "details": [
+                {
+                  "item": "受众",
+                  "found": false
+                },
+                {
+                  "item": "技术深度",
+                  "found": false
+                },
+                {
+                  "item": "CTO",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_technical_depth_mismatch_001",
+      "condition": "best_prompt",
+      "input_hash": "sha256:d45c78a5267824b8ce8c098705cc46319859354e082a2f349e96e42a036137f9",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "受众",
+                "技术深度",
+                "CTO"
+              ],
+              "details": [
+                {
+                  "item": "受众",
+                  "found": false
+                },
+                {
+                  "item": "技术深度",
+                  "found": false
+                },
+                {
+                  "item": "CTO",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_technical_depth_mismatch_001",
+      "condition": "kdna_full",
+      "input_hash": "sha256:d45c78a5267824b8ce8c098705cc46319859354e082a2f349e96e42a036137f9",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "受众",
+                "技术深度",
+                "CTO"
+              ],
+              "details": [
+                {
+                  "item": "受众",
+                  "found": false
+                },
+                {
+                  "item": "技术深度",
+                  "found": false
+                },
+                {
+                  "item": "CTO",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_opening_question_weak_001",
+      "condition": "no_kdna",
+      "input_hash": "sha256:52857d67a223e86d805b1e45869d4db003a02c711667d81db9011a56f50c58dd",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "泛",
+                "具体",
+                "认知"
+              ],
+              "details": [
+                {
+                  "item": "泛",
+                  "found": false
+                },
+                {
+                  "item": "具体",
+                  "found": false
+                },
+                {
+                  "item": "认知",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_opening_question_weak_001",
+      "condition": "best_prompt",
+      "input_hash": "sha256:52857d67a223e86d805b1e45869d4db003a02c711667d81db9011a56f50c58dd",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "泛",
+                "具体",
+                "认知"
+              ],
+              "details": [
+                {
+                  "item": "泛",
+                  "found": false
+                },
+                {
+                  "item": "具体",
+                  "found": false
+                },
+                {
+                  "item": "认知",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_opening_question_weak_001",
+      "condition": "kdna_full",
+      "input_hash": "sha256:52857d67a223e86d805b1e45869d4db003a02c711667d81db9011a56f50c58dd",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "泛",
+                "具体",
+                "认知"
+              ],
+              "details": [
+                {
+                  "item": "泛",
+                  "found": false
+                },
+                {
+                  "item": "具体",
+                  "found": false
+                },
+                {
+                  "item": "认知",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_conclusion_summary_trap_001",
+      "condition": "no_kdna",
+      "input_hash": "sha256:6fa0c35f20197cf8d7cb679ed10a62e3195e5e6b544c0d1f9253cf612cf667e5",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "总结",
+                "新意",
+                "行动"
+              ],
+              "details": [
+                {
+                  "item": "总结",
+                  "found": false
+                },
+                {
+                  "item": "新意",
+                  "found": false
+                },
+                {
+                  "item": "行动",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_conclusion_summary_trap_001",
+      "condition": "best_prompt",
+      "input_hash": "sha256:6fa0c35f20197cf8d7cb679ed10a62e3195e5e6b544c0d1f9253cf612cf667e5",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "总结",
+                "新意",
+                "行动"
+              ],
+              "details": [
+                {
+                  "item": "总结",
+                  "found": false
+                },
+                {
+                  "item": "新意",
+                  "found": false
+                },
+                {
+                  "item": "行动",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_conclusion_summary_trap_001",
+      "condition": "kdna_full",
+      "input_hash": "sha256:6fa0c35f20197cf8d7cb679ed10a62e3195e5e6b544c0d1f9253cf612cf667e5",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "总结",
+                "新意",
+                "行动"
+              ],
+              "details": [
+                {
+                  "item": "总结",
+                  "found": false
+                },
+                {
+                  "item": "新意",
+                  "found": false
+                },
+                {
+                  "item": "行动",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_jargon_density_001",
+      "condition": "no_kdna",
+      "input_hash": "sha256:6f84f10cae60bca541d0772867b60c5dca447e2975ca1ea6763c092efb4c5676",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "术语",
+                "可读性",
+                "读者"
+              ],
+              "details": [
+                {
+                  "item": "术语",
+                  "found": false
+                },
+                {
+                  "item": "可读性",
+                  "found": false
+                },
+                {
+                  "item": "读者",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_jargon_density_001",
+      "condition": "best_prompt",
+      "input_hash": "sha256:6f84f10cae60bca541d0772867b60c5dca447e2975ca1ea6763c092efb4c5676",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "术语",
+                "可读性",
+                "读者"
+              ],
+              "details": [
+                {
+                  "item": "术语",
+                  "found": false
+                },
+                {
+                  "item": "可读性",
+                  "found": false
+                },
+                {
+                  "item": "读者",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_jargon_density_001",
+      "condition": "kdna_full",
+      "input_hash": "sha256:6f84f10cae60bca541d0772867b60c5dca447e2975ca1ea6763c092efb4c5676",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "术语",
+                "可读性",
+                "读者"
+              ],
+              "details": [
+                {
+                  "item": "术语",
+                  "found": false
+                },
+                {
+                  "item": "可读性",
+                  "found": false
+                },
+                {
+                  "item": "读者",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_story_data_balance_001",
+      "condition": "no_kdna",
+      "input_hash": "sha256:280f7db08fa00a47608590a093766d93b9b894e6da140186d4ceab9b232f6574",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "证据",
+                "数据",
+                "故事"
+              ],
+              "details": [
+                {
+                  "item": "证据",
+                  "found": false
+                },
+                {
+                  "item": "数据",
+                  "found": false
+                },
+                {
+                  "item": "故事",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_story_data_balance_001",
+      "condition": "best_prompt",
+      "input_hash": "sha256:280f7db08fa00a47608590a093766d93b9b894e6da140186d4ceab9b232f6574",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "证据",
+                "数据",
+                "故事"
+              ],
+              "details": [
+                {
+                  "item": "证据",
+                  "found": false
+                },
+                {
+                  "item": "数据",
+                  "found": false
+                },
+                {
+                  "item": "故事",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_story_data_balance_001",
+      "condition": "kdna_full",
+      "input_hash": "sha256:280f7db08fa00a47608590a093766d93b9b894e6da140186d4ceab9b232f6574",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "证据",
+                "数据",
+                "故事"
+              ],
+              "details": [
+                {
+                  "item": "证据",
+                  "found": false
+                },
+                {
+                  "item": "数据",
+                  "found": false
+                },
+                {
+                  "item": "故事",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_transition_weak_001",
+      "condition": "no_kdna",
+      "input_hash": "sha256:0ff3090833895eb16dd091c4cee2f3aac8fb1fc61a4b74b8139b85e819564af3",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "过渡",
+                "连接",
+                "结构"
+              ],
+              "details": [
+                {
+                  "item": "过渡",
+                  "found": false
+                },
+                {
+                  "item": "连接",
+                  "found": false
+                },
+                {
+                  "item": "结构",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_transition_weak_001",
+      "condition": "best_prompt",
+      "input_hash": "sha256:0ff3090833895eb16dd091c4cee2f3aac8fb1fc61a4b74b8139b85e819564af3",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "过渡",
+                "连接",
+                "结构"
+              ],
+              "details": [
+                {
+                  "item": "过渡",
+                  "found": false
+                },
+                {
+                  "item": "连接",
+                  "found": false
+                },
+                {
+                  "item": "结构",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    },
+    {
+      "case_id": "writing_transition_weak_001",
+      "condition": "kdna_full",
+      "input_hash": "sha256:0ff3090833895eb16dd091c4cee2f3aac8fb1fc61a4b74b8139b85e819564af3",
+      "output_file": "benchmarks/reference-domains/writing/2026-06-03/cross-model/claude-sonnet/raw/run_20260604_003818_benchmark-run-v1.raw.json",
+      "output": "",
+      "scores": {
+        "L1": {
+          "passed": false,
+          "checks": {
+            "must_include": {
+              "passed": false,
+              "missing": [
+                "过渡",
+                "连接",
+                "结构"
+              ],
+              "details": [
+                {
+                  "item": "过渡",
+                  "found": false
+                },
+                {
+                  "item": "连接",
+                  "found": false
+                },
+                {
+                  "item": "结构",
+                  "found": false
+                }
+              ]
+            },
+            "must_not_include": {
+              "passed": true,
+              "violations": []
+            }
+          }
+        },
+        "L2": {
+          "status": "not_run",
+          "passed": false,
+          "scores": {},
+          "total": 0,
+          "max_total": 0,
+          "summary": null,
+          "error": null,
+          "reason": "provider_call_failed_or_timed_out"
+        }
+      },
+      "pass": false,
+      "error": "provider_call_failed_or_timed_out",
+      "expected_behavior": "comply"
+    }
+  ],
+  "status": "scored"
+}

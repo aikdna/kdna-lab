@@ -1,0 +1,26 @@
+domain:
+  name: "@aikdna/writing"
+  load_cmd: "kdna load"
+  format: "prompt"
+
+api:
+  provider: "openai_compatible"
+  model: "qwen/qwen3.7-max"
+  base_url: "https://openrouter.ai/api/v1"
+  api_key_env: "OPENROUTER_API_KEY"
+  temperature: 0.3
+  max_tokens: 2000
+  timeout: 30
+
+output:
+  dir: "benchmarks/reference-domains/writing/2026-06-03/cross-model/qwen3.7-max"
+
+runners:
+  domain:
+    conditions:
+      - "no_kdna"
+      - "best_prompt"
+      - "kdna_full"
+    rate_limit: 0.5
+    retries: 1
+    workers: 1

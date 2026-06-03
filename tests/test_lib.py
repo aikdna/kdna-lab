@@ -241,7 +241,7 @@ class TestBenchmarkArtifacts:
 
         assert runner.call_api("prompt") == "ok"
         assert captured["timeout"] == 17
-        assert captured["hard_timeout"] == 17
+        assert captured["hard_timeout"] == 0  # process timeout disabled, SDK handles it
 
     def test_runner_enforces_hard_provider_timeout(self, monkeypatch):
         if "fork" not in multiprocessing.get_all_start_methods():

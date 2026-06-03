@@ -1,0 +1,13 @@
+# Case: writing_platform_twitter_001
+# Run: run_20260604_003818
+# Condition: kdna_full
+# Provider: openai_compatible
+# Model: qwen/qwen3.7-max
+# Domain: @aikdna/writing
+# Timestamp: 2026-06-04T01:16:31.187441
+---
+AI不会取代作家，它只淘汰“人肉打字机”。
+
+当算法能一秒生成千字废话，文字产能便不再稀缺。真正稀缺的是洞察、品味与提出好问题的能力。
+
+未来淘汰你的不是AI，而是那些用AI放大思考深度的同行。别只做输出者，去做思考者。

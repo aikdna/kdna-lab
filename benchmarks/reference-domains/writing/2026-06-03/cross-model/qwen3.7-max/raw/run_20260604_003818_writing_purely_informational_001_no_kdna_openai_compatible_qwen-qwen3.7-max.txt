@@ -1,0 +1,170 @@
+# Case: writing_purely_informational_001
+# Run: run_20260604_003818
+# Condition: no_kdna
+# Provider: openai_compatible
+# Model: qwen/qwen3.7-max
+# Domain: @aikdna/writing
+# Timestamp: 2026-06-04T01:20:29.105359
+---
+在专业的 API 文档设计（如 Stripe、Twilio 或 OpenAPI 规范）中，**“简介（Overview）”** 通常用于说明全局信息（如 Base URL、认证方式、通用格式），而 **“所有端点、参数和返回值”** 会放在 **“API 参考（API Reference）”** 部分。如果将成百上千个参数全部塞进“简介”，会导致文档失去可读性。
+
+为了既满足您的需求，又符合行业最佳实践，我为您设计了一份 **“全局简介 + 端点概览表 + 详细参数与返回值”** 的结构化模板。
+
+您可以直接复制以下 Markdown 格式的模板，并根据您的实际业务进行替换（这里以“**用户管理系统 API**”为例）：
+
+***
+
+# [您的项目名称] API 文档
+
+## 1. 简介 (Introduction)
+欢迎使用 [项目名称] API。本 API 提供了一套 RESTful 接口，允许您通过编程方式安全地管理 [核心业务，如：用户、订单、内容等]。
+
+### 1.1 基础信息 (Base Information)
+- **Base URL**: `https://api.yourdomain.com/v1`
+- **协议**: 仅支持 `HTTPS`
+- **数据格式**: 请求和响应均采用 `JSON` 格式 (`Content-Type: application/json`)
+
+### 1.2 认证方式 (Authentication)
+所有 API 请求必须在 HTTP Header 中携带 Bearer Token 进行身份验证。未授权请求将返回 `401 Unauthorized`。
+```http
+Authorization: Bearer <YOUR_ACCESS_TOKEN>
+```
+
+### 1.3 通用响应格式 (Standard Response Format)
+所有成功的响应均遵循以下统一的 JSON 结构：
+```json
+{
+  "code": 200,
+  "message": "success",
+  "data": { ... }
+}
+```
+**全局错误码说明：**
+| HTTP 状态码 | 业务 Code | 描述 |
+| :--- | :--- | :--- |
+| `400` | 40001 | 请求参数校验失败 |
+| `401` | 40100 | 未授权或 Token 过期 |
+| `403` | 40300 | 权限不足 |
+| `404` | 40400 | 请求的资源不存在 |
+| `500` | 50000 | 服务器内部错误 |
+
+---
+
+## 2. 端点概览 (Endpoints Overview)
+以下是本 API 提供的所有端点列表。详细的参数和返回值请参阅第 3 节。
+
+| 方法 (Method) | 端点 (Endpoint) | 描述 (Description) |
+| :--- | :--- | :--- |
+| `GET` | `/users` | 获取用户列表（支持分页和过滤） |
+| `POST` | `/users` | 创建一个新用户 |
+| `GET` | `/users/{id}` | 获取指定用户的详细信息 |
+| `PUT` | `/users/{id}` | 更新指定用户的信息 |
+| `DELETE`| `/users/{id}` | 删除指定用户 |
+
+---
+
+## 3. 端点详情 (Endpoints Reference)
+
+### 3.1 获取用户列表
+获取系统中的用户列表，支持分页与状态过滤。
+
+- **URL**: `/users`
+- **Method**: `GET`
+
+#### 请求参数 (Query Parameters)
+| 参数名 | 类型 | 必填 | 默认值 | 描述 |
+| :--- | :--- | :--- | :--- | :--- |
+| `page` | Integer | 否 | `1` | 当前页码，最小为 1 |
+| `limit` | Integer | 否 | `20` | 每页数量，范围 1-100 |
+| `status` | String | 否 | - | 用户状态过滤：`active`, `inactive` |
+
+#### 返回值 (Response)
+**成功响应 (200 OK)**
+```json
+{
+  "code": 200,
+  "message": "success",
+  "data": {
+    "total": 150,
+    "page": 1,
+    "limit": 20,
+    "items": [
+      {
+        "id": "usr_12345",
+        "username": "johndoe",
+        "email": "john@example.com",
+        "status": "active",
+        "created_at": "2023-10-25T10:00:00Z"
+      }
+    ]
+  }
+}
+```
+
+---
+
+### 3.2 创建新用户
+在系统中注册并创建一个新用户。
+
+- **URL**: `/users`
+- **Method**: `POST`
+
+#### 请求参数 (Body Parameters)
+| 参数名 | 类型 | 必填 | 描述 |
+| :--- | :--- | :--- | :--- |
+| `username` | String | 是 | 用户名，3-20个字符，仅限字母数字 |
+| `email` | String | 是 | 有效的电子邮件地址，全局唯一 |
+| `password` | String | 是 | 密码，至少8位，需包含字母和数字 |
+| `role` | String | 否 | 用户角色，默认 `user`。可选：`admin`, `user` |
+
+**请求示例:**
+```json
+{
+  "username": "janedoe",
+  "email": "jane@example.com",
+  "password": "SecurePass123!",
+  "role": "user"
+}
+```
+
+#### 返回值 (Response)
+**成功响应 (201 Created)**
+```json
+{
+  "code": 201,
+  "message": "User created successfully",
+  "data": {
+    "id": "usr_67890",
+    "username": "janedoe",
+    "email": "jane@example.com",
+    "role": "user",
+    "created_at": "2023-10-27T14:30:00Z"
+  }
+}
+```
+
+**错误响应示例 (400 Bad Request)**
+```json
+{
+  "code": 40001,
+  "message": "Validation failed",
+  "data": null,
+  "error_details": [
+    {
+      "field": "email",
+      "issue": "Email format is invalid or already exists"
+    }
+  ]
+}
+```
+
+---
+*(注：其余端点如 GET /users/{id}、PUT /users/{id} 等，请按照上述 3.1 和 3.2 的格式继续向下补充)*
+
+***
+
+### 💡 给您的额外建议：
+如果您正在开发一个真实的商业项目，**强烈建议不要纯手工编写 Markdown 文档**，而是使用以下工具来自动生成和管理 API 文档：
+1. **Apifox / Postman**：在调试接口的同时，一键生成漂亮的在线 API 文档，支持参数 Mock 和在线测试。
+2. **Swagger (OpenAPI)**：如果您使用 Java (SpringBoot)、Node.js、Python 等后端语言，可以通过代码注解（如 `@ApiOperation`）自动生成上述格式的交互式文档。
+3. **GitBook / VitePress**：如果您坚持使用 Markdown，可以将上述文本放入这些文档站点生成工具中，获得带侧边栏导航的精美网页。

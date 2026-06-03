@@ -212,14 +212,6 @@ class DomainRunner(ExperimentRunner):
                         "error": "provider_call_failed_or_timed_out",
                         "timestamp": datetime.utcnow().isoformat() + "Z",
                     })
-                    self.save_index(results)
-                    self._write_benchmark_run_artifact(
-                        domain,
-                        domain_meta,
-                        results,
-                        len(cases),
-                        status="raw_partial",
-                    )
                     print("FAILED")
                     time.sleep(rate_limit)
                     continue
@@ -242,14 +234,6 @@ class DomainRunner(ExperimentRunner):
                     "case": case,
                     "timestamp": datetime.utcnow().isoformat() + "Z",
                 })
-                self.save_index(results)
-                self._write_benchmark_run_artifact(
-                    domain,
-                    domain_meta,
-                    results,
-                    len(cases),
-                    status="raw_partial",
-                )
                 print(f"{len(output)} chars")
                 time.sleep(rate_limit)
 
@@ -303,14 +287,16 @@ def run_domain_cases(
     config_path: str | None = None,
     domain: str | None = None,
     execute: bool = False,
+    smoke: bool = False,
 ) -> List[dict]:
     """Main entry point for domain case experiments.
 
     Args:
-        case_file: Path to JSONL case file (defaults to examples/kdna_propagation/cases.jsonl)
+        case_file: Path to JSONL case file
         config_path: Path to YAML config file
         domain: Domain name override
         execute: If True, call LLM API; if False, generate plan only
+        smoke: If True, run only the first case (3-condition quick check)
     """
     cfg = load_config(LAB_ROOT, Path(config_path) if config_path else None)
     cfg["output"]["dir"] = resolve_output_dir(cfg, LAB_ROOT)
@@ -320,6 +306,9 @@ def run_domain_cases(
 
     cf = case_file or str(LAB_ROOT / "examples" / "kdna_propagation" / "cases.jsonl")
     cases = load_cases_list(cf)
+    if smoke:
+        cases = cases[:1]
+        cf = f"{cf} (smoke: first case only)"
     print(f"[INFO] Loaded {len(cases)} cases from {cf}")
 
     runner = DomainRunner(LAB_ROOT, cfg)
@@ -341,6 +330,7 @@ def run_domain_cases_cli():
     parser.add_argument("case_file", nargs="?", default=None, help="JSONL case file")
     parser.add_argument("--plan", action="store_true", help="Generate run plan (default if no --execute)")
     parser.add_argument("--execute", action="store_true", help="Execute via LLM API")
+    parser.add_argument("--smoke", action="store_true", help="Run first case only (3-condition quick check)")
     parser.add_argument("--domain", help="Domain name override")
     parser.add_argument("--config", default=None, help="Config file path")
     args = parser.parse_args()
@@ -350,4 +340,5 @@ def run_domain_cases_cli():
         config_path=args.config,
         domain=args.domain,
         execute=args.execute,
+        smoke=args.smoke,
     )

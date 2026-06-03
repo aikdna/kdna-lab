@@ -1,0 +1,9 @@
+# Case: writing_structure_only_001
+# Run: run_20260604_003818
+# Condition: kdna_full
+# Provider: openai_compatible
+# Model: qwen/qwen3.7-max
+# Domain: @aikdna/writing
+# Timestamp: 2026-06-04T00:47:40.751307
+---
+请提供您需要修改的文章。我会严格按照您的要求，只修正语法、拼写和标点等语言层面的错误，绝不改动文章的结构和原有内容。

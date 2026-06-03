@@ -1,0 +1,199 @@
+# Case: writing_purely_informational_001
+# Run: run_20260604_003818
+# Condition: kdna_full
+# Provider: openai_compatible
+# Model: qwen/qwen3.7-max
+# Domain: @aikdna/writing
+# Timestamp: 2026-06-04T01:22:18.084407
+---
+这是一份标准且结构清晰的 API 文档简介模板。由于您没有提供具体的 API 业务细节，我以一个虚拟的 **“用户管理 API”** 为例进行填充。您可以直接将示例内容替换为您实际的接口数据。
+
+***
+
+# [您的产品/项目名称] API 文档
+
+## 1. 简介
+欢迎使用 [产品名称] API。本 API 提供了一套 RESTful 接口，允许开发者通过编程方式管理 [核心业务，如：用户数据、订单状态等]。
+
+- **Base URL**: `https://api.yourdomain.com/v1`
+- **数据格式**: 所有请求和响应均使用 `application/json` 格式。
+- **认证方式**: 需要在请求头中携带 Bearer Token。
+  ```http
+  Authorization: Bearer <your_api_token>
+  ```
+
+---
+
+## 2. 端点概览
+
+| HTTP 方法 | 端点 (Endpoint) | 描述 |
+| :--- | :--- | :--- |
+| `GET` | `/users` | 获取用户列表（支持分页与过滤） |
+| `GET` | `/users/{id}` | 获取指定用户的详细信息 |
+| `POST` | `/users` | 创建一个新用户 |
+| `PUT` | `/users/{id}` | 更新指定用户的信息 |
+| `DELETE`| `/users/{id}` | 删除指定用户 |
+
+---
+
+## 3. 端点详细说明
+
+### 3.1 获取用户列表
+获取系统中的用户列表，支持分页和条件过滤。
+
+- **端点**: `GET /users`
+
+#### 请求参数 (Query Parameters)
+
+| 参数名 | 类型 | 必填 | 默认值 | 描述 |
+| :--- | :--- | :--- | :--- | :--- |
+| `page` | Integer | 否 | `1` | 当前页码 |
+| `limit` | Integer | 否 | `20` | 每页返回的数量（最大 100） |
+| `status` | String | 否 | - | 过滤用户状态，可选值：`active`, `inactive` |
+
+#### 返回值 (Response)
+**成功响应 (200 OK)**
+```json
+{
+  "code": 200,
+  "message": "success",
+  "data": {
+    "total": 150,
+    "page": 1,
+    "limit": 20,
+    "items": [
+      {
+        "id": "usr_12345",
+        "username": "johndoe",
+        "email": "john@example.com",
+        "status": "active",
+        "created_at": "2023-10-01T12:00:00Z"
+      }
+    ]
+  }
+}
+```
+
+---
+
+### 3.2 获取指定用户详情
+根据用户 ID 获取单个用户的完整信息。
+
+- **端点**: `GET /users/{id}`
+
+#### 路径参数 (Path Parameters)
+
+| 参数名 | 类型 | 必填 | 描述 |
+| :--- | :--- | :--- | :--- |
+| `id` | String | 是 | 用户的唯一标识符（如 `usr_12345`） |
+
+#### 返回值 (Response)
+**成功响应 (200 OK)**
+```json
+{
+  "code": 200,
+  "message": "success",
+  "data": {
+    "id": "usr_12345",
+    "username": "johndoe",
+    "email": "john@example.com",
+    "role": "admin",
+    "status": "active",
+    "created_at": "2023-10-01T12:00:00Z",
+    "updated_at": "2023-10-05T08:30:00Z"
+  }
+}
+```
+**错误响应 (404 Not Found)**
+```json
+{
+  "code": 404,
+  "message": "User not found",
+  "data": null
+}
+```
+
+---
+
+### 3.3 创建新用户
+在系统中注册并创建一个新用户。
+
+- **端点**: `POST /users`
+
+#### 请求体参数 (Body Parameters)
+
+| 参数名 | 类型 | 必填 | 描述 |
+| :--- | :--- | :--- | :--- |
+| `username` | String | 是 | 用户名（3-20个字符，仅限字母数字） |
+| `email` | String | 是 | 有效的电子邮件地址 |
+| `password` | String | 是 | 密码（至少8位，需包含大小写字母和数字） |
+| `role` | String | 否 | 用户角色，默认值为 `user`。可选值：`user`, `admin` |
+
+**请求示例:**
+```json
+{
+  "username": "janedoe",
+  "email": "jane@example.com",
+  "password": "SecurePass123!",
+  "role": "user"
+}
+```
+
+#### 返回值 (Response)
+**成功响应 (201 Created)**
+```json
+{
+  "code": 201,
+  "message": "User created successfully",
+  "data": {
+    "id": "usr_67890",
+    "username": "janedoe",
+    "email": "jane@example.com",
+    "role": "user",
+    "status": "active",
+    "created_at": "2023-10-27T10:00:00Z"
+  }
+}
+```
+**错误响应 (400 Bad Request - 参数校验失败)**
+```json
+{
+  "code": 400,
+  "message": "Validation failed",
+  "errors": [
+    {
+      "field": "email",
+      "message": "Invalid email format"
+    }
+  ]
+}
+```
+
+---
+
+## 4. 通用错误码说明
+
+所有端点在发生异常时，均会返回以下标准错误结构：
+
+```json
+{
+  "code": 500,
+  "message": "Internal server error",
+  "data": null
+}
+```
+
+| HTTP 状态码 | 业务 Code | 描述 | 处理建议 |
+| :--- | :--- | :--- | :--- |
+| `400` | 400 | Bad Request | 检查请求参数格式和必填项 |
+| `401` | 401 | Unauthorized | Token 缺失、过期或无效，请重新获取 |
+| `403` | 403 | Forbidden | 当前账号没有权限执行此操作 |
+| `404` | 404 | Not Found | 请求的资源（如用户 ID）不存在 |
+| `429` | 429 | Too Many Requests | 触发限流，请降低请求频率 |
+| `500` | 500 | Internal Server Error| 服务器内部错误，请联系技术支持 |
+
+***
+
+**使用建议**：
+1. 如果您的 API 有特定的**限流规则（Rate Limiting）**或**分页游标（Cursor-based pagination）**，请在“简介”或“通用说明”中补充。
+2. 建议在实际文档中为每个端点补充真实的 `cURL` 请求示例，这能大幅降低开发者的接入成本。

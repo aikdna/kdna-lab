@@ -1,0 +1,61 @@
+# Case: writing_conclusion_summary_trap_001
+# Run: run_20260604_003818
+# Condition: best_prompt
+# Provider: openai_compatible
+# Model: qwen/qwen3.7-max
+# Domain: @aikdna/writing
+# Timestamp: 2026-06-04T01:38:27.791033
+---
+As a senior editor and writing coach, I will diagnose this concluding sentence using the requested framework. 
+
+### 1. Core Argument and Purpose
+**What it’s trying to accomplish:** The surface-level goal of this ending is to summarize the article by reminding the reader of the main topics (Points A, B, and C). 
+**The actual effect:** It fails to achieve the *true* purpose of a conclusion. A strong conclusion should synthesize the arguments, deliver a final core insight, and answer the reader's implicit question: *"So what?"* (Why does this matter?). This ending merely repeats the table of contents.
+
+### 2. Structural Clarity
+**Assessment:** The structure is incomplete and lacks a satisfying resolution. 
+A well-structured conclusion moves from the specific (the points just discussed) to the general (the broader implications). This ending gets stuck in the "review" phase. It looks backward at what the text *did*, rather than looking forward to what the text *means*, causing the article to end with a thud rather than a resonant final note.
+
+### 3. Rhetoric and Tone
+**Assessment:** The tone is mechanical, academic in a lazy way, and lacks persuasive power.
+*   **Cliché phrasing:** "综上所述" (In summary / To sum up) is a filler phrase. It signals to the reader that the writer couldn't find a more organic way to transition into the final thought. It reads like a middle-school essay or a dry bureaucratic report.
+*   **Weak verbs and process-oriented language:** "我们讨论了" (we discussed) is a weak, process-oriented verb. The reader doesn't care about the *process* of your discussion; they care about the *results* of it. It makes the writing sound timid and unconfident.
+
+### 4. Logical Coherence
+**Assessment:** There is a critical **logical gap**. 
+Points A, B, and C are your premises or sub-arguments. The logical job of the conclusion is to combine A, B, and C to prove a higher-level thesis. By simply listing them, you are showing the reader the ingredients but refusing to serve the final dish. The logical leap from "evidence" to "final verdict" is entirely missing.
+
+### 5 & 6. Specific Passages: What Needs Revision and Why
+**Passage to cut:** *"综上所述，我们讨论了A、B、C三个点" (In summary, we discussed points A, B, and C).*
+**Why it fails:** The reader just spent the last several minutes or pages reading about A, B, and C. They already know you discussed them. The conclusion is the most valuable "real estate" in your piece; using it to state the obvious is a waste of the reader's attention. Good writing follows the rule of "Show, don't tell." You need to *show* the combined power of A, B, and C, not *tell* the reader that you wrote about them.
+
+### 7. Actionable Revision Suggestions
+To fix this, you need to transform a "summary of process" into a "synthesis of insights." Follow this three-step formula:
+
+**Step 1: Delete the filler.** 
+Ruthlessly cut "综上所述", "总而言之", or "如前所述". Just start your final thought directly.
+
+**Step 2: Shift from "Process" to "Conclusion".** 
+Don't say you *discussed* A, B, and C. State what A, B, and C *prove* when put together. Find the logical intersection of your three points.
+
+**Step 3: Answer "So what?" (The Mic Drop).** 
+End with a broader implication, a call to action, or a forward-looking insight that elevates the piece beyond the immediate text.
+
+#### Before & After Examples
+
+*Context: Let's assume your article is about "Corporate Digital Transformation," where A = Tech Upgrades, B = Organizational Restructuring, and C = Cultural Shift.*
+
+**❌ Original (Your Version):**
+> "综上所述，我们讨论了技术升级、组织架构调整和企业文化重塑这三个点。"
+> *(Diagnosis: Dry, reads like an index, zero intellectual payoff.)*
+
+**✅ Revision 1 (Synthesizing the Core Argument - Best for Analytical Essays):**
+> "技术升级、架构调整与文化重塑并非孤立的举措，而是企业数字化转型中不可分割的铁三角。只有当底层技术、中层组织与顶层文化同频共振时，企业才能真正跨越数字鸿沟。"
+> *(Diagnosis: Explains the logical relationship between A, B, and C, delivering a clear, synthesized final verdict.)*
+
+**✅ Revision 2 (Call to Action / Broader Implication - Best for Persuasive/Business Writing):**
+> "数字化转型从来不是一场单纯的IT采购，而是一次从底层代码到企业心智的全面重构。面对未来的市场洗牌，管理者现在需要做的不是犹豫是否要启动转型，而是立刻审视自身的组织与文化，是否已经为迎接技术变革做好了准备。"
+> *(Diagnosis: Zooms out from the specific details of A, B, and C to challenge the reader and provide a forward-looking call to action.)*
+
+**Your Next Step:**
+Look at your specific A, B, and C. Ask yourself: *"If the reader forgets everything else, what is the ONE ultimate truth that A, B, and C prove together?"* Write that truth down as your new first sentence, and follow it with a final thought on why it matters to the real world.

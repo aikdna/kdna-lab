@@ -1,0 +1,11 @@
+# Case: writing_should_not_apply_001
+# Run: run_20260604_003818
+# Condition: kdna_full
+# Provider: openai_compatible
+# Model: qwen/qwen3.7-max
+# Domain: @aikdna/writing
+# Timestamp: 2026-06-04T00:53:12.063504
+---
+请提供您需要校对的法律合同文本。您可以直接将内容粘贴在对话中。
+
+收到文本后，我将为您仔细检查拼写和语法错误，并核对法律术语及句式的严谨性。如果您有特定的校对要求（例如适用特定司法管辖区的术语习惯、中英双语对照等），也请一并告知。

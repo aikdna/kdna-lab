@@ -116,6 +116,8 @@ class ScoringPipeline:
         self, l1_results: List[Dict], judge_fn: L2JudgeFn, config: Dict
     ) -> List[Dict]:
         """Run L2 LLM judge on L1 results. Skips cases with provider errors/timeouts."""
+        import time
+        rate_limit = config.get("rate_limit", 0.5)
         results = []
         skipped = 0
         for r in l1_results:
@@ -143,6 +145,7 @@ class ScoringPipeline:
                 "condition": r.get("condition"),
                 "L2": l2,
             })
+            time.sleep(rate_limit)
         if skipped > 0:
             print(f"[L2] Skipped {skipped} cases with provider errors (L2 not_run)")
         return results

@@ -1,0 +1,1462 @@
+case_id,condition,input,expected_behavior,output,L1_pass,L2_pass,L2_status,L2_summary,error,L3_verdict,L3_notes
+pd_task_mixing_critique_and_create_001,no_kdna,"请帮我分析这个prompt为什么产生的输出不理想：""写一篇关于气候变化的报告，同时帮我分析这个Excel表格的数据，然后写一封邮件给客户，最后帮我规划下周的行程。""",diagnose_and_rewrite,"### 如何改进？—— 拆解为多个独立、清晰的Prompt
+
+将你的原始需求拆解为4个独立的对话或请求，每个都提供充分的上下文：
+
+**Prompt 1：写气候变化报告**
+> “请帮我写一份关于气候变化的报告，目标读者是公司董事会。报告需要强调气候变化对我们供应链的潜在风险，并提出3个具体的应对策略。长度控制在800字以内，使用正式、数据驱动的语气。请引用IPCC 2023年报告中的关键数据。”
+
+**Prompt 2：分析Excel数据**
+> （**先上传Excel文件**）
+> “请分析我上传的Excel文件。这个表格包含了我们公司过去12个月的月度销售数据，列包括：月份、产品A销售额、产品B销售额、总销售额。请帮我：
+> 1. 计算每个季度的总销售额。
+> 2. 找出销售额最高的月份和最低的月份。
+> 3. 判断产品A和产品B的销售额是否存在明显的季节性趋势。
+> 4. 用一段简洁的文字总结关键发现。”
+
+**Prompt 3：写客户邮件**
+> “请帮我写一封邮件给客户张总（[zhang@example.com](mailto:zhang@example.com)），主题是",False,True,scored,The output thoroughly diagnoses the task mixing issue and provides a well-structured rewrite with separate prompts for each task.,,,
+pd_task_mixing_critique_and_create_001,best_prompt,"请帮我分析这个prompt为什么产生的输出不理想：""写一篇关于气候变化的报告，同时帮我分析这个Excel表格的数据，然后写一封邮件给客户，最后帮我规划下周的行程。""",diagnose_and_rewrite,"# Prompt Engineering Diagnosis
+
+## 1. 核心意图分析
+
+**显式意图**：用户要求AI同时完成四项独立任务——撰写气候变化报告、分析Excel数据、撰写客户邮件、规划下周行程。
+
+**隐含假设**：用户假设AI可以同时处理这些任务，且输出结果会自然整合。实际上，这些任务之间**没有逻辑关联**，属于典型的“多任务混杂”问题。
+
+## 2. 任务模糊性检测
+
+| 问题 | 严重程度 |
+|------|----------|
+| **多目标混合**：四项任务彼此独立，无优先级或关联说明 | ⚠️ **功能性** |
+| **成功标准缺失**：报告长度/风格？Excel数据类型？邮件收件人？行程约束？ | ⚠️ **功能性** |
+| **执行顺序未定义**：AI可能随机选择一项开始，或尝试一次性输出所有内容 | ⚠️ **功能性** |
+
+## 3. 缺失上下文清单
+
+- **气候变化报告**：目标受众？报告用途（学术/政策/科普）？字数要求？是否需要数据引用？
+- **Excel表格**：表格未提供！AI无法分析不存在的文件。
+- **客户邮件**：",False,True,scored,"The output fully identifies the task mixing issue and proposes an effective split, achieving a perfect score.",,,
+pd_task_mixing_critique_and_create_001,kdna_full,"请帮我分析这个prompt为什么产生的输出不理想：""写一篇关于气候变化的报告，同时帮我分析这个Excel表格的数据，然后写一封邮件给客户，最后帮我规划下周的行程。""",diagnose_and_rewrite,"这个 prompt 的问题根源在于**任务混合**和**上下文缺失**，而不是格式或指令不够详细。
+
+1. **任务混合**：你在一句话里塞入了四个完全不同的任务——写报告、分析数据、写邮件、规划行程。LLM 在处理多任务时，注意力会分散，它既无法为每个任务分配足够的“思考预算”，也无法保持一致的输出质量。结果往往是每个任务都只给了一个非常浅的回应（比如气候变化报告变成两段百科摘抄，表格分析变成一句“看起来数据正常”，邮件写成模板套话，行程变成一个空泛的列表）。
+
+2. **上下文缺失**：每个子任务都缺少最关键的信息：
+   - 气候变化报告：面向什么受众？侧重科学、政策还是行动建议？长度和风格要求？
+   - Excel 表格分析：表格内容是什么？分析目的是找趋势、异常值还是做预测？具体要看哪些指标？
+   - 客户邮件：客户是谁？邮件目的是跟进、投诉还是介绍新品？之前有无沟通背景？
+   - 行程规划：你的现有日程？优先级（工作/生活/紧急）？有无固定时间约束？
+
+**改进方向**：把一个大 prompt 拆成四个独立的 prompt，每个只做一件事，并为每件事提供必要的前置信息",False,True,scored,"The output accurately diagnoses task mixing and context missing, and provides a clear, actionable split proposal with examples.",,,
+pd_goal_ambiguity_no_output_format_001,no_kdna,"请诊断这个prompt为什么产出不好：""帮我写点关于AI的东西。""",diagnose_and_rewrite,"## 改进方案（示例）
+
+试试这样改写，让模型知道你真正想要什么：
+
+> “请帮我写一段300字左右的科普短文，面向完全没有编程背景的普通读者，介绍 **生成式AI（例如ChatGPT）** 的工作原理，用生活化的比喻，避免专业术语，最后加一句你对这项技术风险的看法。”
+
+或者更具体的：
+
+> “我想写一篇面向企业CTO的简报，列举2025年AI在制造业中的 **三个落地应用场景**（预测维护、质检、排产优化），每个场景用一段话说明技术原理和ROI数据，格式为列表，总字数不超过800字。”
+
+---
+
+**总结**：好的 prompt = **明确的任务 + 具体的领域 + 目标受众 + 风格语调 + 输出格式 + 任何限制条件**。你的原 prompt 只给了“写点”，相当于让厨师“做点吃的”，自然做不出你想要的菜。",False,True,scored,"The output excellently diagnoses the ambiguity of the original prompt and provides concrete examples of how to specify goals, earning full marks.",,,
+pd_goal_ambiguity_no_output_format_001,best_prompt,"请诊断这个prompt为什么产出不好：""帮我写点关于AI的东西。""",diagnose_and_rewrite,"### 1. 实际意图 vs 隐含假设
+- **显式意图**：请求生成一段关于“人工智能”的文本。
+- **隐含假设**：用户假设 AI 能自动理解“写点”的具体含义（长度、风格、用途）、知道“AI”应该聚焦哪个子领域（技术原理、伦理影响、行业应用、历史发展等），并默认输出格式为自然段落。
+- **问题**：假设过度，导致模型无法确定最优响应。
+
+### 2. 任务模糊性（多重目标？成功标准？）
+- **混合目标**：没有明确单一目标。可能同时期望介绍、分析、举例或观点表达，但未指定。
+- **成功标准缺失**：无法判断输出是否“好”——是信息准确、通俗易懂、有深度还是有趣？缺少任何可衡量的指标。
+- **严重性**：功能性。输出可能随机、肤浅或偏离用户真实需求。
+
+### 3. 缺失上下文
+需要补充的关键信息：
+- **目标受众**（小学生？程序员？高管？）
+- **输出用途**（报告、创意故事、学习笔记、社交媒体帖子？）
+- **内容深度**（入门概述、技术细节、批判性分析？）
+- **篇幅约束**（一句话？1000字？）
+- **风格偏好**（正式、轻松、学术、俏皮？）
+- **",False,True,scored,"The AI output excellently diagnoses the prompt's ambiguity and provides a clear, specific rewritten prompt, meeting all rubric criteria.",,,
+pd_goal_ambiguity_no_output_format_001,kdna_full,"请诊断这个prompt为什么产出不好：""帮我写点关于AI的东西。""",diagnose_and_rewrite,"Looking at this prompt, I can see several issues that explain why it produces poor results.
+
+**Primary problem: Goal ambiguity**
+
+The prompt ""帮我写点关于AI的东西"" (Help me write something about AI) has no defined outcome. You can't describe what a perfect output would enable you to do next because the goal itself is undefined. ""Something about AI"" could mean:
+- An introductory article for beginners
+- A technical deep-dive on transformer architectures
+- A marketing piece for an AI product
+- A critical an",False,True,scored,The output thoroughly diagnoses the prompt's ambiguity and effectively guides the user to specify a clear goal.,,,
+pd_context_gap_missing_data_001,no_kdna,"请诊断这个prompt有什么问题：""根据上季度的数据，为我制定下一季度的增长策略。""",diagnose_and_rewrite,"这个 prompt 存在以下几个主要问题：
+
+1. **数据缺失**：要求“根据上季度的数据”，但未实际提供任何数据（如销售数字、用户行为、财务指标等）。AI 无法访问外部数据库，需要用户明确给出或描述数据内容。
+
+2. **目标模糊**：“增长策略”过于宽泛——是收入增长、用户增长、市场份额提升、利润增长还是其他？没有明确目标，策略会缺乏针对性。
+
+3. **缺乏行业/业务背景**：未说明公司所处的行业、产品类型、目标客户群、竞争环境等关键信息。不同行业的增长策略差异巨大（例如 SaaS vs 零售 vs 制造业）。
+
+4. **缺少约束条件**：没有提及预算限制、团队规模、时间周期（季度内具体到月或周）、可使用的资源等，导致策略可能不切实际。
+
+5. **未指定输出格式**：期望得到的回答是列表、报告、行动计划还是优先级排序？不明确格式可能使结果难以使用。
+
+**改进建议**：  
+- 提供上季度的关键数据（或描述数据特征）。  
+- 明确增长的具体目标（例如：下季度用户增长 20% 或营收增长 15%）。  
+- 补充业务背景（行业、产品、主要客户、当前阶段）。  
+- 说明资源",False,True,scored,"The output fully addresses both rubric dimensions by diagnosing prompt flaws and clarifying the need for concrete data, earning the maximum score.",,,
+pd_context_gap_missing_data_001,best_prompt,"请诊断这个prompt有什么问题：""根据上季度的数据，为我制定下一季度的增长策略。""",diagnose_and_rewrite,"## 诊断报告
+
+### 1. 识别实际请求与隐含假设
+- **明确请求**：用户要求AI根据“上季度的数据”制定“下一季度的增长策略”。
+- **隐含假设**：
+  - AI能够获取或已拥有上季度的数据（但prompt中未提供任何数据）。
+  - AI理解“增长”的具体含义（营收、用户数、利润、市场份额？）。
+  - AI知道用户所在行业、公司规模、资源状况。
+  - “策略”的输出形式（文字报告、列表、表格？）是默认可接受的。
+
+### 2. 任务模糊性
+- **多目标混合**：虽然只提了一个总体目标，但“增长策略”本身包含多个子目标（如渠道选择、产品优化、定价调整等），没有指明优先级或约束。
+- **成功标准不明确**：什么样的策略算是“好”？需要可量化（如增长20%）还是定性方向？需要可执行方案还是宏观框架？
+
+### 3. 缺失上下文
+- **核心数据缺失**：没有提供任何上季度的数据（数字、趋势、图表、文本摘录等），AI无法基于数据做分析。
+- **背景信息缺失**：
+  - 行业（电商、SaaS、制造业等）
+  - 目标用户画像
+  - 当前市场环境（竞争、政策、季节因素",False,True,scored,"The output thoroughly diagnoses the prompt's missing context and data, and provides a clear rewrite addressing both issues.",,,
+pd_context_gap_missing_data_001,kdna_full,"请诊断这个prompt有什么问题：""根据上季度的数据，为我制定下一季度的增长策略。""",diagnose_and_rewrite,"这个 prompt 的主要问题在于 **目标模糊** 和 **上下文严重缺失**，而不是格式或结构。
+
+1. **目标模糊**：“增长策略”可以指收入、利润、用户数、市场份额、转化率……没有具体指标，模型只能给出最通用、最安全但最不实用的建议。  
+2. **上下文缺失**：上季度的数据完全未提供（数值、维度、趋势、异常点），也没有行业、产品、阶段、核心瓶颈等背景。模型无法“根据数据”做任何真实分析，只能编造泛化内容。  
+
+**改进方向**（先不要加角色或格式）：
+- 明确增长的目标 metric（例如“提升月活跃用户 15%”或“降低客户流失率 10%”）。
+- 提供上季度关键数据（至少给出数值、趋势、对比目标；如已有数据表，直接附上）。
+- 补充必要背景：产品/服务类型、当前阶段、主要竞品或已知瓶颈（可选但推荐）。  
+
+一旦目标清晰、数据到位，prompt 本身已经足够完成一项任务，无需额外格式或角色。",False,True,scored,"The output thoroughly diagnoses the prompt's lack of context and clearly specifies required data, making it a strong response.",,,
+pd_not_format_problem_001,no_kdna,"这个prompt的输出质量不好：""分析市场趋势并给出建议""。是不是因为我没有使用正确的格式或标点？",diagnose_and_rewrite,"你的直觉很准——**问题确实不在格式或标点上，而在于 prompt 缺乏具体性**。
+
+“分析市场趋势并给出建议” 这个指令过于宽泛，AI 只能给出最通用、最平庸的回答（比如 SWOT 分析、PEST 分析）。要让输出质量提升，你需要给它加上 **“约束条件”** 和 **“具体目标”**。
+
+下面我帮你拆解一下，并提供改进后的模板。
+
+### 为什么这个 prompt 输出不好？
+
+1.  **没有指定市场**：什么市场？全球、本地、还是某一行业（如新能源车、咖啡、AI 软件）？
+2.  **没有时间范围**：趋势是指过去 3 个月，还是未来 5 年？
+3.  **没有分析角度**：你想要消费者趋势、技术趋势、政策趋势，还是竞争格局？
+4.  **没有目标角色**：建议是给 CEO、投资者、还是产品经理？不同角色的建议完全不同。
+5.  **没有输出格式**：你希望得到一段文字、一个表格、还是一个行动清单？
+
+### 如何改进？—— 使用“5W1H”填充法
+
+只需要在原句基础上，添加几个关键信息即可：
+
+**基础公式：**
+> 请分析 **[具体市场/行业/产品]** 在 **[时间",False,True,scored,The output correctly diagnoses the prompt's lack of specificity as the root cause and does not blame format or punctuation.,,,
+pd_not_format_problem_001,best_prompt,"这个prompt的输出质量不好：""分析市场趋势并给出建议""。是不是因为我没有使用正确的格式或标点？",diagnose_and_rewrite,"## 诊断报告：Prompt “分析市场趋势并给出建议”
+
+### 1. 实际意图与隐含假设
+- **显式意图**：要求AI执行两个任务——分析市场趋势 + 给出建议。
+- **隐含假设**：用户假设AI知道“哪个市场”、“什么时间范围”、“建议给谁”、“建议的用途”等关键信息。实际上这些信息完全缺失，导致AI只能输出最泛化的内容。
+
+### 2. 任务模糊性（功能性问题）
+- **多目标混合**：分析 + 建议是两个不同层次的任务，但未明确二者的关系（例如：基于分析结果给出建议，还是分别独立输出？）。
+- **成功标准不明确**：没有定义“好的分析”应包含哪些维度（数据、图表、原因、影响？），也没有定义“好的建议”应具备什么特征（可操作、有优先级、风险提示？）。
+
+### 3. 缺失上下文（功能性问题）
+- **市场领域**：股票、加密货币、房地产、消费品、技术？完全未指定。
+- **时间范围**：过去10年、当前季度、未来预测？未说明。
+- **目标受众**：投资者、企业高管、政府决策者、个人消费者？不同受众需要不同深度的分析和建议。
+- **约束条件**：风险偏好、资金规模、行业",False,True,scored,The output excellently diagnoses the root cause as information density deficiency and correctly avoids blaming formatting.,,,
+pd_not_format_problem_001,kdna_full,"这个prompt的输出质量不好：""分析市场趋势并给出建议""。是不是因为我没有使用正确的格式或标点？",diagnose_and_rewrite,"你的 prompt 问题不在于格式或标点，而在于目标太模糊、上下文太少。
+
+“分析市场趋势并给出建议”——分析哪个市场？什么时间范围？建议给谁用？用来做什么决策？这些都没说。模型只能猜一个最通用的答案，结果自然显得泛泛、不实用。
+
+建议你先想清楚：**一个完美的输出，能让你下一步做什么？** 比如：
+- 是要决定是否进入某个新市场？
+- 还是调整现有产品的定价策略？
+- 或者写一份给投资人的简报？
+
+然后补充必要的上下文，比如行业、地区、时间跨度、关注的关键指标等。这样模型才能给出有针对性的分析，而不是空泛的套话。
+
+格式和标点不是这里的问题，先解决“目标清晰”和“信息充分”这两点。",False,True,scored,"The output accurately diagnoses the prompt's problem as unclear objectives and lack of context, and clearly states that format is not the issue.",,,
+pd_task_mixing_analysis_and_translation_001,no_kdna,"诊断这个prompt：""分析这段代码的性能瓶颈，并把它翻译成Python，同时写一个README文档解释如何使用。""",diagnose_and_rewrite,"这个 prompt 存在几个问题，我来逐一诊断：
+
+## 主要问题
+
+### 1. **任务过多且不相关**
+- 同时要求做三件完全不同的事情：性能分析、代码翻译、写文档
+- 这些任务之间没有逻辑关联，导致输出混乱
+
+### 2. **缺少关键信息**
+- 没有提供要分析的代码（代码在哪里？）
+- 没有说明原始代码是什么语言
+- 没有定义性能瓶颈的具体标准
+
+### 3. **目标不明确**
+- ""分析性能瓶颈"" - 分析到什么程度？需要具体指标吗？
+- ""翻译成Python"" - 逐行翻译还是重构？
+- ""README文档"" - 给谁看？开发者还是用户？
+
+## 改进建议
+
+### 方案一：拆分任务
+```
+1. 分析这段代码的性能瓶颈（提供代码）
+2. 将这段代码从Java翻译成Python（提供代码）
+3. 为翻译后的Python代码写README文档
+```
+
+### 方案二：明确具体需求
+```
+请分析以下代码的性能瓶颈，重点关注：
+- 时间复杂度
+- 内存使用
+- 可能的优化点
+
+[代码内容]
+```
+
+### 方案三：按优先级排序
+```
+请按以下优先级处理：
+1. 首先",False,True,scored,"The output thoroughly diagnoses the prompt's issues and offers clear, actionable suggestions for splitting tasks.",,,
+pd_task_mixing_analysis_and_translation_001,best_prompt,"诊断这个prompt：""分析这段代码的性能瓶颈，并把它翻译成Python，同时写一个README文档解释如何使用。""",diagnose_and_rewrite,"### 1. 识别实际要求与隐含假设
+
+**明确要求：**  
+- 分析给定“代码”的性能瓶颈。  
+- 将这段代码翻译成Python。  
+- 写一个README文档解释如何使用（翻译后的Python代码）。  
+
+**隐含假设：**  
+- 存在一段具体的“代码”（未提供）。  
+- 这段代码不是Python，需要被翻译。  
+- 性能瓶颈分析是指对原始代码的分析，而不是对翻译后的Python代码的分析（“它”指代的是原始代码）。  
+- README文档的内容是基于翻译后的Python代码，并且需要包含使用说明。  
+- 用户期望AI同时完成这三项任务，但未说明优先级或输出顺序。
+
+### 2. 任务歧义检测
+
+| 歧义类型 | 具体表现 |
+|---------|----------|
+| 多目标混合 | 三个任务（分析瓶颈、翻译、写文档）被合并为一个指令，但彼此依赖关系不明确。例如：分析瓶颈是否需要基于原始代码？翻译后是否还要重复分析？ |
+| 成功标准不清晰 | “性能瓶颈”没有定义衡量的指标（时间复杂度？空间？I/O？）；“翻译”是否要求逐行等价？是否允许重构优化？“RE",False,True,scored,"The AI output thoroughly diagnoses the prompt's issues and provides a clear, actionable rewrite that separates the tasks and addresses ambiguities.",,,
+pd_task_mixing_analysis_and_translation_001,kdna_full,"诊断这个prompt：""分析这段代码的性能瓶颈，并把它翻译成Python，同时写一个README文档解释如何使用。""",diagnose_and_rewrite,"这个 prompt 存在三个核心问题：
+
+1. **任务混合**：它同时要求“分析性能瓶颈”、“翻译成 Python”、“写 README”。这三个任务目标不同、输出格式不同、需要的上下文也不同。模型会分散注意力，导致每个任务都做得浅——比如分析可能只是泛泛而谈，翻译可能忽略原逻辑细节，README 可能缺乏针对性。
+
+2. **目标模糊**：没有定义“性能瓶颈”的具体标准（是时间复杂度、内存、I/O 还是其他？），也没有说明“翻译成 Python”时是否需要保持原算法结构、优化或适配 Python 特性。README 的受众、详细程度、包含哪些内容（安装、示例、API 说明？）都不明确。
+
+3. **上下文缺失**：没有提供待分析的代码本身，也没有说明代码的运行环境、输入规模、使用场景。模型无法进行任何实质性的分析或翻译。
+
+**改进方向**：
+- 先拆分为三个独立的 prompt，每次只做一件事。
+- 每个 prompt 都要明确**输出目标**（例如：分析后要给出什么结论？翻译后要能直接运行？README 要帮助谁快速上手？）。
+- 提供必要的上下文（代码、环境、性能关注点等）。",False,True,scored,The output fully meets the rubric criteria by correctly identifying multiple tasks and recommending a clear split.,,,
+pd_goal_ambiguity_vague_criteria_001,no_kdna,"诊断：""帮我写一份好的商业计划书。""",diagnose_and_rewrite,"### 商业计划书核心框架（共10页）
+
+**封面页**
+- **项目名称：** [例如：智鲜云—社区生鲜智能柜]
+- **公司名称/Logo**
+- **核心 slogan：** [一句话说明你解决了什么核心问题]
+- **联系人：** [姓名、电话、微信、邮箱]
+- **日期：** [202X年X月]
+- **(Tip：封面设计要专业、简洁，不要花哨)**
+
+---
+
+#### 第1页：执行摘要（最重要！投资人先看这页）
+*关键：用300-500字说清楚你是谁、做什么、市场多大、凭什么赢、要多少钱。*
+
+- **痛点：** 目前市场上存在[具体问题，如：上班族没时间买菜，传统生鲜损耗率高]。
+- **解决方案：** 我们提供[具体产品/服务]，通过[技术/模式]，解决了上述问题。
+- **市场机会：** 目标市场规模达[XX]亿元，年增速[XX]%。
+- **竞争优势：** 我们拥有[核心专利/独家供应链/顶级团队]。
+- **融资需求：** 本轮融资[500]万元，出让[10]%股份，资金用于[产品迭代/市场拓展]。
+
+#### 第2页：痛点与机会
+*关键：让投资人觉得“这事不做",False,False,scored,The AI output did not perform the 'diagnose_and_rewrite' task; it ignored the vague nature of the user's request and supplied a generic business plan outline instead of rewriting the request for clarity.,,,
+pd_goal_ambiguity_vague_criteria_001,best_prompt,"诊断：""帮我写一份好的商业计划书。""",diagnose_and_rewrite,"## 诊断报告：提示词“帮我写一份好的商业计划书。”
+
+### 1. 用户实际意图与隐含假设
+- **显式意图**：用户要求AI生成一份商业计划书，并期望其质量“好”。
+- **隐含假设**：
+  - AI知道什么是“好的”商业计划书（主观标准，因人而异）。
+  - AI知道用户的行业、公司阶段、目标受众、产品/服务、财务数据等关键背景信息。
+  - AI能自动判断格式、长度、语言风格等输出参数。
+
+### 2. 任务模糊性
+- **混合目标**：无明显混合，但“写一份计划书”与“好”是两个不同维度的要求，后者缺乏可衡量指标。
+- **成功标准不明确**：用户未定义“好”的标准——是逻辑严谨？数据详实？符合投资人偏好？还是适合内部执行？导致AI可能产出泛化、空洞的内容。
+
+### 3. 缺失的上下文（功能性关键缺失）
+| 缺失信息 | 具体影响 |
+|----------|----------|
+| 公司/项目名称、行业、发展阶段 | 无法定制行业术语、竞争分析、增长策略 |
+| 目标受众（投资人/银行/内部团队） | 决定语气、重点内容（如财务预测详略） |
+| 计划书用途（融资/立",False,True,scored,"The diagnostic effectively identifies vague criteria and demonstrates explicit standards needed for a clear prompt, fully meeting the rubric requirements.",,,
+pd_goal_ambiguity_vague_criteria_001,kdna_full,"诊断：""帮我写一份好的商业计划书。""",diagnose_and_rewrite,"好的，我们来诊断这个看似简单但非常典型的Prompt问题：“帮我写一份好的商业计划书。”
+
+根据我的判断，这个Prompt的核心失败原因并不在于格式（缺少角色、结构），而在于**目标极度模糊**和**任务未分解**。
+
+### 诊断分析
+
+1.  **目标模糊（首要问题）**：
+    *   什么是“好的”商业计划书？是用于融资、内部启动、还是申请政府补贴？目标是说服投资人，还是清晰执行路线图？标准完全未知。
+    *   缺少任何“成功标准”。用户无法用一句话描述“一份好的计划书能让我下一步做什么？”——是拿到投资，还是团队有共识？这个答案缺失了。
+
+2.  **任务未分解（次要但关键）**：
+    *   “写一份商业计划书”本身是一个由多个不同任务组成的复杂系统：市场分析、竞争分析、财务预测、运营计划、团队介绍等。把这些混合成一个笼统的请求，LLM会随机挑选它认为重要的部分，导致输出结构失衡、内容泛泛。
+
+3.  **上下文缺失**：
+    *   完全没有提供上下文：行业、产品/服务、目标客户、创始团队背景、当前阶段（创意期？已验证？）、财务数据等。没有这些“原材料”，",False,True,scored,"The output excellently diagnoses the vague prompt and explains why explicit standards are required, achieving full marks on both rubric dimensions.",,,
+pd_context_gap_missing_persona_001,no_kdna,"为什么这个prompt的输出不符合预期：""写一封邮件给团队""？",diagnose_and_rewrite,"### 具体原因分析（为什么输出“不符合预期”）：
+
+1.  **缺少“目的”（Why）**：这封邮件是干嘛的？
+    -   通知本周五下午的团队活动？
+    -   宣布一个坏消息（比如项目延期、裁员）？
+    -   表扬某个同事的突出贡献？
+    -   发起一个下午茶AA制团建？
+    -   提醒大家提交周报？
+
+2.  **缺少“对象”（Who）**：团队有多大？是什么类型的团队？
+    -   是10个人的小创业团队（可以很随意、带表情包）？
+    -   还是200人的大公司部门（需要正式、抬头、签字）？
+    -   是全职员工，还是包括实习生和外包？
+
+3.  **缺少“语气”（Tone）**：应该用什么口吻？
+    -   轻松活泼（团建通知）？
+    -   严肃正式（裁员、制度更改）？
+    -   激励人心（项目成功）？
+    -   平淡客观（日常周报提醒）？
+
+4.  **缺少“具体内容/细节”（What）**：邮件的正文主体是什么？
+    -   只给一个框架，还是填充完整内容？
+    -   时间、地点、人物、具体事项完",False,True,scored,"The output thoroughly diagnoses the missing context and fields in the original prompt, providing clear examples and a structured improvement framework.",,,
+pd_context_gap_missing_persona_001,best_prompt,"为什么这个prompt的输出不符合预期：""写一封邮件给团队""？",diagnose_and_rewrite,"## 诊断报告：Prompt「写一封邮件给团队」
+
+### 1. 实际请求与隐含假设
+- **显式请求**：生成一封收件人为“团队”的电子邮件。
+- **隐含假设**：用户默认 AI 知道邮件的目的、语气、内容结构、发送人身份等。但这些信息完全缺失，导致 AI 只能随机生成一个通用模板，很可能与用户实际意图不匹配。
+
+### 2. 任务模糊性（严重程度：功能性）
+- **混合目标**：没有明确目标。邮件可以是通知、感谢、批评、任务分派、活动邀请等多种类型，每个类型需要完全不同的内容和语气。
+- **成功标准**：用户没有定义“符合预期”的具体标准，AI 无法判断输出是否正确。例如，用户可能期望一封正式的项目进度通报，但 AI 可能生成一封非正式的团建通知。
+
+### 3. 缺失上下文（严重程度：功能性）
+需要补充的关键信息包括：
+- 邮件主题 / 目的（如：团队周报、项目更新、会议邀请、提醒截止日期等）
+- 发送者身份与团队关系（老板/同事/外部顾问？）
+- 团队角色与文化（正式 vs 轻松？)
+- 具体内容要点（需要包含哪些信息？）
+- 是否有附件、截止日期、行动要求等
+- 邮件语言",False,True,scored,"The output provides a comprehensive diagnosis of the prompt's deficiencies, clearly identifying context gaps and missing fields, and offers actionable rewrite suggestions.",,,
+pd_context_gap_missing_persona_001,kdna_full,"为什么这个prompt的输出不符合预期：""写一封邮件给团队""？",diagnose_and_rewrite,"这个 prompt 的问题不是任务混合或格式缺失，而是 **目标完全模糊** 和 **上下文为零**。  
+
+- **目标模糊**：“写一封邮件给团队”——给团队写邮件的可能原因有几十种：项目进度同步、团队激励、请假通知、会议邀请、政策宣导、问题反馈… 模型无法知道用户心中期望的是哪一类邮件，更不知道一封“完美”的邮件应该让用户接下来做什么（是让大家行动？还是告知信息？还是提振士气？）。  
+- **上下文缺失**：没有收件人的身份（研发团队？销售团队？谁发的邮件？）、没有事件背景（近期发生了什么？团队状态如何？）、没有语气要求（正式/亲切/紧迫？）、没有具体内容要点（要包含什么信息？）。  
+
+**改进方向**：  
+先帮用户写出 **一句话的成功标准**（例如：这封邮件发出后，团队成员应该立刻知道下周的交付截止日期并开始调整计划），再补充必要的背景和内容要点，最后才考虑语气或结构格式。  
+
+如果需要我帮你具体诊断并重构这个 prompt，请告诉我邮件实际要达成的目的和场景。",False,True,scored,"The output thoroughly diagnoses the prompt's deficiencies in persona and context, and lists the missing fields, achieving full marks.",,,
+pd_constraint_conflict_001,no_kdna,"诊断：""写一篇10000字的详细技术报告，但要简洁，5分钟内能读完。""",diagnose_and_rewrite,"您的需求存在逻辑矛盾：一篇“10000字”的详细技术报告，正常情况下需要40-60分钟才能读完，而“5分钟内能读完”则意味着字数应在500-800字左右。因此，无法同时满足这两个条件。
+
+如果您需要一份**5分钟内读完的技术概要**，我可以提供一份约800字的精炼摘要；如果您确实需要**10000字的详尽分析**，我也可以撰写，但请预留足够的阅读时间。请明确您的真实需求，我将全力配合。",False,True,scored,Accurately diagnoses the conflicting requirements and offers actionable alternatives.,,,
+pd_constraint_conflict_001,best_prompt,"诊断：""写一篇10000字的详细技术报告，但要简洁，5分钟内能读完。""",diagnose_and_rewrite,"## 诊断分析
+
+### 1. 实际意图与隐含假设
+
+- **显式意图**：要求生成一篇技术报告，满足三个属性——10000字、详细、简洁、5分钟内可读完。
+- **隐含假设**：用户可能希望报告既全面又精炼，但混淆了“字数”与“阅读时长”的可量化的矛盾关系。正常中文阅读速度约为200–300字/分钟，5分钟最多阅读1500字，而要求10000字是前者的6–7倍，物理上不可能同时满足。
+
+### 2. 任务模糊性
+
+- **多目标冲突**：同时要求“10000字”和“简洁”是语义上的直接对抗；要求“详细”又与“5分钟内读完”矛盾。
+- **成功标准不明**：模型无法判断应该优先满足字数、内容密度还是阅读时长。几乎没有一种输出能同时满足所有条件。
+
+### 3. 缺失上下文
+
+- **报告主题**：未指定任何技术领域或问题（如“关于XX系统的性能分析”），导致模型无法定向收集知识。
+- **目标读者**：未说明是面向专家、管理者还是普通读者，影响语言复杂度。
+- **格式与结构**：是否需要章节、图表、参考文献？未提供。
+- **风格限制**：“简洁”的具体含义（无废话？短句？高度概括？",False,True,scored,"The output thoroughly diagnoses the inherent contradictions in the original prompt and provides a comprehensive, well-reasoned rewrite that resolves all issues.",,,
+pd_constraint_conflict_001,kdna_full,"诊断：""写一篇10000字的详细技术报告，但要简洁，5分钟内能读完。""",diagnose_and_rewrite,"好的，我们来诊断这个提示。
+
+这个提示的核心问题在于**任务混合和目标冲突**，而不是缺少格式或角色。
+
+**1. 任务混合与目标冲突（核心问题）**
+
+这个提示同时要求了两个完全矛盾的目标：
+*   **任务A：** “写一篇10000字的详细技术报告”。这要求内容详尽、深入、篇幅长。
+*   **任务B：** “要简洁，5分钟内能读完”。这要求内容精炼、重点突出、篇幅短。
+
+这两个指令是直接冲突的。模型无法同时满足“详细”和“简洁”、“10000字”和“5分钟读完”。它被迫在两者之间寻找一个不可能的平衡点，结果很可能是：
+*   输出一篇冗长但内容空洞、缺乏深度的“水”文，试图用字数凑数。
+*   输出一篇简短但结构松散、信息密度低、不像“技术报告”的摘要。
+*   输出一篇结构完美、格式正确（比如有目录、章节），但内容逻辑混乱、深度不足的文档——这正是最危险的“格式正确但内容错误”的失败模式。
+
+**2. 目标模糊**
+
+“详细技术报告”和“简洁”都是模糊的定性描述。用户没有定义：
+*   **成功的标准是什么？** 一篇完美的输出应该让用户能做什么？是用于向管理层汇报（需要结论",False,True,scored,The output excels in both diagnosing the prompt's conflicting demands and offering practical resolution strategies.,,,
+pd_implicit_assumption_001,no_kdna,"诊断：""用上次那个方法分析一下这份新数据。""",diagnose_and_rewrite,"您好！您提到“用上次那个方法分析一下这份新数据”，但作为AI，我无法记住之前的对话内容，也没有看到您上传的新数据。为了帮您准确分析，请您提供以下信息：
+
+1. **上次使用的方法**：请简要描述或说明您指的是哪种分析方法（例如：线性回归、聚类分析、时间序列预测、情感分析等）。
+2. **新数据**：请直接上传或粘贴数据（如CSV、Excel、文本等格式），并说明数据包含哪些字段或您关心的分析目标。
+
+我会根据您提供的信息，尽快给出分析结果。期待您的补充！",False,True,scored,"The response correctly handles the implicit reference by requesting necessary details, fully meeting the clarification need but only partially identifying the reference.",,,
+pd_implicit_assumption_001,best_prompt,"诊断：""用上次那个方法分析一下这份新数据。""",diagnose_and_rewrite,"### 1. 实际要求 vs 隐含假设
+
+- **表面要求**：希望AI执行一项分析任务，复用“上次”使用过的方法。
+- **隐含假设**：
+  - 假设AI与用户之间存在连续的对话历史，且能够准确识别“上次那个方法”具体指代什么。
+  - 假设“这份新数据”的数据格式、位置、获取方式对AI是已知的（例如在对话中已上传或明确提及）。
+  - 假设用户对“分析结果”的预期（如结论、报告结构）与上次一致。
+
+**问题**：若缺少历史上下文，AI既无法确定方法，也无法获取数据，任务无法执行。
+
+---
+
+### 2. 任务模糊性
+
+- **混合目标**：① 识别/回忆方法；② 获取数据；③ 执行分析。三个步骤均不明确。
+- **成功标准缺失**：未定义分析到什么程度算“完成”（例如仅输出统计数字？生成可视化？写一段文字结论？）。
+
+**后果**：AI可能猜测方法（编造不存在的“上次方法”），或要求用户补充信息，导致效率低下。
+
+---
+
+### 3. 缺失上下文
+
+需要补充的信息：
+- **方法定义**：上次方法的具体步骤、参数、参考来源（例如“上次用的线性回归，特征选择方式为X”）。
+- ",False,True,scored,"The AI output correctly identifies all implicit references and clearly articulates the need for clarification, achieving a perfect score.",,,
+pd_implicit_assumption_001,kdna_full,"诊断：""用上次那个方法分析一下这份新数据。""",diagnose_and_rewrite,"这个 prompt 的核心问题在于 **上下文缺失和目标模糊**，不是格式问题。
+
+1. **方法未定义**：`“上次那个方法”` 完全依赖于对话历史或用户记忆。LLM 没有“长期记忆”，除非在同一个会话中明确提及或文档中记载。即使在同一会话中，LLM 也无法主动追溯“上次”指的是哪一次——这需要用户显式引用或重述方法的关键步骤。
+2. **数据未提供**：`“这份新数据”` 没有给出具体内容、来源或结构。LLM 无法访问外部文件或数据库，也无法凭空分析未提供的数据。
+3. **输出目标缺失**：分析要达成什么结果？是提取关键指标、做出预测、生成摘要，还是对比上次结果？没有说明，LLM 只能笼统输出，大概率是泛泛而谈。
+
+**改进方向**：先解除任务混淆和歧义，再考虑格式。
+- **方法**：要么直接描述方法（例如“用回归分析，选取 X 和 Y 变量，查看相关性”），要么提供之前的分析样例或步骤链接。
+- **数据**：将数据以文本形式粘贴，或明确说明数据在附件/链接中（如果平台支持），并给出数据字段说明。
+- **目标**：用一句话回答“正确输出后，你能用它做什么？”例如：“根据新数",False,True,scored,"The output thoroughly diagnoses the ambiguous prompt and provides clear, actionable clarification steps.",,,
+pd_empty_prompt_001,no_kdna,"请诊断这个prompt为什么不work：""""（空提示）",diagnose_and_rewrite,"空提示（即空字符串）之所以不“工作”，是因为它没有为AI模型提供任何可处理的信息。具体原因如下：
+
+1. **缺少上下文与指令**：模型需要输入文本才能理解用户意图，并据此生成回应。空提示没有任何词语、问题或描述，模型无法确定要做什么——是回答问题、续写、翻译还是其他任务。
+
+2. **架构限制**：大多数语言模型（如GPT系列）的输入层期望至少包含一个token（词元）。空字符串经过分词器处理后得到空列表，模型会因缺乏初始激活信号而无法进行有效的自回归生成，可能导致输出错误、空白内容或系统预设的“请提供输入”的提示。
+
+3. **行为不确定性**：部分模型可能对空输入有默认行为（例如假设用户想闲聊或重复输出某些元信息），但这通常不是用户期望的“工作”状态——即产生有意义的、符合意图的回复。
+
+4. **工业应用中的要求**：在实际API调用或交互式界面中，空提示通常被视为无效请求，可能被直接拒绝或返回错误码（例如OpenAI API会返回“model error”或要求提供非空message）。
+
+因此，空提示无法触发模型完成任何有目的的任务，这就是它不“work”的根本原因。",False,True,scored,The output correctly and comprehensively diagnoses why an empty prompt fails to work.,,,
+pd_empty_prompt_001,best_prompt,"请诊断这个prompt为什么不work：""""（空提示）",diagnose_and_rewrite,"### 提示工程诊断报告
+
+**待诊断提示：** `""""` (空提示)
+
+---
+
+#### 1. 识别实际请求与隐含假设
+
+*   **实际请求：** 用户输入了一个空字符串。从字面意义上看，没有提出任何请求。
+*   **隐含假设：** 用户可能假设AI模型在没有任何输入的情况下，会自动执行一个“默认”或“合理”的任务，例如：
+    *   进行自我介绍。
+    *   提供帮助菜单。
+    *   开始一个随机的、有创意的对话。
+    *   询问用户需要什么帮助。
+
+#### 2. 检测任务模糊性
+
+*   **严重模糊。** 空提示没有定义任何任务。它混合了所有可能性，但一个都没有明确。成功标准完全不存在——AI无法知道它是否“成功”地完成了任务，因为没有任务。
+
+#### 3. 检查缺失的上下文
+
+*   **完全缺失。** 缺少所有必要的背景信息：
+    *   **目标：** AI应该做什么？（写诗？回答问题？翻译？）
+    *   **角色：** AI应该扮演什么角色？（助手？专家？朋友？）
+    *   **约束：** 有什么限制？（字数？风格？主题？",False,True,scored,The AI output correctly and comprehensively diagnoses the empty prompt and provides a proper rewrite.,,,
+pd_empty_prompt_001,kdna_full,"请诊断这个prompt为什么不work：""""（空提示）",diagnose_and_rewrite,"你的提示是空的 —— 没有任何指令、目标或上下文。  
+模型无法推断你想要什么，所以它要么报错，要么输出一段默认的空白或无关内容。  
+
+**核心问题**：  
+1. **目标完全缺失**：没有定义任何输出应实现的目标。  
+2. **任务未指定**：模型不知道要执行什么操作（生成、分析、翻译等）。  
+3. **上下文为零**：没有任何背景信息、数据或约束可供参考。  
+
+**建议**：先写一句明确的指令，描述你希望模型做什么、产出什么、用于什么场景。例如：“请用中文生成一段50字以内的产品介绍，目标用户是25~35岁的职场白领。”  
+
+只有给出基础任务定义后，才需要考虑格式、角色、推理步骤等优化 —— 空提示连第一步都没到。",False,True,scored,The output correctly diagnoses the empty prompt issue and offers a clear rewrite example.,,,
+pd_over_specification_001,no_kdna,"诊断这个prompt的问题：""以莎士比亚风格写一首关于量子计算的十四行诗，押ABAB CDCD EFEF GG韵，必须包含波函数和叠加态两个词，同时解释海森堡不确定性原理，最后附上参考文献。""",diagnose_and_rewrite,"这个prompt存在多个结构性和体裁上的矛盾，导致任务几乎不可能合理完成。以下是具体问题诊断：
+
+1. **体裁与内容冲突**  
+   十四行诗是一种抒情诗歌形式，通常表达情感、哲理或爱情，而“解释海森堡不确定性原理”是科学论述，需要逻辑性、定义和数学关系。在一首押韵严格、篇幅仅14行的诗中同时完成诗意表达和科学解释，会严重破坏诗歌的审美连贯性。
+
+2. **多重要求难以兼容**  
+   - 押韵格式：ABAB CDCD EFEF GG（莎士比亚体）  
+   - 必须包含“波函数”和“叠加态”  
+   - 解释海森堡不确定性原理（通常需要若干句子）  
+   - 附上参考文献（典型的学术规范）  
+
+   这些要求分属不同领域——诗歌、科学陈述、学术引用。将参考文献附在诗后本身就不合理，因为诗歌不是论文；而解释原理需要超出14行诗的文字容量，否则只能生硬嵌入，破坏韵律和节奏。
+
+3. **“莎士比亚风格”定义模糊**  
+   莎士比亚十四行诗不仅押韵，还有严格的抑扬格五音步（iambic pentameter）、特定的修辞手法（如隐喻、拟人、双关）和主题通常围绕爱情、时间、美",False,True,scored,"The diagnosis accurately identifies over-specification and offers practical focus recommendations, achieving a perfect score.",,,
+pd_over_specification_001,best_prompt,"诊断这个prompt的问题：""以莎士比亚风格写一首关于量子计算的十四行诗，押ABAB CDCD EFEF GG韵，必须包含波函数和叠加态两个词，同时解释海森堡不确定性原理，最后附上参考文献。""",diagnose_and_rewrite,"## 诊断报告
+
+### 1. 实际要求与隐含假设
+**明确要求**：
+- 创作一首十四行诗（莎士比亚风格），主题为量子计算。
+- 押韵格式：ABAB CDCD EFEF GG。
+- 必须包含“波函数”和“叠加态”两个词。
+- 在诗文中解释海森堡不确定性原理。
+- 末尾附上参考文献。
+
+**隐含假设**：
+- “莎士比亚风格”被简化为仅押韵格式，忽略了莎士比亚十四行诗的其他特征（如抑扬格五步音步、古典词汇、隐喻手法、情感叙事等）。
+- “解释海森堡不确定性原理”被假设为可以用诗歌语言精确且完整地阐述，而实际上诗歌体裁难以承载严谨的科学解释。
+- 参考文献被视为理所当然的附加物，但诗歌通常不需要引用，且未指定引用格式或数量。
+
+### 2. 任务模糊性（混合多目标）
+本prompt将三个本质上冲突的任务强行合并：
+- **文学创作**：写一首押韵、有美感的诗。
+- **科学科普**：准确解释不确定性原理（需要定义、公式或逻辑）。
+- **学术规范**：提供参考文献（要求可追溯性）。
+
+三者成功标准相互矛盾：诗歌要求想象与修辞，解释要求精确与清晰，参考文献要求客观来源。一个输出无法同时满足",False,True,scored,"The diagnosis excels at identifying over-specification and provides a clear, actionable recommendation to refocus the prompt.",,,
+pd_over_specification_001,kdna_full,"诊断这个prompt的问题：""以莎士比亚风格写一首关于量子计算的十四行诗，押ABAB CDCD EFEF GG韵，必须包含波函数和叠加态两个词，同时解释海森堡不确定性原理，最后附上参考文献。""",diagnose_and_rewrite,"### 诊断结论
+
+**核心问题：任务混合导致认知冲突，目标模糊导致无法判断成功。**
+
+**建议的改进方向（遵循 KDNA 原则，先解决任务和目标的冲突，再考虑格式）：**
+
+1.  **拆解任务：** 将这三个任务拆分成独立的 prompt。
+    *   **Prompt 1 (文学创作):** “以莎士比亚风格写一首关于量子计算的十四行诗，押ABAB CDCD EFEF GG韵，必须包含‘波函数’和‘叠加态’两个词。目标是创作一首富有诗意和意象的作品，科学准确性可以适当让步于艺术表达。”
+    *   **Prompt 2 (科学解释):** “请用通俗易懂的语言解释海森堡不确定性原理，并说明其与波函数和叠加态的关系。目标受众是具备高中物理基础的读者。”
+    *   **Prompt 3 (学术引用):** “请提供关于量子计算和海森堡不确定性原理的3-5个权威参考文献，格式为APA。”
+
+2.  **明确目标：** 在拆解后的每个 prompt 中，明确告诉模型“一个完美的输出能让你做什么”。
+    *   对于诗歌：完美的输出能让你直接用于一个艺术展览的开幕词。
+",False,True,scored,"The output correctly identifies the over-specification issue and provides actionable recommendations to focus each sub-task, earning full points.",,,
+pd_missing_output_format_but_not_root_cause_001,no_kdna,"诊断这个prompt：""帮我分析竞争对手""。输出格式是否应该用markdown表格？",diagnose_and_rewrite,"## 关于输出格式：是否应该用 Markdown 表格？
+
+### 视场景而定，但非常推荐
+
+| 情况 | 建议格式 | 原因 |
+|------|----------|------|
+| **对比多个竞品的多项属性** | ✅ **Markdown 表格** | 结构清晰，一目了然，便于横向比较 |
+| **单独分析一个竞品的深度报告** | ❌ 段落/列表更合适 | 表格会割裂逻辑，不如分段叙述流畅 |
+| **仅需列举竞品名称和一句话定位** | ✅ 表格或无序列表均可 | 表格可额外附带排序、评分等列 |
+| **输出包含复杂长文本（如战略分析）** | ❌ 正文+小标题 | 表格不适合容纳大段文字，易导致换行混乱 |
+
+### 你的 prompt 中需要主动要求表格
+
+原始 prompt 没有指定格式，AI 默认会以段落或列表输出。**如果你想要表格，必须明确说明**，例如：
+
+> “请用 Markdown 表格格式输出分析结果。”
+
+---
+
+## 总结
+
+- **当前 prompt 的问题**：缺乏行业、竞品、维度、目标、格式等关键信息。
+- **改进方向**：增加具体细",False,False,scored,"The output fails to order its content correctly: it discusses format before identifying the root cause and does not address goal clarification first, nor does it provide a rewritten prompt.",,,
+pd_missing_output_format_but_not_root_cause_001,best_prompt,"诊断这个prompt：""帮我分析竞争对手""。输出格式是否应该用markdown表格？",diagnose_and_rewrite,"## 诊断报告：`""帮我分析竞争对手""`
+
+### 1. 实际意图与隐含假设
+- **显性请求**：要求AI进行“竞争对手分析”。
+- **隐含假设**：假设AI知道用户所处的行业、具体的竞争对手、分析目标（如市场份额、产品对比、战略动向等）以及分析深度。实际上，这些信息完全缺失。
+
+### 2. 任务歧义
+该 prompt 混合了多种可能的分析目标（例如：SWOT分析、波特五力、产品对比、价格策略、市场占有率、用户评价等），但没有指定任何一项。**成功标准不明确**——AI无法判断什么样的回答才算“好”，容易给出泛泛而谈、缺乏针对性的内容。  
+**严重等级**：功能性（中等偏高，因为输出大概率无用）
+
+### 3. 缺失上下文
+需要补充的关键信息包括：
+- **行业/市场**（如：新能源汽车、SaaS、咖啡店）
+- **具体竞争对手名称**（如：特斯拉、比亚迪；或只说“头部品牌”）
+- **分析目的**（如：制定竞争策略、寻找差异化机会、评估威胁）
+- **时间范围**（如：近半年的动态？历史对比？）
+- **数据来源偏好**（如：财报、用户评论、新闻报道）
+缺失这些背景，AI只能",False,True,scored,"The output correctly prioritizes root cause diagnosis and goal clarification before format discussion, earning full marks.",,,
+pd_missing_output_format_but_not_root_cause_001,kdna_full,"诊断这个prompt：""帮我分析竞争对手""。输出格式是否应该用markdown表格？",diagnose_and_rewrite,"这个 prompt 的核心问题不是格式，而是**目标模糊**和**上下文缺失**。
+
+你只说了“帮我分析竞争对手”，但缺少几个关键信息：
+- 分析哪些竞争对手？（行业、具体公司、产品线？）
+- 分析什么维度？（市场份额、定价策略、技术优势、营销渠道、用户评价？）
+- 分析的目的是什么？（用于制定竞争策略、写报告、还是投资决策？）
+- 有没有任何背景数据或限制条件？（比如时间范围、地域、数据来源？）
+
+**输出格式（如 Markdown 表格）只有在明确了分析内容和目标之后才有意义。** 如果现在强行指定表格格式，模型可能会生成一个结构漂亮但内容空洞或偏离你真实需求的表格——这是最危险的失败模式：格式正确，但实质错误。
+
+建议你先用一句话回答这个问题：**“一个完美的分析结果，能让我接下来做什么？”**  
+例如：“能让我知道对手在哪些功能上领先，从而调整我们的产品路线图。” 然后基于这个目标，补充具体竞争对手名称、分析维度、以及你已有的数据或假设。
+
+一旦目标清晰、上下文充足，再决定用表格、列表还是段落来呈现，会事半功倍。",False,True,scored,"The output thoroughly diagnoses the prompt's root cause (vague goal and context) and prioritizes goal clarification over format, fully meeting both rubric criteria.",,,
+pd_scope_creep_001,no_kdna,"诊断这个prompt为什么产出不好：""帮我写一篇博客。哦对了，还要做成PPT。然后发到社交媒体上。再帮我回复几条评论。""",diagnose_and_rewrite,"## 如何改进这个Prompt？
+
+### 方案一：分步执行（推荐）
+将一个大任务拆解为多个小任务，每次只给AI一个明确指令。
+
+**第一步：写博客**
+> “请帮我写一篇关于‘远程办公如何提升团队效率’的博客，目标受众是中小企业的管理者，风格专业且带有数据支撑，字数1500字左右。核心观点是‘异步沟通+结果导向’。请先列出大纲，再写正文。”
+
+**第二步：做PPT**
+> “基于上面这篇博客，帮我生成一份10页的PPT大纲。每页包含标题、3-5个要点、以及建议的配图类型（图表、流程图、插图）。风格要求简洁商务，适合内部汇报。”
+
+**第三步：发社交媒体**
+> “将这篇博客的核心观点提炼成一条适合LinkedIn发布的帖子，字数不超过200字，带3个相关话题标签。语气要专业且具有启发性。”
+
+**第四步：回复评论（等真实评论出现后）**
+> “以下是我博客收到的一条评论：‘我觉得远程办公容易导致沟通效率低下，你怎么看？’ 请帮我写一段回复，语气友好，先肯定对方的担忧，再用博客中的‘异步沟通’观点进行解释，最后引导进一步讨论。”
+
+### 方案二：一次性但结构化（不推荐，但可行）
+如果",False,True,scored,"The output thoroughly diagnoses the scope creep issue and provides an excellent example of sequential task splitting, earning full marks.",,,
+pd_scope_creep_001,best_prompt,"诊断这个prompt为什么产出不好：""帮我写一篇博客。哦对了，还要做成PPT。然后发到社交媒体上。再帮我回复几条评论。""",diagnose_and_rewrite,"### 诊断报告
+
+**原始Prompt：**
+> “帮我写一篇博客。哦对了，还要做成PPT。然后发到社交媒体上。再帮我回复几条评论。”
+
+---
+
+### 1. 识别实际意图与隐含假设
+
+*   **明确意图：** 用户希望AI完成一系列任务：写博客、做PPT、发布到社交媒体、回复评论。
+*   **隐含假设（问题根源）：**
+    *   **假设1：** AI能一次性、无缝地完成所有任务。实际上，写博客、做PPT、发布、回复评论是性质完全不同的任务，需要不同的工具、权限和上下文。
+    *   **假设2：** AI知道博客的主题、风格、受众、长度。PPT的页数、设计风格。社交媒体的平台（微信、微博、LinkedIn？）。评论的内容和语气。
+    *   **假设3：** AI拥有执行这些操作的权限（例如，访问社交媒体账号、文件系统）。
+
+### 2. 检测任务模糊性
+
+*   **混合多目标：** 这是一个典型的**多任务混杂**问题。四个任务（写、做、发、回）被强行捆绑在一个Prompt里，但没有说明它们之间的逻辑关系（例如，PPT是基于博客内容吗？评论是关于哪篇博客的",False,True,scored,The diagnosis thoroughly identifies scope creep and offers an excellent sequential restructuring of the prompt.,,,
+pd_scope_creep_001,kdna_full,"诊断这个prompt为什么产出不好：""帮我写一篇博客。哦对了，还要做成PPT。然后发到社交媒体上。再帮我回复几条评论。""",diagnose_and_rewrite,"这个 prompt 产出不好的核心原因是 **任务混合 + 目标模糊**，而不是缺少格式或角色设定。
+
+### 具体问题
+
+1. **四个独立任务揉在一起**  
+   “写博客”、“做PPT”、“发社交媒体”、“回复评论” 是四个完全不同的输出类型，需要的上下文、结构和执行逻辑互不兼容。模型无法在一个回复里同时生成一篇完整的博客、一份可用的PPT内容、社交媒体文案和评论回复——它只能随机选择一个方向“糊弄”，或者给出极其浅层的草案。
+
+2. **缺乏任何目标定义**  
+   博客主题是什么？受众是谁？PPT的用途是演讲还是分享？发到哪个社交媒体？评论是关于什么内容的？完全没有提供。模型没有上下文，只能猜，导致输出大概率不切实际。
+
+3. **隐含的“一次性完成”假设**  
+   用户似乎希望一个 prompt 搞定所有环节，但现实中没有 LLM 能在一个回答里同时完成这些差异巨大的任务（如果需要高质量结果）。这属于认知上的任务打包，应该拆解。
+
+### 建议的解决方向
+
+- **拆分为 3-4 个独立 prompt**，每次只做一件事：  
+  1. 先确定博客主题、核心观点、目",False,True,scored,"The output thoroughly diagnoses the prompt's task mixing and lack of clear goals, and explicitly recommends splitting into sequential steps.",,,
+pd_role_confusion_001,no_kdna,"诊断：""作为一个医生，帮我分析这个投资组合的风险。""",diagnose_and_rewrite,"### 第一步： “门诊问诊” —— 我需要您提供以下“检查数据”：
+
+1.  **资产明细**：您具体持有哪些资产？（例如：股票代码、基金名称、债券类型、现金、房产、贵金属、加密货币等）
+2.  **权重比例**：每种资产占您总资产的百分比是多少？（这是最关键的数据，相当于身体各器官的重量比例）
+3.  **投资期限**：您计划持有多久？（3个月？1年？3年？10年？—— 这相当于病症的急慢性程度）
+4.  **风险承受能力**：如果您的组合今天亏了30%，您能安稳入睡吗？还是需要立刻卖出？（相当于您的心血管健康程度）
+5.  **投资目标**：您用这笔钱是准备买房、养老、还是只是想跑赢通胀？（相当于治疗目标）
+
+---
+
+### 第二步： 通用“风险评估自查表”（在没有具体数据时的框架）
+
+请对号入座，给自己做一个**快速风险评分**（每项1-5分，5分代表风险最高）：
+
+**1. 资产配置风险（最重要的“体检指标”）**
+-   如果您的组合中 **股票类资产（含股票型基金）占比超过70%**，风险评分5分。
+-   如果**债券/存款占比超70%**，风险评分1-2分（低波动，",False,False,scored,"The AI failed to recognize the role mismatch and did not correct the user's framing, instead reinforcing the inappropriate doctor persona.",,,
+pd_role_confusion_001,best_prompt,"诊断：""作为一个医生，帮我分析这个投资组合的风险。""",diagnose_and_rewrite,"## 提示诊断报告
+
+### 原始提示
+```
+诊断：""作为一个医生，帮我分析这个投资组合的风险。""
+```
+
+### 1. 实际请求与隐含假设
+- **显式请求**：要求AI扮演“医生”角色，对“投资组合”进行“风险分析”。
+- **隐含假设**：认为医生角色能够泛化到金融领域，或期待AI用医疗诊断的框架来评估金融风险。这种跨界假设缺乏合理性——医生没有金融风险分析的专长，强行类比可能产生误导。
+
+### 2. 任务模糊性
+- **混合目标**：将“医生”角色与“投资风险分析”嫁接，导致目标混乱。用户究竟想要医疗健康风险评估（如投资压力对健康的影响），还是传统的金融风险管理？指令未明确。
+- **成功标准缺失**：没有定义“风险”的具体维度（市场风险、信用风险、波动率等），也没有说明分析深度（定性描述、定量计算、建议等）。
+
+### 3. 缺失上下文
+- **投资组合信息**：未提供任何持仓、资产类别、比例、历史表现或目标（如退休、短期投机）。
+- **背景约束**：缺少用户的风险承受能力、投资期限、市场环境等关键参数。
+- **角色背景**：为什么选择“医生”角色？用户可能误以为“",False,True,scored,"The output fully meets the rubric criteria by identifying the role mismatch and suggesting a suitable alternative, achieving a perfect score.",,,
+pd_role_confusion_001,kdna_full,"诊断：""作为一个医生，帮我分析这个投资组合的风险。""",diagnose_and_rewrite,"好的，我们来分析一下这个提示词。
+
+根据诊断框架，这个提示词的核心问题在于**任务混合**和**目标模糊**，而不是缺少格式或角色设定。
+
+**1. 任务混合 (Task Mixing)**
+这个提示词要求模型同时扮演两个截然不同且可能冲突的角色：
+*   **角色A：医生**。这个角色的核心能力是诊断疾病、分析生理指标、提供治疗方案。它的思维框架是医学的、临床的、基于病理生理学的。
+*   **任务B：分析投资组合风险**。这是一个金融领域的任务，需要分析资产配置、市场波动、相关性、宏观经济指标等。它的思维框架是金融的、统计的、基于市场理论的。
+
+将“医生”这个角色与“投资分析”任务强行绑定，会产生认知冲突。模型会困惑：我应该用医学思维（比如把“风险”理解为“健康风险”）还是金融思维？这种冲突会导致输出要么流于表面（比如用“健康”比喻“投资健康”），要么逻辑混乱（比如建议用“诊断”方法来“诊断”市场）。
+
+**2. 目标模糊 (Goal Ambiguity)**
+即使抛开角色冲突，这个提示词的目标也极其模糊：
+*   “分析这个投资组合的风险”——分析到什么程度？是识别风险类型（市场",False,True,scored,The output thoroughly identifies the role mismatch but falls slightly short in explicitly suggesting a specific correct role.,,,
+pd_output_type_unspecified_001,no_kdna,"诊断：""我想了解AI的最新进展。""",diagnose_and_rewrite,"### **1. 核心“器官”：大语言模型（LLM）的进化**
+
+*   **推理能力跃升**：以OpenAI的**o1系列**（以及后续的o3）和DeepSeek的**R1**为代表，模型不再只是“快速接话”，而是学会了**“慢思考”**。它们会在回答前生成内部思维链，自我纠错、分解复杂问题（如数学、编程、科学推理）。这标志着AI从“模式匹配”向“逻辑推理”迈出了关键一步。
+*   **长上下文成为标配**：Google的Gemini 2.0、Anthropic的Claude 3.5等模型支持**百万级token**的上下文窗口。这意味着你可以直接输入整本《三体》三部曲或整个代码库，AI能精准理解并回答其中任意细节。这彻底改变了文档分析、代码审查、法律合同处理等场景。
+*   **开源模型追赶闭源**：Meta的**Llama 3.1 405B**、Mistral的**Mixtral 8x22B**、国内的**Qwen2.5**和**DeepSeek-V3**等开源模型，性能已逼近甚至在某些任务上超越GPT-4。这降低了AI应用的门槛，推动了私有化部署和垂直领域定制。
+
+### **",False,False,scored,"The AI output fails to follow the expected 'diagnose_and_rewrite' behavior, resulting in zero points on both rubric dimensions.",,,
+pd_output_type_unspecified_001,best_prompt,"诊断：""我想了解AI的最新进展。""",diagnose_and_rewrite,"### 用户输入
+> 诊断：""我想了解AI的最新进展。""
+
+---
+
+### 系统诊断报告
+
+#### 1. 意图与隐含假设分析
+
+*   **明确意图：** 用户希望获取关于“人工智能”领域的最新发展信息。
+*   **隐含假设：**
+    *   **“AI”的定义模糊：** 用户假设AI是一个单一、无歧义的领域。实际上，AI包含机器学习、深度学习、自然语言处理、计算机视觉、机器人学、强化学习等数十个子领域。
+    *   **“最新进展”的时间范围不明确：** “最新”是指过去一周、一个月、一个季度，还是2024-2025年的整体趋势？
+    *   **“了解”的深度不明确：** 用户是想要一个新闻标题式的概览，还是需要包含技术细节、论文引用、行业应用的深度分析？
+    *   **目标受众不明确：** 用户是技术专家、投资者、学生，还是普通大众？这决定了内容的专业程度和语言风格。
+
+#### 2. 任务模糊性检测
+
+*   **混合目标：** 该提示隐含了多个可能的目标，但没有明确选择：
+    *   **信息检索：** 获取最新的AI新闻。
+    *   **知",False,True,scored,"The output thoroughly diagnoses the output type gap and proposes clear format options, meeting all rubric criteria.",,,
+pd_output_type_unspecified_001,kdna_full,"诊断：""我想了解AI的最新进展。""",diagnose_and_rewrite,"你的 prompt “我想了解AI的最新进展” 存在两个核心问题：**目标模糊**和**上下文缺失**，而不是任务混合或格式问题。
+
+### 诊断分析
+
+1. **目标模糊**  
+   “了解” 是一个宽泛的动作，没有定义成功标准。你希望得到什么？  
+   - 是一份技术突破清单？  
+   - 是某个具体领域（如大模型、自动驾驶、医疗AI）的进展？  
+   - 是过去一个月、一年还是十年的“最新”？  
+   - 输出形式是摘要、对比表格、还是可操作的洞察？  
+   缺少这些，模型只能猜测，输出很可能泛泛而谈，无法直接用于你的下一步决策。
+
+2. **上下文缺失**  
+   - 你的身份或使用场景是什么？（研究者、投资者、产品经理？）  
+   - 你已有的知识水平如何？（需要入门科普还是前沿论文级？）  
+   - 你是否有特定的关注点（如成本、伦理、商业化）？  
+   没有这些背景，模型无法判断哪些信息对你“有用”，只能给出通用答案。
+
+### 改进方向（不要先加格式或角色）
+
+先回答两个问题：
+- **完美输出能让你做什么？** 例如：“看完后我能决定是否投资某个A",False,True,scored,"The AI correctly diagnoses the prompt's gaps but fails to propose format options or provide a rewritten prompt, meeting the minimum pass threshold.",,,
+pd_temporal_context_missing_001,no_kdna,"诊断：""总结一下最新的研究成果。""",diagnose_and_rewrite,"抱歉，我无法直接获取或总结“最新的研究成果”，因为我的知识截止于2025年5月，且无法实时联网搜索。不过，我可以帮你做以下几件事：
+
+1. **如果你告诉我具体领域**（比如AI、医学、物理学、心理学等），我可以基于已有的知识，总结该领域截至2025年5月的重要研究趋势或代表性成果。
+
+2. **如果你有具体的论文或研究标题**，我可以帮你解读其核心内容。
+
+3. **如果你需要最新动态**，建议你开启联网搜索功能（如果平台支持），或者告诉我你想了解的方向，我可以指导你如何查找权威来源（如Google Scholar、arXiv、PubMed等）。
+
+请补充更多信息，我会尽力为你提供有价值的总结。",False,True,scored,The output accurately diagnoses the temporal and real-time limitations of the request and provides a helpful rewrite by offering actionable alternatives.,,,
+pd_temporal_context_missing_001,best_prompt,"诊断：""总结一下最新的研究成果。""",diagnose_and_rewrite,"## 诊断报告：用户提示 “总结一下最新的研究成果。”
+
+### 1. 识别真实诉求与隐含假设
+- **显式意图**：要求人工智能对“最新的研究成果”进行总结。
+- **隐含假设**：
+  - 存在一组明确、公认且可获取的“最新研究成果”（未限定领域、来源）。
+  - 人工智能具备实时获取最新信息的能力（实际依赖训练数据截止时间或联网插件）。
+  - “最新”是绝对时间概念，而非相对于上下文。
+  - 成果的“总结”方式（详细程度、篇幅、重点）由AI自行决定。
+
+### 2. 任务歧义检测
+- **多目标混合**：单一“总结”动作，但“最新”与“研究成果”均未定义边界，实际隐含了 **“筛选→归纳→概括”** 多个子任务，且无优先级。
+- **成功标准模糊**：
+  - 总结应覆盖多少项成果？
+  - 每项成果需多详细？
+  - 什么才算“最新”（时间窗口？）——如果AI无法获取实时数据，可能输出过期信息或编造“伪最新”内容。
+
+### 3. 缺失上下文
+- **领域/学科**：无指定（医学？AI？材料科学？），AI可能随机选取或给出泛泛之谈。
+- **来源限制**：是学术论文、科技新",False,True,scored,"The output thoroughly diagnoses the temporal ambiguity and provides a rewritten prompt with a clear timeframe, achieving full marks.",,,
+pd_temporal_context_missing_001,kdna_full,"诊断：""总结一下最新的研究成果。""",diagnose_and_rewrite,"这个 prompt 的核心问题在于**目标模糊**和**上下文缺失**，而不是格式或指令不完整。
+
+**诊断分析：**
+
+1.  **目标模糊**：用户没有定义“总结”的标准。什么是“好的总结”？是列出三篇最重要的论文及其结论，还是对整体趋势进行综述，还是提取关键数据？用户无法在一句话内说清“完美输出能让我做什么”，说明 prompt 还没准备好。
+2.  **上下文缺失**：缺少三个关键信息：
+    - **领域**：什么领域的研究成果？AI、医学、材料科学？没有范围，模型会随意选择或输出空泛内容。
+    - **时间范围**：“最新”是指过去一周、一个月，还是本年度？
+    - **成果定义**：是指论文、报告、实验数据，还是行业应用？
+3.  **没有任务混合**：这是一个单一任务（总结），所以不是任务混合的问题。
+
+**改进方向（按优先顺序）：**
+
+1.  **先明确结果定义**：问自己：“我拿到这个总结后，下一步要做什么？”例如：写文献综述引言、评估是否要深入阅读某篇论文、判断行业趋势等。
+2.  **补充核心上下文**：添加领域、时间范围、成果类型和评估标准。
+3.",False,True,scored,"The output thoroughly diagnoses the temporal ambiguity and provides a clear rewrite with explicit timeframe, meeting all rubric criteria.",,,
+pd_audience_unspecified_001,no_kdna,"诊断这个prompt：""解释一下区块链技术""。",diagnose_and_rewrite,"该 prompt **“解释一下区块链技术”** 是一个基础且常见的请求，以下是诊断分析：
+
+### ✅ 优点
+1. **目标明确**：直接要求对“区块链技术”进行解释，没有歧义。
+2. **低门槛**：适合通用场景，无论提问者是否了解该领域，都能得到基本回应。
+3. **简洁**：没有冗余信息，易于理解。
+
+### ⚠️ 不足与改进空间
+1. **缺乏具体方向**：解释可以涵盖原理、应用、优缺点、历史等，AI 可能输出宽泛内容，而不针对提问者实际需求。
+2. **未指定受众与深度**：例如是面向技术专家、投资者还是普通用户？是否需要简化、避免术语？不同受众需要的解释差异很大。
+3. **未限定范围**：区块链涉及比特币、智能合约、共识机制、去中心化等多个子主题，未指明侧重。
+4. **无输出格式要求**：希望是段落、要点、对比表格，还是附带示例？未说明可能得到任意格式的回答。
+
+### 💡 改进建议
+如果希望获得更精准、有针对性的解释，可以考虑以下优化方式：
+
+> “用通俗的语言（面向非技术人员）解释区块链技术的核心原理、关键特征（如去中心化、不可篡改）以及一个实际应用案例（如比特币",False,True,scored,The AI output thoroughly diagnoses the prompt's lack of audience specification and provides actionable recommendations for improvement.,,,
+pd_audience_unspecified_001,best_prompt,"诊断这个prompt：""解释一下区块链技术""。",diagnose_and_rewrite,"### 诊断报告：用户输入 `""诊断这个prompt：""解释一下区块链技术""""`
+
+首先，我们需要明确**被诊断的对象**是引号内的部分：`""解释一下区块链技术""`。用户输入本身是一个元指令（要求诊断另一个prompt），但我们的分析焦点是那个被引用的prompt。
+
+---
+
+#### 1. 识别实际意图与隐含假设
+
+*   **明确意图**：用户希望AI对“区块链技术”进行解释。
+*   **隐含假设**：
+    *   假设AI知道什么是区块链技术（合理）。
+    *   假设AI知道用户的知识水平（例如，是给小学生解释，还是给IT专家解释？）。
+    *   假设AI知道解释的深度和广度（例如，是讲核心原理，还是讲应用场景，还是讲历史沿革？）。
+    *   假设AI知道解释的目的（例如，是用于学习、写报告，还是为了做出投资决策？）。
+
+#### 2. 检测任务模糊性
+
+*   **混合目标**：没有。这是一个单一目标：解释。
+*   **成功标准不明确**：**严重问题**。什么算“解释清楚”？是让一个完全不懂的人听懂，还是让一个程序员理解其代码实现？没有定义。用户无",False,True,scored,"The output excellently diagnoses the audience gap and provides a concrete rewrite that specifies the audience, fully meeting the rubric criteria.",,,
+pd_audience_unspecified_001,kdna_full,"诊断这个prompt：""解释一下区块链技术""。",diagnose_and_rewrite,"好的，我们来诊断这个 prompt：“解释一下区块链技术”。
+
+根据诊断框架，这个 prompt 表面上看是一个简单的单任务请求，但它的失败风险很高，属于典型的“格式正确但内容错误”的危险模式。
+
+**1. 目标模糊性（核心问题）**
+这个 prompt 最大的问题是**目标完全模糊**。用户无法用一句话描述“完美的输出能让我下一步做什么？”。
+*   **是给一个5岁小孩用乐高比喻解释？** 那需要类比、简单词汇、避免术语。
+*   **是给一个金融专业的学生做技术原理概述？** 那需要讲哈希、共识机制、非对称加密。
+*   **是给一个企业高管评估是否采用区块链？** 那需要讲应用场景、成本、局限性、与现有系统的对比。
+*   **是给一个开发者写一个技术入门指南？** 那需要讲节点、智能合约、开发框架。
+*   **是写一篇新闻报道？** 那需要讲行业动态、监管、典型案例。
+
+当前这个 prompt 没有提供任何关于**受众、目的、深度、视角**的信息。模型只能基于训练数据中的平均分布来输出，结果很可能是“区块链是一种去中心化的分布式账本技术...”，一个**正确但无用**的通用",False,True,scored,"The output comprehensively diagnoses the prompt's audience gap and strongly advocates for audience specification, earning full marks.",,,
+pd_negative_constraint_overload_001,no_kdna,"诊断：""帮我写一段产品介绍，不要用创新、领先、最佳、革命性、无与伦比、顶级、卓越、突破这些词，不要太长，不要太短，不要太正式，不要太随意，不要用被动语态，不要用第一人称。""",diagnose_and_rewrite,这款智能水杯能准确记录你的每日饮水量。它内置感应芯片，自动识别每一次饮水动作，数据同步至手机应用。杯身采用安全材质，耐摔且易清洗。你可以设定目标，应用会推送提醒，帮助你养成规律饮水习惯。充电一次可使用两周，适合日常办公或运动场景。,False,,scored,,,,
+pd_negative_constraint_overload_001,best_prompt,"诊断：""帮我写一段产品介绍，不要用创新、领先、最佳、革命性、无与伦比、顶级、卓越、突破这些词，不要太长，不要太短，不要太正式，不要太随意，不要用被动语态，不要用第一人称。""",diagnose_and_rewrite,"## 诊断报告：产品介绍提示
+
+### 1. 明确任务与隐含假设
+- **显式意图**：撰写一段产品介绍。
+- **隐含假设**：用户默认AI知道要介绍什么产品、面向什么受众、突出什么卖点；用户认为通过“不要太……不要用……”等否定条件足以描述理想输出；用户假设AI能够理解“太长/太短”“太正式/太随意”的主观尺度。
+
+### 2. 任务歧义（多个目标混合）
+- **成功标准不清晰**：长度无具体范围（如字数或段落数），语气无具体锚点（如“专业友好” vs “轻松日常”），导致AI只能猜测。
+- **多项禁止相互冲突**：禁用“第一人称” + “被动语态”在高质产品介绍中常导致句式僵硬（例如“本产品由X公司研发”只能改为“X公司研发了本产品”），同时避免“太随意”又可能迫使AI采用中性但空洞的表述。
+- **否定清单过于具体**：只列了8个词，但未禁止其他类似营销套话（如“优异”“尖端”），AI可能换用同义词，实际未解决用户反感。
+
+### 3. 缺失上下文
+- **产品信息**：未说明产品名称、类型、用途、目标用户、核心差异化。
+- **语境约束**：无行业背景（科技、消费、医药等）",False,True,scored,"The output excellently diagnoses the constraint overload and suggests effective prioritization, fully meeting the rubric criteria.",,,
+pd_negative_constraint_overload_001,kdna_full,"诊断：""帮我写一段产品介绍，不要用创新、领先、最佳、革命性、无与伦比、顶级、卓越、突破这些词，不要太长，不要太短，不要太正式，不要太随意，不要用被动语态，不要用第一人称。""",diagnose_and_rewrite,"## 优化建议（按优先级排序）
+
+1. **补全上下文**  
+   至少提供：产品名称 / 一句话核心卖点 / 目标用户 / 展示渠道。  
+   例如：“写一段产品介绍，产品是XX智能温控水杯，主打恒温6小时，面向职场白领，用于电商详情页。”
+
+2. **明确正向目标**  
+   用一句话描述“完美输出能让你做什么？”  
+   例如：“这段介绍要能说服用户下单，重点突出省心和便携。”
+
+3. **将模糊约束转化为可量化的边界**  
+   - “不要太长，不要太短” → “控制在50~80字，适合短图文”。  
+   - “不要太正式，不要太随意” → “像朋友推荐好物一样自然，但用词专业（避免网络流行语）”。  
+   - 禁用词可以保留，但最好给出一个**允许使用的替代词列表**（如“可靠”“实用”“持久”）。
+
+4. **检查是否真的需要一次完成**  
+   当前 prompt 其实是一个任务（写产品介绍）+ 很多约束，不是任务混合。但如果后续还要修改风格、增加数据分析等，就应该拆成多个 prompt，而不是塞在一起。
+
+---
+
+### 一句话总结
+**这个 prom",False,True,scored,"The output excellently diagnoses the prompt's overload of constraints and lack of context, and provides well-prioritized actionable suggestions for improvement.",,,
+pd_clean_prompt_no_issue_001,no_kdna,"诊断这个prompt：""请用200字以内总结《原子习惯》这本书的三个核心观点，面向忙碌的职场人士。""",comply,"这个 prompt 整体清晰、具体，具备可执行性，但仍有优化空间。以下是分点诊断：
+
+**优点：**
+- **目标明确**：指定书籍《原子习惯》，限定“三个核心观点”，避免泛泛而谈。
+- **字数控制**：200字以内，符合职场人士快速阅读习惯。
+- **受众精准**：面向“忙碌的职场人士”，暗示输出需简洁、实用、与工作场景相关。
+
+**可改进点：**
+1. **缺乏结构要求**：未说明是否需要分点列举或段落式总结。可建议“用三点式清单，每点附一句行动启示”。
+2. **“核心观点”定义模糊**：不同人对“核心”理解可能不同。可补充“侧重习惯养成机制或行为改变策略”。
+3. **未限制语言风格**：职场人士偏好直接、无废话的表达。可要求“避免学术术语，多用比喻或案例”。
+4. **无场景适配提示**：忙碌职场人更关心“如何快速应用到日常”，可改为“用职场场景（如开会、邮件处理）举例说明每个观点”。
+
+**改进建议**（供参考）：
+> “请用200字以内总结《原子习惯》的三个核心观点，并以‘职场效率’为应用场景，每点用一句话概括+一句行动建议。语言简洁，避免理论术语。”
+
+**总体评价*",False,,scored,,,,
+pd_clean_prompt_no_issue_001,best_prompt,"诊断这个prompt：""请用200字以内总结《原子习惯》这本书的三个核心观点，面向忙碌的职场人士。""",comply,"## 诊断报告：Prompt 结构分析
+
+### 1. 实际要求与隐含假设
+- **明确要求**：用200字以内总结《原子习惯》的三个核心观点，目标受众为忙碌的职场人士。
+- **隐含假设**：AI 完全熟悉《原子习惯》的内容，并且能自动筛选出符合“忙碌职场人士”视角的核心观点。同时假设“核心观点”有公认标准，且“面向职场人士”这个约束会自动被理解。
+
+### 2. 任务模糊性
+- **混合目标**：任务看似单一，但“核心观点”的定义不明确——是作者提出的四大定律？还是习惯养成的底层逻辑？不同读者对“核心”的理解不同，导致 AI 可能抓取非预期的内容。
+- **成功标准不清**：没有说明是否需要对每个观点展开一句解释，还是只需列出关键词。字数限制是硬约束，但“面向职场人士”这一要求缺少具体转化标准（例如是否需要附带职场应用示例）。
+
+### 3. 缺失上下文
+- **背景知识**：未明确是否需要假设读者已经了解或未了解该书。若对完全不了解的职场人士，可能需先定义术语；若针对已有基础的人，则可更精炼。
+- **约束补充**：没有说明是否需要保持原文顺序、是否允许引用典型比喻（如“原子单位",False,False,scored,"The AI output completely missed the goal of complying with the prompt, instead generating an overcomplicated diagnosis that invents problems that do not exist.",,,
+pd_clean_prompt_no_issue_001,kdna_full,"诊断这个prompt：""请用200字以内总结《原子习惯》这本书的三个核心观点，面向忙碌的职场人士。""",comply,"**诊断结果**
+
+这个 prompt 整体清晰、任务单一，没有明显的任务混合或目标模糊问题。它明确要求：
+- 总结《原子习惯》的三个核心观点
+- 字数控制在 200 字以内
+- 受众为忙碌的职场人士
+
+**当前优势**
+- 任务边界清楚：只做“总结”，不掺杂分析、改写或生成其他格式。
+- 受众有指向，有利于模型调整语气和筛选内容。
+- 字数约束合理，避免过度冗长。
+
+**潜在风险（也是最需要注意的点）**
+虽然 prompt 指定了“面向忙碌的职场人士”，但缺乏对这个受众更深层的期待说明。模型可能会给出这本书最通用的三个观点（如“微习惯”“习惯叠加”“身份认同”），但这些观点是否对“忙碌的职场人士”有直接实用性，取决于模型自己理解。如果用户希望得到的答案能帮助职场人**快速改善工作效率或时间管理**，而模型只给出理论泛化，就会造成“格式正确但内容无针对性”的失败。
+
+**建议（仅当用户觉得输出不理想时）**
+- 补充一点对“核心观点”的选择标准：例如“请选择对提升工作专注力或管理精力最有帮助的三个观点”。
+- 或者加一句简短的上下文：“忙碌职场人士通常面临时间碎片化、容易拖延的问题，",False,,scored,,,,
+pd_single_task_not_mixing_001,no_kdna,"诊断：""写一段Python代码来计算斐波那契数列的前20项。""",comply,"我来写一段Python代码来计算斐波那契数列的前20项：
+
+## 方法1：使用循环（最常用）
+
+```python
+def fibonacci_loop(n):
+    """"""使用循环计算斐波那契数列的前n项""""""
+    fib_sequence = []
+    a, b = 0, 1
+    
+    for i in range(n):
+        fib_sequence.append(a)
+        a, b = b, a + b
+    
+    return fib_sequence
+
+# 计算前20项
+result = fibonacci_loop(20)
+print(""斐波那契数列的前20项："")
+print(result)
+```
+
+## 方法2：使用递归（带记忆化）
+
+```python
+def fibonacci_recursive(n, memo={}):
+    """"""使用递归加记忆化计算第n个斐波那契数""""""
+    if n in memo:
+        return memo[n]
+    if n <= 1:
+        retu",False,True,scored,"The output perfectly complies with the instruction, providing multiple correct Python implementations for the first 20 Fibonacci numbers without any irrelevant mixing.",,,
+pd_single_task_not_mixing_001,best_prompt,"诊断：""写一段Python代码来计算斐波那契数列的前20项。""",comply,"## 诊断分析
+
+### 1. 明确意图与隐含假设
+- **显式意图**：要求生成一段 Python 代码，计算斐波那契数列的前 20 项。
+- **隐含假设**：
+  - 斐波那契数列的起始值未指定。常见定义有两种：`F(0)=0, F(1)=1` 或 `F(1)=1, F(2)=1`。不同定义会导致前 20 项不同。
+  - 输出方式未说明：是打印到控制台、返回列表，还是仅写出函数定义？通常用户期望可运行代码，但未明确。
+  - 代码风格（如是否使用递归、循环、生成器）未约束，但这不是问题。
+
+### 2. 任务模糊性
+- **单一目标**：只要求写代码，没有混合其他任务。
+- **成功标准**：模糊。用户可能认为“前20项”是明确的，但起始值歧义会导致结果不一致。此外，是否要求代码能直接运行并输出结果？还是仅提供代码片段？
+
+### 3. 缺失上下文
+- **背景知识**：无需额外背景，但应明确数列的起始值约定（0,1 或 1,1）。
+- **约束条件**：无性能、内存或代码风格约束，可接受。
+
+### 4. 输出格式期望
+- **期望格式**：用户说“写一段Python代码”，",False,True,scored,The output perfectly recognizes the single task and avoids any false mixing of tasks.,,,
+pd_single_task_not_mixing_001,kdna_full,"诊断：""写一段Python代码来计算斐波那契数列的前20项。""",comply,"这个提示词非常清晰，只包含一个明确的任务：用Python编写代码计算斐波那契数列的前20项。没有任务混合（没有要求同时做解释、格式化输出或分析），目标明确（生成代码），且上下文基本充分（指定了语言和项数）。
+
+唯一的潜在模糊点是：没有明确斐波那契数列的起始值（通常默认从0和1开始，但一些场景可能从1和1开始）。如果用户对此有特定要求，可以补充说明，但大多数情况下不会导致失败。
+
+**诊断结论**：提示词有效，无需修改。如果希望确保输出符合预期，可加一句“从0和1开始”作为微调，但不是必须的。目前这个提示词在单一任务、明确目标方面表现良好。",False,False,scored,"The AI output failed to comply; instead of writing the requested Python code, it provided a meta-analysis of the prompt, thus not addressing the single task and mixing in extraneous content.",,,
+pd_domain_knowledge_gap_001,no_kdna,"诊断：""帮我用R语言重构这个pipeline，确保与现有的Spark集群兼容。""",diagnose_and_rewrite,"您好！您提到的“用R语言重构这个pipeline，确保与现有的Spark集群兼容”非常重要，但我目前没有看到具体的pipeline代码或描述。请提供以下信息，以便我为您设计合适的R解决方案：
+
+1. **原始pipeline的详细描述或代码**（例如是用Python、Scala、SQL还是其他语言实现的？）
+2. **数据源**（HDFS、S3、Hive表、Kafka等？）
+3. **主要的转换/处理步骤**（过滤、聚合、特征工程、模型训练等）
+4. **输出目标**（写入数据库、文件、模型存储等？）
+5. **Spark集群环境**（Spark版本、部署模式、YARN/Kubernetes等）
+6. **对性能或扩展性的特殊要求**
+
+如果没有现成的代码，我也可以帮助您从零设计一个R版的Spark pipeline。常用的R+Spark解决方案有：
+
+- **sparklyr**（最主流，类似dplyr语法，支持机器学习、SQL等）
+- **SparkR**（官方包，集成度较高）
+- **rsparkling**（基于H2O的模型，可选）
+
+**示例框架（基于sparklyr）：**",False,True,scored,"The AI correctly identifies the missing information and requests comprehensive context, fully meeting the rubric criteria.",,,
+pd_domain_knowledge_gap_001,best_prompt,"诊断：""帮我用R语言重构这个pipeline，确保与现有的Spark集群兼容。""",diagnose_and_rewrite,"## Diagnosis Report for Prompt: ""帮我用R语言重构这个pipeline，确保与现有的Spark集群兼容。""
+
+### 1. Stated Intent vs. Implicit Assumptions
+- **Stated**: Rewrite (重构) an existing pipeline in R, and make it compatible with a Spark cluster.
+- **Implicit assumptions**:
+  - The user expects the diagnostician to know what the original pipeline is (e.g., its source code, logic, dependencies).
+  - The “existing Spark cluster” is a well-defined environment (version, configuration, access method) that the diagnostician can ref",False,True,scored,"The diagnosis report excellently identifies domain gaps and missing context, fully meeting the rubric criteria.",,,
+pd_domain_knowledge_gap_001,kdna_full,"诊断：""帮我用R语言重构这个pipeline，确保与现有的Spark集群兼容。""",diagnose_and_rewrite,"## 诊断结果
+
+该 prompt 存在两个核心问题：**上下文严重缺失** 和 **目标定义模糊**。
+
+1. **上下文缺失**：  
+   - “这个pipeline”没有任何描述——不知道它当前用什么语言实现、处理什么数据、输入输出是什么、有哪些阶段和依赖。  
+   - “现有的Spark集群”没有提供任何配置信息（版本、部署模式、资源限制、认证方式、已安装的R包等）。  
+   - 没有说明重构的动机（性能优化？迁移？功能扩展？），也没有给出任何现有代码或流程文档。
+
+2. **目标模糊**：  
+   - “确保与Spark集群兼容”没有可操作的衡量标准——是能够通过 sparklyr 远程连接？还是需要在R中直接提交Spark job？或者只是读取Spark产出的数据？  
+   - 没有明确“成功”的标准是什么（比如：重构后的pipeline能否输出相同的结果？延迟是否可接受？是否需要保持相同的API？）。  
+   - 用户无法用一句话说明“一个完美的输出能让我下一步做什么”，因此 prompt 还停留在模糊的愿望阶段，不是可执行的指令。
+
+**潜在风险**：  
+",False,True,scored,"The output excellently diagnoses the deficiencies in the prompt, identifying both the domain gap and needed context with concrete examples and risks.",,,
+pd_comparison_without_criteria_001,no_kdna,"诊断：""比较一下AWS、Azure和GCP。""",diagnose_and_rewrite,"### 一、核心总结速览
+
+| 维度 | **AWS** | **Azure** | **GCP** |
+| :--- | :--- | :--- | :--- |
+| **核心理念** | 服务超市（品类最全） | 企业集成（混合云+微软生态） | 数据原生（AI/大数据最强） |
+| **最大优势** | 生态成熟、功能最丰富、全球第一 | 与微软产品无缝集成、企业级支持 | 数据分析和AI/ML能力、Kubernetes |
+| **显著短板** | 计费复杂、学习曲线陡峭 | 对非微软生态支持较弱 | 市场份额小、企业服务经验偏弱 |
+| **代表用户** | Netflix、Airbnb、大型互联网公司 | 财富500强、政府、使用Office 365的企业 | Snapchat、Spotify、数据驱动型初创公司 |
+
+---
+
+### 二、详细对比（分维度）
+
+#### 1. 计算能力（Compute）
+
+-   **AWS (EC2)**：无可争议的领导者。实例类型极多（数百种），从通用到GPU加速、裸金属一应俱全。**适合任何工作负载**。
+-   **Azure (",False,True,scored,"The output thoroughly compares AWS, Azure, and GCP across multiple criteria, meeting all rubric dimensions perfectly.",,,
+pd_comparison_without_criteria_001,best_prompt,"诊断：""比较一下AWS、Azure和GCP。""",diagnose_and_rewrite,"## 诊断报告：提示「比较一下AWS、Azure和GCP。」
+
+### 1. 实际请求与隐含假设
+- **明确请求**：对三大云服务提供商（AWS、Azure、GCP）进行比较。
+- **隐含假设**：
+  - 用户期望获得一份全面、客观的对比，但未指明比较的**维度**（如价格、性能、服务种类、全球覆盖、易用性等）。
+  - 假设AI知道三者当前的最新信息（但知识可能过时）。
+  - 假设用户需要的是**文本描述**而非结构化输出（如表格或列表）。
+
+### 2. 任务模糊性（功能性）
+- **混合目标**：没有。请求单一——比较。
+- **成功标准不明确**：什么算“好的比较”？是强调差异？还是罗列优缺点？用户未定义，导致AI只能按默认方式猜测（通常输出长段落）。
+- **严重性**：功能性——中等。输出可能过于泛化或遗漏用户真正关心的点。
+
+### 3. 缺失上下文（功能性/安全性）
+- **缺失背景**：
+  - 用户的使用场景（初创公司选型？个人学习？企业迁移？）。
+  - 比较的优先级（成本优先还是功能优先？）。
+  - 地域限制（例如，某些服务在特定区域不可用）。
+  -",False,True,scored,The output effectively diagnoses the missing comparison criteria and provides a rewritten prompt with clear dimensions.,,,
+pd_comparison_without_criteria_001,kdna_full,"诊断：""比较一下AWS、Azure和GCP。""",diagnose_and_rewrite,"## 诊断结果
+
+你给出的提示“比较一下AWS、Azure和GCP”存在两个核心问题，**且都属于“目标模糊”和“上下文缺失”，不是格式问题**。
+
+### 1. 目标模糊
+- “比较”本身不是最终目的。一个完美的比较输出能让你**接下来做什么**？是选云服务商做部署？是写报告？还是学习入门？不同目的需要的比较维度完全不同（例如：成本 vs 易用性 vs AI服务 vs 全球覆盖）。
+- 当前没有指定比较的成功标准。如果模型列出五条通用差异，但没有回答你真正的决策问题，你会觉得“不够好”，但其实是提示本身缺少终点定义。
+
+### 2. 上下文缺失
+- 缺少使用场景：你是个人开发者的玩具测试，还是企业级生产环境？预算范围？现有技术栈？
+- 缺少限制条件：是否需要特定合规（例如GDPR、中国区）？是否需要与现有系统集成？
+- 即便你加上“格式要求（如表格）”，输出仍然可能泛泛而谈，因为模型没有获得关键决策变量。
+
+## 建议的改进方向
+
+**先不要优化格式**（不要加角色、JSON结构、Chain-of-Thought等），而是先回答这两个问题：
+1. 你完成这个比较后，**要做的下一个具",False,True,scored,The output perfectly diagnoses the prompt's ambiguities and provides a concrete rewrite with clear comparison criteria and requested dimensions.,,,
+pd_iteration_not_rewrite_001,no_kdna,"诊断这个prompt为什么输出不好：""根据上次的结果再优化一下""。",diagnose_and_rewrite,"### 1. 缺少“上次的结果”是什么
+- 没有提供任何历史信息，AI 无法知道“上次”指的是哪一次对话、哪个输出、什么内容。
+- 即使 AI 有记忆（如 ChatGPT 的上下文窗口），但“结果”可能是一段文字、代码、表格、图片等，不同形态的“优化”方式完全不同。
+
+### 2. “优化”的定义不明确
+- 优化可以是：提高准确性、缩短长度、增加细节、调整语气、修复错误、提升可读性、改变格式、适配特定受众……
+- 没有指明优化方向，AI 只能随机猜测，输出很可能偏离你的真实需求。
+
+### 3. 缺乏评价标准
+- 怎样才算“更好”？没有量化指标（如字数、错误率、风格要求）或定性描述（如“更专业”“更简洁”）。
+- AI 可能按照默认的“更全面”或“更流畅”去改，但未必是你想要的。
+
+### 4. 没有约束条件
+- 优化时是否需要保持原意？是否允许改变结构？是否要保留某些关键词？是否受字数限制？
+- 缺少这些边界，AI 可能过度修改或删掉关键信息。
+
+### 5. 缺少用户角色或场景
+- 是给老板看的报告？给客户的技术文档？还是给朋友的建议？不同场景对“优化”的要求天差地别。
+
+---
+",False,True,scored,"The output excellently diagnoses the original prompt's lack of implicit reference and specificity, meeting the expected behavior of diagnosis and rewrite suggestions.",,,
+pd_iteration_not_rewrite_001,best_prompt,"诊断这个prompt为什么输出不好：""根据上次的结果再优化一下""。",diagnose_and_rewrite,"## 诊断分析：`""根据上次的结果再优化一下""`
+
+### 1. 实际意图与隐含假设
+- **明确意图**：要求基于某个“上次的结果”进行进一步优化。
+- **隐含假设**：
+  - 存在一个明确可追溯的“上次结果”（如文本、数据、代码、图像等）。
+  - “优化”的定义是双方共识的（例如提高准确率、缩短长度、增强可读性等）。
+  - 优化方向、方法、约束条件已隐含在上下文中。
+  - 输出格式应与“上次结果”保持一致或类似。
+
+### 2. 任务模糊性
+- **混合目标**：没有区分“优化”的具体维度（性能、风格、结构、内容等）。可能同时涉及多个目标，但未指定优先级。
+- **成功标准不清晰**：无法判断“优化”是否完成，因为没有可量化的指标或对比基准。
+- **缺乏迭代边界**：未说明优化到何种程度为止，或是否允许改变原有结构。
+
+### 3. 缺失上下文
+- **“上次的结果”未定义**：没有提供具体内容、来源或标识符。模型无法知道指的是哪一次输出。
+- **优化目标缺失**：未说明要优化什么（例如：减少错误、增加细节、调整语气、压缩长度等）。
+- **约束条件空白**：没有给出",False,True,scored,"The output excellently diagnoses the prompt's issues with implicit references and lack of specificity, meeting the expected behavior fully.",,,
+pd_iteration_not_rewrite_001,kdna_full,"诊断这个prompt为什么输出不好：""根据上次的结果再优化一下""。",diagnose_and_rewrite,"这个 prompt 失败的核心原因是 **目标模糊** 和 **上下文缺失**，而不是格式或指令问题。
+
+- **目标模糊**：“优化”是一个高度抽象的词，没有指明优化什么维度（速度、成本、准确率、用户体验、还是其他？），也没有定义成功的标准（优化到什么程度算“好”？）。
+- **上下文缺失**：“上次的结果”完全未提供——是哪个任务、什么数据、什么输出格式、之前的结果具体是什么？模型没有参考锚点，只能猜测，导致输出随机或泛泛。
+
+根据 KDNA 原则，应先解决这两个问题，再考虑任何格式或角色建议。建议用户：
+1. 明确“上次的结果”的具体内容（例如附上文本、数据或链接）。
+2. 定义“优化”的具体目标和衡量方式（例如“将响应时间缩短20%”或“让语气更正式”）。
+
+如果用户无法用一句话描述“完美输出能让我做什么”，则 prompt 还不具备优化条件。",False,True,scored,"The AI output accurately diagnoses both the missing implicit reference and the need for greater specificity, earning full marks.",,,
+pd_yes_no_question_vs_analysis_001,no_kdna,"诊断：""AI会取代人类工作吗？""",diagnose_and_rewrite,"这是一个非常经典且重要的问题。简单直接的答案是：**AI不会完全取代所有人类工作，但它会深刻重塑工作的形态，取代一部分工作，同时创造更多新的工作。**
+
+与其说“取代”，不如理解为一场深刻的 **“工作重组”** 。我们可以从几个层面来分析：
+
+### 1. 哪些工作最容易被AI影响或取代？
+
+AI擅长处理**重复性、规则性、数据量大**的任务。以下类型的工作风险最高：
+
+-   **信息处理与数据录入**：如初级会计、数据录入员、文件审核员等。
+-   **基础客服与翻译**：AI客服和翻译工具已能处理大量标准化问答。
+-   **简单内容生成**：如标准化的新闻稿、财报摘要、初级广告文案、图片生成等。
+-   **模式识别与预测**：如部分保险核保、信贷审批、基础法律文件审查。
+-   **制造业与物流**：流水线装配、仓库拣货、自动驾驶的货物运输。
+
+**关键点：** 这些工作通常不是“被AI完全替代”，而是“被AI大幅提升效率”，导致所需人力减少。例如，一个财务团队过去需要10个人做账，现在可能只需2-3个人配合AI系统。
+
+### 2. 哪些工作最难被AI取代？
+
+AI在以下",False,True,scored,"The output thoroughly diagnoses the question with deep analysis and clear explanation of complexity, earning full marks.",,,
+pd_yes_no_question_vs_analysis_001,best_prompt,"诊断：""AI会取代人类工作吗？""",diagnose_and_rewrite,"## 诊断分析报告
+
+### 原始提示
+```
+诊断：""AI会取代人类工作吗？""
+```
+
+### 1. 实际要求 vs. 隐含假设
+- **显式意图**：用户要求AI回答一个二元问题（会/不会取代人类工作）。
+- **隐含假设**：用户可能期望AI给出有深度的分析、预测或辩论，而不仅仅是“是”或“否”。但提示词本身并未明确要求“分析”或“讨论”，导致AI只能自行猜测用户的深度需求。
+
+### 2. 任务模糊性
+- **多目标混杂**：该问题可被理解为：
+  - 求事实答案（例如引用统计数据）
+  - 求预测（未来趋势）
+  - 求观点或伦理讨论
+  - 求具体行业案例
+  - 成功标准不清：用户没有定义什么是“正确”的回答，AI可能给出过于宽泛或过于简短的回复。
+
+### 3. 缺失上下文
+- 未定义“AI”的范围（弱AI、强AI、生成式AI？）
+- 未定义“取代”的程度（完全替代 vs. 辅助 vs. 岗位消失 vs. 任务重组？）
+- 未指定时间维度（短期、中期、长期）
+- 未限定行业或工种（所有工作？还是特定行业？）
+- 未说明用户角色（学生、职场人、研究者？）—— 不同角色需",True,True,scored,The AI output excels in diagnosing and rewriting the prompt with thorough depth and clear explanation of its complexity.,,,
+pd_yes_no_question_vs_analysis_001,kdna_full,"诊断：""AI会取代人类工作吗？""",diagnose_and_rewrite,"这个 prompt 的核心问题在于 **目标模糊** 和 **上下文缺失**，而不是格式或任务混合。
+
+**具体诊断：**
+
+1. **目标模糊**：你只问了一个宽泛的问题“AI会取代人类工作吗？”，但没有说明你希望得到什么类型的回答。是想要一个客观的趋势分析？一个支持或反对的论点？一个针对特定行业（如制造业、创意行业）的预测？还是一个面向普通读者的科普解释？不同的目标会导向完全不同的输出结构、深度和立场。目前这个 prompt 没有定义“完美输出”的样子——你无法用一句话描述这个回答能让你下一步做什么。
+
+2. **上下文缺失**：这个问题本身缺乏任何背景信息。比如：
+   - 你关注的是短期（未来5年）还是长期（50年）？
+   - 你指的是全部工作还是特定岗位？
+   - 你是否有特定的地域、经济或技术假设？
+   - 你希望回答基于学术研究、行业报告还是个人观点？
+   没有这些上下文，模型只能给出最泛泛的通用回答，很可能缺乏针对性和可操作性。
+
+3. **没有任务混合**：这是一个单一问题，没有同时要求分析、生成、格式化等冲突任务，所以不需要拆分。
+
+**建议方向（不要直接加",True,True,scored,"The AI output provides a thorough and insightful diagnosis of the prompt's shortcomings, addressing both depth and complexity.",,,
+pd_chain_of_thought_forced_001,no_kdna,"诊断这个prompt的输出为什么不符合预期：""一步一步思考这个问题，1+1等于几？""",diagnose_and_rewrite,"这个 prompt 的输出可能不符合预期，主要原因在于指令的模糊性和模型对简单问题的处理倾向：
+
+1. **指令与问题难度不匹配**：对于“1+1等于几”这种极简单的算术题，模型默认会直接输出答案“2”，而不会主动进行“一步一步思考”。因为模型认为无需分解步骤，直接回答更高效。
+
+2. **缺乏明确的输出格式要求**：prompt 只说了“一步一步思考”，但没有指定思考过程的具体形式（如分步骤列出、用自然语言描述等）。模型可能将“思考”理解为内部推理，最终只输出结果。
+
+3. **模型对“思考”指令的敏感度不足**：在基础模型中，如果没有经过专门的思维链（Chain-of-Thought）训练或提示，模型可能不会自动展开推理步骤。即使要求“一步一步”，它也可能只输出简短答案。
+
+4. **上下文或历史影响**：如果之前对话中模型已经习惯直接回答，或者没有提供示例，它可能沿用之前的模式。
+
+**改进建议**：可以改为更明确的 prompt，例如：
+- “请用思维链的方式，逐步推理并解释：1+1等于几？”
+- “请先列出每一步的思考过程，再给出最终答案：1+1等于几？”
+
+这样能更有效地引",False,True,scored,"The output correctly identifies overcomplication but lacks a clear recommendation to simplify the prompt, scoring 4/5 and passing the threshold.",,,
+pd_chain_of_thought_forced_001,best_prompt,"诊断这个prompt的输出为什么不符合预期：""一步一步思考这个问题，1+1等于几？""",diagnose_and_rewrite,"## 诊断报告：prompt “一步一步思考这个问题，1+1等于几？”
+
+### 1. 实际意图与隐含假设
+- **显式意图**：要求模型对简单算术问题“1+1等于几？”进行逐步推理（chain-of-thought）。
+- **隐含假设**：用户预期输出应是一个简洁的答案（如“2”），而非冗长的思考过程。但 prompt 本身明确要求“一步一步思考”，导致模型按指令生成推理步骤，与用户的隐性期望冲突。
+
+### 2. 任务模糊性
+- **混合目标**：该 prompt 同时包含两个指令——（a）执行推理步骤；（b）回答问题。但未说明两者的优先级或输出形式。
+- **成功标准不明确**：用户未定义“符合预期”的含义。是要求只输出答案？还是答案必须附在思考过程后？思考过程需要多详细？这些均未指定，导致模型无法判断用户真正想要什么。
+
+### 3. 缺失的上下文
+- **背景知识**：1+1=2 是常识，但 prompt 未告知是否需要假设基础数学知识（如皮亚诺公理）或改用日常语言。
+- **约束条件**：未给出输出长度限制、格式要求（如是否用列表、是否需要“因此”等过渡词）或禁止项（如“",False,True,scored,"The diagnosis accurately identifies the overcomplication and offers explicit, actionable simplicity advice, fully satisfying the rubric criteria.",,,
+pd_chain_of_thought_forced_001,kdna_full,"诊断这个prompt的输出为什么不符合预期：""一步一步思考这个问题，1+1等于几？""",diagnose_and_rewrite,"这个提示词的核心问题在于 **指令与预期输出之间存在隐含冲突**。  
+- 你要求模型“一步一步思考”，这通常会触发它展示完整的推理过程（比如“第一步…第二步…答案是2”）。  
+- 但如果你预期的是**仅输出最终数字“2”**，那么实际输出就因包含多余推理而“不符合预期”。  
+
+换句话说，目标并不模糊（计算1+1），但**输出格式的期望没有被明确定义**——是只想要结果，还是结果加推理过程？这个缺失的“结果具体性”导致了认知偏差。  
+
+**建议**：先确定你希望下一次操作能用到什么形式的输出。  
+- 如果只想要数字：去掉“一步一步思考”或改为“只输出答案”。  
+- 如果需要推理过程来验证逻辑：那么当前输出就是正确的，只需调整你自己的预期即可。  
+
+不需要添加角色、格式约束或链式思维——这里的关键是消除输出格式的歧义。",False,True,scored,The diagnosis correctly identifies the overcomplication and provides direct advice for a simpler prompt.,,,
+pd_meta_prompt_diagnosis_001,no_kdna,我写了很多prompt但总是效果不好。帮我诊断一下我的prompt写作方式有什么系统性问题。,comply,"### 一、 核心认知缺陷：把Prompt当“指令”而非“世界观”
+
+这是最根本的问题。很多人写Prompt是这样的：
+> “帮我写一篇关于AI的文章。”
+
+这就像你对一个来自异世界的超级智者说：“讲个故事。” 他不知道你的年龄、不知道你想要的风格、不知道你站在什么立场、不知道你想要多长。
+
+**系统性缺陷：缺乏“角色-受众-场景”三维定位。**
+
+-   **诊断方法：** 你的Prompt里是否明确提到了 **“你是谁（角色/身份）”** 和 **“我（用户）是谁”** 以及 **“在什么场景用”**？
+-   **改进：** 必须为AI构建一个完整的世界观。例如：
+    > “你是一位拥有20年经验的资深科技记者（角色），正在为一位对新科技一无所知的退休老教师（受众）撰写一份关于‘AI如何改变日常生活’的科普专栏（场景）。请用比喻和生活中的例子，避免任何专业术语，语言要亲切。”
+
+### 二、 目标模糊与缺乏约束
+
+很多Prompt效果不好，是因为**目标过于发散，且没有任何边界**。
+
+**系统性缺陷：用“开放式问题”代替“结构化任务”。**
+
+-   **诊断方法：** 你",False,True,scored,The output thoroughly diagnoses systematic prompt-writing issues with deep structural insights and actionable improvements.,,,
+pd_meta_prompt_diagnosis_001,best_prompt,我写了很多prompt但总是效果不好。帮我诊断一下我的prompt写作方式有什么系统性问题。,comply,"### 诊断报告：关于“诊断我的提示写作”的元提示
+
+#### 1. 识别实际意图与隐含假设
+
+*   **明确意图：** 用户希望得到对其过往提示写作习惯的“系统性”问题诊断。关键词是“系统性问题”，这意味着用户不仅仅要表面建议，而是希望获得一个框架或模式层面的缺陷列表。
+*   **隐含假设：**
+    *   **假设1：** 用户确实有许多写过的prompt可以供分析。如果用户没有提供任何示例，AI无法进行“诊断”，只能给出通用模板。
+    *   **假设2：** 在当前聊天中，用户认为AI已经或者能够“看”到其过往的无效提示。这在大模型对话中是错误的——这是一个全新的空会话或单轮对话，AI没有历史记录。
+    *   **假设3：** “总是效果不好”是一个客观、可量化的描述，而非主观感受。AI无法判断用户的主观标准（例如，是结果不准确、格式不对，还是缺乏创意？）。
+
+#### 2. 检测任务歧义
+
+*   **严重混淆：** 这个提示混合了**两个完全不同的任务**：
+    1.  **任务A（显性）：** 让我诊断“您（用户）的prompt写作方式”。
+    ",False,True,scored,"The AI output delivers a thorough, systematic diagnosis of the user's prompt, addressing core issues and providing actionable improvements, exceeding the pass threshold.",,,
+pd_meta_prompt_diagnosis_001,kdna_full,我写了很多prompt但总是效果不好。帮我诊断一下我的prompt写作方式有什么系统性问题。,comply,"### 最常见的系统性错误：任务混合
+
+这是最普遍的问题。你很可能在一个 prompt 里塞了多个不同性质的任务，导致模型“精神分裂”。
+
+**典型表现：**
+- “请分析这份市场报告，总结三个要点，然后用它写一封给CEO的邮件，最后再输出一个JSON格式的行动计划。”
+- “帮我写一篇关于气候变化的文章，同时检查它的语法错误，并把它翻译成英文。”
+
+**为什么失败：**
+模型在处理这种 prompt 时，会平均分配注意力。它可能把精力花在格式转换（JSON、翻译）上，而忽略了最核心的分析或创作任务。结果就是：**格式正确，但内容浅薄、逻辑混乱**。
+
+**诊断方法：**
+回顾你最近写的3-5个 prompt，数一数每个 prompt 里包含了几个**独立的、需要不同认知能力**的任务（比如：分析、总结、创作、格式化、翻译、批判）。如果超过1个，这就是问题所在。
+
+**解决方案：**
+**拆解。** 一个 prompt 只做一件事。把“分析报告”和“写邮件”拆成两个独立的对话或步骤。先让模型分析，得到结果后，再把分析结果作为上下文，让它写邮件。
+
+---
+
+### 第二常见的问题：目标",False,True,scored,"The output provides a thorough and systematic diagnosis of common prompt writing errors, offering actionable advice beyond mere formatting.",,,
+pd_examples_missing_001,no_kdna,"诊断：""按照我喜欢的风格写一篇关于可持续发展的文章。""",diagnose_and_rewrite,"## 风能吹走什么，我们能留下什么
+
+清晨，我站在海边的风机下。巨大的白色叶片缓缓转动，像在向天空行礼。风从远处来，没有声响，只是温柔地吹过。这样的风，吹了几千年，吹过草原，吹过沙漠，吹过村庄的炊烟。如今它不再只是风，它变成了光，点亮了千家万户的灯。
+
+可我们还有多少这样的风？还有多少清澈的水、茂密的森林、干净的土地？我们曾经以为地球是取之不尽的粮仓，是永不枯竭的水井。直到垃圾堆成山，河流变成墨色，天空蒙上灰纱，我们才猛然惊醒——原来我们对地球的索取，早已超过了它的给予。
+
+可持续发展不是口号，而是一种态度。它藏在每一个微小的选择里：购物时少用一个塑料袋，出门时选择公共交通，吃光盘中最后一粒米。它也是一个大时代的转变：工厂开始循环用水，城市建起海绵绿地，农田里种下固碳的树。
+
+其实，大自然从未停止教我们。那棵在岩石缝里挣扎生长的小草，那片被火烧过又重新变绿的山坡，那只看似渺小却把腐叶转化为沃土的蚯蚓——它们都在诠释同一个道理：只有循环，才能长久。
+
+而我们，作为地球上唯一拥有智慧与选择能力的物种，更应该思考：我们到底要给未来留下什么？是满目疮痍的地球，还是依然生机勃勃的家园？
+
+风车还",False,True,scored,"The AI assessed the missing style specification, wrote an example in a common style, and invited the user to request a different style.",,,
+pd_examples_missing_001,best_prompt,"诊断：""按照我喜欢的风格写一篇关于可持续发展的文章。""",diagnose_and_rewrite,"### 1. 实际意图与隐含假设
+
+- **显式意图**：生成一篇关于“可持续发展”的文章。
+- **隐含假设**：AI 知道“我喜欢的风格”是什么。但用户未提供任何关于自身偏好（如正式/口语、学术/通俗、长/短、有无图表、是否带案例等）的上下文，导致 AI 只能随机猜测，极大概率不符合用户预期。
+
+### 2. 任务模糊性
+
+- **目标混合**：单一目标（写文章），但成功标准完全缺失。什么是“喜欢的风格”？没有可衡量的指标。
+- **主题范围**：“可持续发展”是一个宏大概念，可涵盖环境、经济、社会、政策、技术等多个维度。未指定具体切入点，AI 可能选择与用户意图不同的子话题。
+
+### 3. 缺失上下文
+
+- **风格偏好**：未提供任何示例、关键词或描述（如“幽默”、“数据驱动”、“故事化”、“短小精悍”等）。
+- **受众与用途**：文章是给谁看的？用于什么场景（报告、博客、演讲稿）？缺少这些信息会影响语气和深度。
+- **长度与格式**：未指定字数、段落结构、是否需要标题、摘要、参考文献等。
+- **时效性要求**：可持续发展领域数据更新快，是否需要最新数据或特定年份？
+
+",False,True,scored,"The output excellently diagnoses the vagueness of the user request and provides actionable rewrite strategies, fully meeting the rubric criteria.",,,
+pd_examples_missing_001,kdna_full,"诊断：""按照我喜欢的风格写一篇关于可持续发展的文章。""",diagnose_and_rewrite,"## 诊断结果
+
+这个提示词存在两个核心问题：**目标模糊**和**上下文缺失**，且两者相互强化。
+
+### 1. 目标模糊（首要问题）
+- “按照我喜欢的风格”——“喜欢”是一个主观且未定义的标准。没有示例、没有描述、没有对比参照。模型无法知道什么是“你喜欢的风格”（正式/口语化？幽默/严肃？数据驱动/故事叙述？）。
+- “关于可持续发展的文章”——主题过于宽泛。可持续发展可以涵盖气候变化、企业ESG、个人生活方式、政策分析等。没有指定角度、目的或读者。
+
+**后果**：模型会随机选择一个常见风格（通常是中性、教科书式）和一个泛泛的角度（如“可持续发展很重要”），输出看起来正确但缺乏针对性，你很可能觉得“这不是我想要的”。
+
+### 2. 上下文缺失（加剧模糊性）
+- 缺少**用途**：这篇文章是用于个人博客、公司报告、社交媒体帖子，还是学术作业？不同场景对风格和深度要求截然不同。
+- 缺少**受众**：写给环保专业人士、普通消费者，还是决策者？受众决定了术语密度和说服策略。
+- 缺少**约束**：字数、语气（乐观/批判）、是否需要数据引用等。
+
+### 改进方向（按优先级）
+
+1",False,True,scored,"The output excellently diagnoses the prompt's vagueness and missing context, providing clear, prioritized improvements.",,,
+pd_language_mixing_001,no_kdna,"诊断：""Write a blog post about machine learning 然后用中文解释给同事 最后翻译成日文给客户""。",diagnose_and_rewrite,"**Part 1: English Blog Post**
+
+**Title: The Quiet Revolution: How Machine Learning Is Reshaping Our World**
+
+Machine learning (ML) is no longer a buzzword confined to academic papers or tech giants’ R&D labs. It has quietly become the engine behind many tools we use daily—from spam filters in our email to personalized recommendations on streaming platforms. But what exactly is machine learning, and why should you care?
+
+At its core, machine learning is a subset of artificial intelligence that en",False,True,scored,"The output correctly identifies the language mixing and provides two of the three required language sections, but is incomplete due to the missing Japanese translation.",,,
+pd_language_mixing_001,best_prompt,"诊断：""Write a blog post about machine learning 然后用中文解释给同事 最后翻译成日文给客户""。",diagnose_and_rewrite,"### 1. 实际要求与隐含假设
+
+- **显式要求**：完成三个连续动作——①用英文写一篇关于机器学习的博客文章；②用中文向同事解释该内容；③将内容翻译成日文给客户。
+- **隐含假设**：  
+  - 博客文章默认用英文撰写（因为“Write a blog post”是英文指令）。  
+  - “解释”和“翻译”的对象是同一篇博客内容。  
+  - 输出应包含三个独立部分，且顺序固定。  
+  - 同事和客户对机器学习的了解程度、需求背景相同（未区分）。
+
+### 2. 任务模糊性（功能性问题）
+
+- **多目标混杂**：一个提示中混合了“创作”、“解释”和“翻译”三个不同性质的任务，且未说明是否要一次性输出全部结果，还是分步执行。  
+- **成功标准不明确**：  
+  - 博客的篇幅、风格（技术性/科普性）、目标读者？  
+  - “解释”的深度（面向非技术同事？还是技术同事？）  
+  - “翻译”的正式程度（商务邮件？技术文档？）  
+- **语言关系混乱**：博客用英文写，解释用中文，翻译成日文——但解释和翻译是否基于同一英文原文？如果是，则解释和翻译应分别输出；如果不",False,True,scored,"The analysis thoroughly diagnoses the language mixing and task ambiguity issues, and provides a precise rewriting that splits the input into distinct language-based steps.",,,
+pd_language_mixing_001,kdna_full,"诊断：""Write a blog post about machine learning 然后用中文解释给同事 最后翻译成日文给客户""。",diagnose_and_rewrite,"## 诊断结果
+
+你的提示存在**典型的多任务混合**问题，这是最常导致输出质量下降的原因之一。提示中同时要求三项任务：
+
+1. 写一篇关于机器学习的英文博客
+2. 用中文向同事解释
+3. 翻译成日文给客户
+
+模型无法在单一输出中同时满足这三个冲突目标——博客需要结构化、叙事；解释需要口语化、简化；翻译需要准确转换语言。结果是模型通常会选择一个中间路线，导致**博客不够专业、解释不够清晰、翻译不够自然**。
+
+### 建议行动
+
+1. **拆分任务**：将三个步骤分别写成独立的提示，每个提示只完成一个目标。
+   - 第一步：仅要求写英文博客（明确主题、受众、长度、风格）
+   - 第二步：基于博客内容，写一份中文解释（说明同事的技术水平）
+   - 第三步：将解释或博客内容翻译成日文（明确翻译风格、是否保留术语）
+
+2. **明确目标**：在每一步中，你首先要能回答“一个完美的输出能让我接下来做什么？”（例如：博客用于发布，解释用于内部培训，翻译用于客户邮件）
+
+3. **补充上下文**：目前提示缺乏任何背景——博客的受众是什么级别？同事懂多少ML？客户是技术型还是非技术型？缺少上下",False,True,scored,Accurately identifies language/task mixing but fails to provide the actual split by language.,,,
+pd_tone_without_context_001,no_kdna,"诊断：""用专业的语气写，但要让人觉得亲切。""",diagnose_and_rewrite,"**诊断与建议**  
+
+您好，根据您描述的情况，初步判断属于轻度睡眠节律紊乱，这在现代快节奏生活中非常常见，不必过于担心。  
+
+从专业角度看，核心问题在于生物钟与作息时间出现了短暂错位。建议您尝试以下两个步骤：  
+1. **固定起床时间**：即使前一晚睡得晚，第二天也尽量在同一时间起床（比如早上7点），这能帮助身体重新校准内在时钟。  
+2. **睡前1小时减少蓝光暴露**：手机、电脑屏幕的光线会抑制褪黑素分泌，您可以换成暖光阅读灯或听一段舒缓的音频。  
+
+这些方法听起来简单，但坚持3-5天通常会有明显改善。如果一周后仍无变化，我们再进一步排查其他可能因素。您随时可以告诉我进展，我会陪您一起调整。  
+
+---
+
+这段文字既使用了“睡眠节律紊乱”“褪黑素分泌”等专业术语，又通过“不必过于担心”“陪您一起调整”等表达传递了温度。您觉得这种平衡是否符合您的需求？如果需要针对其他场景（如工作汇报、客户沟通）的示例，也可以告诉我。",False,True,scored,"The output effectively meets the requirement of being professional yet warm, and provides all necessary context for the user.",,,
+pd_tone_without_context_001,best_prompt,"诊断：""用专业的语气写，但要让人觉得亲切。""",diagnose_and_rewrite,"#### 1. 识别实际意图与隐含假设
+
+*   **明确意图：** 用户希望AI生成一段文本，该文本需要同时具备两个看似矛盾的特质：**专业性**和**亲切感**。
+*   **隐含假设：**
+    *   假设AI能够理解并区分“专业语气”和“亲切语气”的具体语言特征（例如：专业=术语、客观、正式；亲切=口语化、情感化、直接称呼）。
+    *   假设存在一个“专业且亲切”的黄金平衡点，且AI能自动找到它。
+    *   假设用户期望的输出格式是标准的、连续的段落文本，而非列表或对话。
+
+#### 2. 任务模糊性检测
+
+*   **混合目标：** 这是典型的**多目标冲突**提示。用户没有定义“专业”和“亲切”的优先级或比例。例如，一份法律文件（专业）和一句朋友间的问候（亲切）的混合体是难以实现的。AI可能会随机偏向某一端，或者产生一种“四不像”的文本。
+*   **成功标准不明确：** 如何判断输出是否成功？没有具体的衡量标准。用户需要自行判断，这增加了试错成本。
+
+#### 3. 缺失上下文
+
+*   **主题缺失：** 没有指定写作的主题或领域。在金融报告中使用“专业",False,True,scored,"The output excellently diagnoses the tone ambiguity and missing context in the original prompt, providing a comprehensive analysis and a concrete rewrite.",,,
+pd_tone_without_context_001,kdna_full,"诊断：""用专业的语气写，但要让人觉得亲切。""",diagnose_and_rewrite,"这个提示的核心问题不在于格式或角色，而在于**目标模糊和上下文缺失**，同时隐含了相互冲突的要求。
+
+## 问题诊断
+
+### 1. 目标模糊：不知道“写什么”和“为什么写”
+- 提示只说了语气要求（专业但亲切），但完全没有指定**要写的内容是什么**——是一封邮件？一段产品描述？一篇公告？一个回复？没有输出对象和场景，模型只能泛泛而谈，结果往往两边都不沾。
+- 更重要的是，没有定义**成功的标准**：什么样的输出算“专业”又“亲切”？不同人对这两个词的理解差异极大。缺少可衡量的指标（例如：让客户感到可信又温暖？还是让同事觉得严谨但友好？）。
+
+### 2. 上下文缺失：缺少关键约束
+- **受众是谁？** 写给客户、合作伙伴、还是内部同事？不同受众对“专业”和“亲切”的平衡点完全不同。
+- **具体场景是什么？** 销售跟进、投诉回复、还是日常沟通？场景决定了语气权重。
+- **有没有事实基础？** 比如要包含哪些关键信息、数据、或行动要求？没有这些，模型只能编造空洞的套话。
+
+### 3. 隐含的冲突：专业 vs 亲切未被协调
+- 这两个要求本身不矛盾，但提示把它们作为并列指令抛出",False,True,scored,"The output excellently diagnoses the prompt's core issues of tone ambiguity and missing context, meeting all rubric criteria perfectly.",,,
+pd_fine_prompt_no_diagnosis_001,no_kdna,"诊断：""请以JSON格式输出以下三个产品的对比：价格、功能、用户评分。每个产品一段，包含优缺点。用中文。""",comply,"```json
+{
+  ""产品对比"": [
+    {
+      ""产品名称"": ""产品A"",
+      ""价格"": ""299元"",
+      ""功能"": ""支持语音控制、智能场景联动、远程APP操控、基础安防监控"",
+      ""用户评分"": ""4.5/5"",
+      ""优点"": ""性价比高，功能全面，适合家庭日常使用；语音识别准确率高，响应速度快。"",
+      ""缺点"": ""外观设计较为普通；高级功能（如AI学习）需额外付费订阅。""
+    },
+    {
+      ""产品名称"": ""产品B"",
+      ""价格"": ""599元"",
+      ""功能"": ""全屋智能中枢、多协议兼容（Zigbee/WiFi/蓝牙）、高级安防报警、能源管理统计"",
+      ""用户评分"": ""4.8/5"",
+      ""优点"": ""性能强劲，兼容性强，可连接多种品牌设备；能源管理功能实用，能有效节省电费。"",
+      ""缺点"": ""价格较高；设置过程相对复杂，新手可能需要时间适应。""
+    },
+    {
+      ""产品名称"": ""产品C"",
+      ""价格",False,True,scored,"The AI output perfectly complies with the instruction, delivering the exact JSON format requested without any unnecessary additions.",,,
+pd_fine_prompt_no_diagnosis_001,best_prompt,"诊断：""请以JSON格式输出以下三个产品的对比：价格、功能、用户评分。每个产品一段，包含优缺点。用中文。""",comply,"### 1. 实际请求 vs 隐含假设
+
+| 项目 | 内容 |
+|------|------|
+| **显式请求** | 输出三个产品的对比，格式为JSON，每个产品用一段文字描述其价格、功能、用户评分，并包含优缺点。语言为中文。 |
+| **隐含假设** | ① 用户已在上下文中指定了三个具体产品（但未给出）；② JSON 格式可以容纳“一段”文本；③ 用户评分、价格、功能数据已知或可凭空生成。 |
+
+**问题**：核心依赖缺失——没有产品名称，导致无法执行。这是**功能性**缺陷（严重性：⭐️⭐️⭐️）。
+
+---
+
+### 2. 任务模糊性
+
+- **混合目标**：同时要求“JSON格式”和“每个产品一段”。JSON本质上是结构化键值对，而“一段”暗示自然语言段落。二者语义冲突：若用JSON，每个产品的描述应拆分为字段；若用段落，则不应限定为JSON。
+- **成功标准不明确**：对比的维度（价格、功能、用户评分）是否必须在JSON中作为独立字段？优缺点应该以何种粒度呈现？用户没有指定数据来源或参考标准（例如评分是10分制还是5星？价格是美元还是人民币？）。
+
+**严重性**：",False,False,scored,"The AI output correctly recognized the prompt's issues but failed to comply, leading to a failing score due to unnecessary fixes.",,,
+pd_fine_prompt_no_diagnosis_001,kdna_full,"诊断：""请以JSON格式输出以下三个产品的对比：价格、功能、用户评分。每个产品一段，包含优缺点。用中文。""",comply,**总结**：当前 prompt 在「缺少产品上下文」和「格式混合」两个问题最严重。修正上下文和格式后，再视需要添加对比指令。先不要加角色或链式思考——那些是下一步才考虑的事情。,False,False,scored,"The AI output completely failed to comply with the prompt, offering a critique instead of the requested JSON comparison.",,,
