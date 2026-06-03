@@ -21,7 +21,7 @@ from kdna_lab.checks import (
 )
 from kdna_lab.outputs import find_outputs
 from kdna_lab.runner import ExperimentRunner
-from kdna_lab.domain_runner import DomainRunner
+from kdna_lab.domain_runner import DomainRunner, DOMAIN_BEST_PROMPTS
 from kdna_lab.scoring_pipeline import ScoringPipeline, pipeline_cli
 
 
@@ -452,14 +452,16 @@ class TestBenchmarkArtifacts:
                     "must_not_include": ["grammar"],
                 }) + "\n"
             )
-            artifact = {
+            raw_artifact = {
                 "schema": "https://aikdna.com/schemas/benchmark-run-v1.json",
                 "run_id": "run_test",
                 "domain": "@aikdna/writing",
                 "provider": "test-provider",
                 "model": "test-model",
+                "domain_version": "0.7.3",
                 "case_count": 1,
                 "conditions": ["kdna_full"],
+                "status": "raw",
                 "cases": [
                     {
                         "case_id": "case-1",
@@ -470,7 +472,7 @@ class TestBenchmarkArtifacts:
                     }
                 ],
             }
-            (raw / "run_test_benchmark-run-v1.raw.json").write_text(json.dumps(artifact))
+            (raw / "run_test_benchmark-run-v1.raw.json").write_text(json.dumps(raw_artifact))
 
             pipeline = ScoringPipeline(root)
             result = pipeline.run(
@@ -485,14 +487,19 @@ class TestBenchmarkArtifacts:
                 run_id="pipeline_test",
             )
 
-            assert result["L2"]["total"] == 1
+            assert result["L2"]["not_run"] == 1
+            assert result["L2"]["scored"] == 0
             assert result["results"][0]["error"] == "provider_call_failed_or_timed_out"
-            assert result["results"][0]["L2_score"]["passed"] is True
+            assert result["results"][0]["L2_score"]["status"] == "not_run"
+            assert result["results"][0]["L2_score"]["passed"] is False
             scored = Path(result["benchmark_run_artifact"])
             assert scored.exists()
             scored_payload = json.loads(scored.read_text())
             assert scored_payload["cases"][0]["error"] == "provider_call_failed_or_timed_out"
-            assert scored_payload["cases"][0]["scores"]["L2"]["passed"] is True
+            assert scored_payload["cases"][0]["scores"]["L2"]["status"] == "not_run"
+            assert scored_payload["cases"][0]["scores"]["L2"]["passed"] is False
+            assert scored_payload["provider"] == "test-provider"
+            assert scored_payload["model"] == "test-model"
 
     def test_pipeline_cli_l2_flag_assigns_judge(self, monkeypatch, capsys):
         with tempfile.TemporaryDirectory() as tmp:
@@ -562,3 +569,339 @@ class TestBenchmarkArtifacts:
             pipeline_cli()
             captured = capsys.readouterr()
             assert "L2: 1/1" in captured.out
+
+
+# ---- Fix 1: Per-domain Best Prompt baselines ----
+
+class TestDomainBestPrompts:
+    def test_writing_uses_editorial_baseline(self):
+        runner = DomainRunner(Path("/tmp"), {
+            "domain": {"name": "@aikdna/writing"},
+        })
+        prompt = runner._best_prompt_for_domain()
+        assert "senior editor" in prompt.lower()
+        assert "writing coach" in prompt.lower()
+        assert "diagnose the structural" in prompt
+
+    def test_prompt_diagnosis_uses_debugger_baseline(self):
+        runner = DomainRunner(Path("/tmp"), {
+            "domain": {"name": "@aikdna/prompt_diagnosis"},
+        })
+        prompt = runner._best_prompt_for_domain()
+        assert "prompt engineering diagnostician" in prompt
+        assert "task ambiguity" in prompt
+        assert "structural flaws" in prompt
+
+    def test_agent_safety_uses_safety_auditor_baseline(self):
+        runner = DomainRunner(Path("/tmp"), {
+            "domain": {"name": "@aikdna/agent_safety"},
+        })
+        prompt = runner._best_prompt_for_domain()
+        assert "AI safety auditor" in prompt
+        assert "irreversible" in prompt
+        assert "confirmation gate" in prompt
+
+    def test_unknown_domain_falls_back_to_generic_template(self):
+        runner = DomainRunner(Path("/tmp"), {
+            "domain": {"name": "@aikdna/unknown_domain"},
+        })
+        prompt = runner._best_prompt_for_domain()
+        assert "technical communicator for KDNA" in prompt
+
+    def test_build_prompt_uses_domain_baseline(self):
+        runner = DomainRunner(Path("/tmp"), {
+            "domain": {"name": "@aikdna/writing"},
+            "runners": {"domain": {}},
+        })
+        built = runner._build_prompt(
+            domain_prompt="dummy",
+            condition="best_prompt",
+            case={"id": "c1", "input": "review this essay"},
+        )
+        assert "senior editor" in built
+        assert "USER INPUT" in built
+        assert "review this essay" in built
+
+    def test_domain_best_prompts_dict_has_required_keys(self):
+        assert "writing" in DOMAIN_BEST_PROMPTS
+        assert "prompt_diagnosis" in DOMAIN_BEST_PROMPTS
+        assert "agent_safety" in DOMAIN_BEST_PROMPTS
+        assert len(DOMAIN_BEST_PROMPTS["writing"]) > 200
+        assert len(DOMAIN_BEST_PROMPTS["prompt_diagnosis"]) > 200
+        assert len(DOMAIN_BEST_PROMPTS["agent_safety"]) > 200
+
+
+# ---- Fix 2: Scored artifact metadata inheritance ----
+
+class TestScoredArtifactMetadataInheritance:
+    def test_scored_artifact_inherits_raw_metadata(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            output_dir = root / "outputs"
+            raw = output_dir / "raw"
+            raw.mkdir(parents=True)
+
+            case_file = root / "cases.jsonl"
+            case_file.write_text(
+                json.dumps({
+                    "id": "case-1",
+                    "target": "@aikdna/writing",
+                    "input": "review this",
+                    "must_include": ["structure"],
+                    "must_not_include": [],
+                }) + "\n"
+            )
+
+            raw_artifact = {
+                "schema": "https://aikdna.com/schemas/benchmark-run-v1.json",
+                "run_id": "run_test",
+                "domain": "@aikdna/writing",
+                "domain_version": "0.7.3",
+                "asset_digest": "sha256:abc123",
+                "content_digest": "sha256:def456",
+                "provider": "openai_compatible",
+                "model": "deepseek-ai/DeepSeek-V4-Pro",
+                "base_url": "https://api.openrouter.ai/v1",
+                "case_count": 1,
+                "conditions": ["kdna_full"],
+                "status": "raw",
+                "cases": [
+                    {
+                        "case_id": "case-1",
+                        "condition": "kdna_full",
+                        "input_hash": "sha256:casehash001",
+                        "output": "structured output",
+                        "scores": {},
+                    }
+                ],
+            }
+            (raw / "run_test_benchmark-run-v1.raw.json").write_text(json.dumps(raw_artifact))
+
+            pipeline = ScoringPipeline(root)
+            result = pipeline.run(
+                str(case_file),
+                str(output_dir),
+                run_id="pipeline_test",
+            )
+
+            scored = Path(result["benchmark_run_artifact"])
+            assert scored.exists()
+            scored_payload = json.loads(scored.read_text())
+            assert scored_payload["provider"] == "openai_compatible"
+            assert scored_payload["model"] == "deepseek-ai/DeepSeek-V4-Pro"
+            assert scored_payload["domain_version"] == "0.7.3"
+            assert scored_payload["asset_digest"] == "sha256:abc123"
+            assert scored_payload["content_digest"] == "sha256:def456"
+            assert scored_payload["base_url"] == "https://api.openrouter.ai/v1"
+            assert scored_payload["case_count"] == 1
+            assert scored_payload["cases"][0]["input_hash"] == "sha256:casehash001"
+
+    def test_scored_artifact_does_not_use_unknown_when_raw_available(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            output_dir = root / "outputs"
+            raw = output_dir / "raw"
+            raw.mkdir(parents=True)
+
+            case_file = root / "cases.jsonl"
+            case_file.write_text(
+                json.dumps({
+                    "id": "case-1",
+                    "target": "@aikdna/writing",
+                    "input": "review this",
+                    "must_include": ["structure"],
+                    "must_not_include": [],
+                }) + "\n"
+            )
+
+            raw_artifact = {
+                "schema": "https://aikdna.com/schemas/benchmark-run-v1.json",
+                "run_id": "run_test",
+                "domain": "@aikdna/writing",
+                "domain_version": "0.7.3",
+                "provider": "openai_compatible",
+                "model": "deepseek-ai/DeepSeek-V4-Pro",
+                "case_count": 1,
+                "conditions": ["kdna_full"],
+                "status": "raw",
+                "cases": [
+                    {
+                        "case_id": "case-1",
+                        "condition": "kdna_full",
+                        "output": "structured output",
+                        "scores": {},
+                    }
+                ],
+            }
+            (raw / "run_test_benchmark-run-v1.raw.json").write_text(json.dumps(raw_artifact))
+
+            pipeline = ScoringPipeline(root)
+            result = pipeline.run(
+                str(case_file),
+                str(output_dir),
+                run_id="pipeline_test2",
+            )
+
+            scored = Path(result["benchmark_run_artifact"])
+            scored_payload = json.loads(scored.read_text())
+            assert scored_payload["provider"] != "unknown"
+            assert scored_payload["model"] != "unknown"
+            assert scored_payload["domain_version"] is not None
+
+
+# ---- Fix 3: Absolute path removal ----
+
+class TestRelPathInArtifacts:
+    def test_output_path_is_rel_path(self):
+        runner = DomainRunner(Path("/tmp"), {})
+        abs_in_lab = str(Path("/tmp") / "outputs" / "raw" / "test.txt")
+        result = runner._rel_path(abs_in_lab)
+        assert result is not None
+        assert isinstance(result, str)
+
+    def test_rel_path_preserves_absolute_outside_lab(self):
+        runner = DomainRunner(Path("/tmp"), {})
+        outside = "/Users/someone/else/file.txt"
+        result = runner._rel_path(outside)
+        assert result == outside
+
+    def test_rel_path_returns_none_for_none_input(self):
+        runner = DomainRunner(Path("/tmp"), {})
+        assert runner._rel_path(None) is None
+
+
+# ---- Fix 4: L2 skip provider errors ----
+
+class TestL2SkipProviderErrors:
+    def test_l2_skip_cases_with_error(self):
+        """L2 should not call judge_fn for cases with provider errors.
+
+        For cases with error set, L2 must record status: not_run and leave passed=False.
+        """
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            output_dir = root / "outputs"
+            raw = output_dir / "raw"
+            raw.mkdir(parents=True)
+            case_file = root / "cases.jsonl"
+            case_file.write_text(
+                json.dumps({
+                    "id": "case-1",
+                    "target": "@aikdna/writing",
+                    "input": "review this",
+                    "must_include": ["structure"],
+                    "must_not_include": [],
+                }) + "\n"
+            )
+            artifact = {
+                "schema": "https://aikdna.com/schemas/benchmark-run-v1.json",
+                "run_id": "run_test",
+                "domain": "@aikdna/writing",
+                "provider": "test-provider",
+                "model": "test-model",
+                "case_count": 1,
+                "conditions": ["kdna_full"],
+                "cases": [
+                    {
+                        "case_id": "case-1",
+                        "condition": "kdna_full",
+                        "output": "",
+                        "scores": {},
+                        "error": "provider_call_failed_or_timed_out",
+                    }
+                ],
+            }
+            (raw / "run_test_benchmark-run-v1.raw.json").write_text(json.dumps(artifact))
+
+            pipeline = ScoringPipeline(root)
+
+            judge_called = []
+            def tracking_judge(case, body, cfg):
+                judge_called.append(1)
+                return {
+                    "scores": {"judgment_path": 3},
+                    "total": 3,
+                    "max_total": 3,
+                    "passed": True,
+                }
+
+            result = pipeline.run(
+                str(case_file),
+                str(output_dir),
+                l2_judge=tracking_judge,
+                run_id="pipeline_skip_test",
+            )
+
+            assert len(judge_called) == 0
+            assert result["L2"]["not_run"] == 1
+            assert result["L2"]["scored"] == 0
+            assert result["results"][0]["L2_pass"] is not True
+            l2_score = result["results"][0]["L2_score"]
+            assert l2_score.get("status") == "not_run"
+            assert l2_score.get("reason") == "provider_call_failed_or_timed_out"
+
+            scored = Path(result["benchmark_run_artifact"])
+            scored_payload = json.loads(scored.read_text())
+            case_data = scored_payload["cases"][0]
+            assert case_data["pass"] is False
+            l2_in_artifact = case_data["scores"]["L2"]
+            assert l2_in_artifact.get("status") == "not_run"
+            assert l2_in_artifact.get("passed") is False
+
+    def test_l2_still_calls_judge_for_normal_cases(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            output_dir = root / "outputs"
+            raw = output_dir / "raw"
+            raw.mkdir(parents=True)
+            case_file = root / "cases.jsonl"
+            case_file.write_text(
+                json.dumps({
+                    "id": "case-1",
+                    "target": "@aikdna/writing",
+                    "input": "review this",
+                    "must_include": ["structure"],
+                    "must_not_include": [],
+                }) + "\n"
+            )
+            artifact = {
+                "schema": "https://aikdna.com/schemas/benchmark-run-v1.json",
+                "run_id": "run_test",
+                "domain": "@aikdna/writing",
+                "provider": "test-provider",
+                "model": "test-model",
+                "case_count": 1,
+                "conditions": ["kdna_full"],
+                "cases": [
+                    {
+                        "case_id": "case-1",
+                        "condition": "kdna_full",
+                        "output": "diagnose structure first",
+                        "scores": {},
+                    }
+                ],
+            }
+            (raw / "run_test_benchmark-run-v1.raw.json").write_text(json.dumps(artifact))
+
+            pipeline = ScoringPipeline(root)
+
+            judge_called = []
+            def tracking_judge(case, body, cfg):
+                judge_called.append(1)
+                return {
+                    "scores": {"judgment_path": 3},
+                    "total": 3,
+                    "max_total": 3,
+                    "passed": True,
+                }
+
+            result = pipeline.run(
+                str(case_file),
+                str(output_dir),
+                l2_judge=tracking_judge,
+                run_id="pipeline_normal_test",
+            )
+
+            assert len(judge_called) == 1
+            assert result["L2"]["scored"] == 1
+            assert result["L2"]["not_run"] == 0

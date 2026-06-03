@@ -115,9 +115,25 @@ class ScoringPipeline:
     def _run_l2(
         self, l1_results: List[Dict], judge_fn: L2JudgeFn, config: Dict
     ) -> List[Dict]:
-        """Run L2 LLM judge on L1 results."""
+        """Run L2 LLM judge on L1 results. Skips cases with provider errors/timeouts."""
         results = []
+        skipped = 0
         for r in l1_results:
+            if r.get("error"):
+                results.append({
+                    "case_id": r["case_id"],
+                    "condition": r.get("condition"),
+                    "L2": {
+                        "status": "not_run",
+                        "reason": r.get("error", "unknown_error"),
+                        "passed": False,
+                        "scores": {},
+                        "total": 0,
+                        "max_total": 0,
+                    },
+                })
+                skipped += 1
+                continue
             try:
                 l2 = judge_fn(r["case"], r["output_body"], config)
             except Exception as e:
@@ -127,6 +143,8 @@ class ScoringPipeline:
                 "condition": r.get("condition"),
                 "L2": l2,
             })
+        if skipped > 0:
+            print(f"[L2] Skipped {skipped} cases with provider errors (L2 not_run)")
         return results
 
     def _combine_results(
@@ -140,6 +158,10 @@ class ScoringPipeline:
         combined = []
         for r in l1_results:
             l2_score = l2_map.get((r["case_id"], r.get("condition")), {})
+            l2_pass = None
+            if l2_score:
+                if l2_score.get("status") != "not_run":
+                    l2_pass = l2_score.get("passed")
             combined.append({
                 "case_id": r["case_id"],
                 "condition": r.get("condition"),
@@ -148,7 +170,7 @@ class ScoringPipeline:
                 "error": r.get("error"),
                 "L1_pass": r["L1_pass"],
                 "L1_score": r["score"],
-                "L2_pass": l2_score.get("passed"),
+                "L2_pass": l2_pass,
                 "L2_score": l2_score,
                 "L3_status": "pending",
                 "L3_reviewer": None,
@@ -163,7 +185,11 @@ class ScoringPipeline:
         case_file: str,
         output_dir: str,
     ) -> str:
-        """Write scored benchmark-run-v1 JSON for public evidence export."""
+        """Write scored benchmark-run-v1 JSON for public evidence export.
+
+        Inherits provider, model, domain_version, asset_digest, content_digest,
+        and input_hash from the raw benchmark artifact when available.
+        """
         cases = load_cases(case_file)
         results = pipeline_result.get("results", [])
         domain = None
@@ -172,14 +198,19 @@ class ScoringPipeline:
             if domain:
                 break
 
+        raw_meta = self._load_raw_artifact_metadata(output_dir)
+
         artifact = {
             "schema": "https://aikdna.com/schemas/benchmark-run-v1.json",
             "run_id": pipeline_result["run_id"],
             "created_at": pipeline_result["timestamp"],
             "domain": domain,
-            "domain_version": None,
-            "provider": "unknown",
-            "model": "unknown",
+            "domain_version": raw_meta.get("domain_version"),
+            "asset_digest": raw_meta.get("asset_digest"),
+            "content_digest": raw_meta.get("content_digest"),
+            "provider": raw_meta.get("provider", "unknown"),
+            "model": raw_meta.get("model", "unknown"),
+            "base_url": raw_meta.get("base_url"),
             "conditions": sorted({r.get("condition") for r in results if r.get("condition")}),
             "case_count": len(cases),
             "case_file": case_file,
@@ -187,28 +218,99 @@ class ScoringPipeline:
             "status": "scored",
         }
 
+        case_count = raw_meta.get("case_count") or len(cases)
+        raw_input_hashes = raw_meta.get("input_hashes", {})
+
         for r in results:
             case = cases.get(r["case_id"], {})
             output = r.get("output_body", "")
+            input_hash = raw_input_hashes.get(
+                r.get("case_id"),
+                r.get("input_hash"),
+            )
             scores = {"L1": r.get("L1_score", {}).get("L1", {})}
             if r.get("L2_score"):
-                scores["L2"] = r["L2_score"]
+                l2_score = r["L2_score"]
+                scores["L2"] = {
+                    "status": l2_score.get("status", "scored"),
+                    "passed": l2_score.get("passed"),
+                    "scores": l2_score.get("scores", {}),
+                    "total": l2_score.get("total"),
+                    "max_total": l2_score.get("max_total"),
+                    "summary": l2_score.get("summary"),
+                    "error": l2_score.get("error"),
+                    "reason": l2_score.get("reason"),
+                }
+
+            pass_val = None
+            l2 = r.get("L2_score", {})
+            if l2:
+                if l2.get("status") == "not_run":
+                    pass_val = None
+                elif l2.get("passed") is not None:
+                    pass_val = l2["passed"]
+            if pass_val is None:
+                pass_val = r.get("L1_pass")
+
             artifact["cases"].append({
                 "case_id": r["case_id"],
                 "condition": r.get("condition"),
-                "input_hash": None,
+                "input_hash": input_hash,
                 "output_file": r.get("output_file"),
                 "output": output,
                 "scores": scores,
-                "pass": r.get("L2_pass") if r.get("L2_pass") is not None else r.get("L1_pass"),
+                "pass": pass_val,
                 "error": r.get("error"),
                 "expected_behavior": case.get("expected_behavior"),
             })
+
+        artifact["case_count"] = case_count
 
         path = Path(output_dir) / "raw" / f"{pipeline_result['run_id']}_benchmark-run-v1.scored.json"
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(json.dumps(artifact, indent=2, ensure_ascii=False))
         return str(path)
+
+    def _load_raw_artifact_metadata(self, output_dir: str) -> Dict[str, Any]:
+        """Load metadata from the latest raw benchmark artifact for scored artifact inheritance."""
+        raw_dir = Path(output_dir) / "raw"
+        if not raw_dir.exists():
+            return {}
+
+        raw_files = []
+        for f in raw_dir.glob("*_benchmark-run-v1.raw.json"):
+            try:
+                data = json.loads(f.read_text())
+                if data.get("schema") == "https://aikdna.com/schemas/benchmark-run-v1.json":
+                    raw_files.append(f)
+            except json.JSONDecodeError:
+                continue
+
+        if not raw_files:
+            return {}
+
+        latest = max(raw_files, key=lambda path: path.stat().st_mtime)
+        try:
+            data = json.loads(latest.read_text())
+        except json.JSONDecodeError:
+            return {}
+
+        input_hashes = {}
+        for c in data.get("cases", []):
+            if isinstance(c, dict) and c.get("case_id") and c.get("input_hash"):
+                input_hashes[c["case_id"]] = c["input_hash"]
+
+        return {
+            "provider": data.get("provider"),
+            "model": data.get("model"),
+            "base_url": data.get("base_url"),
+            "domain_version": data.get("domain_version"),
+            "asset_digest": data.get("asset_digest"),
+            "content_digest": data.get("content_digest"),
+            "case_count": data.get("case_count"),
+            "conditions": data.get("conditions", []),
+            "input_hashes": input_hashes,
+        }
 
     def _l1_summary(self, results: List[Dict]) -> Dict:
         total = len(results)
@@ -218,15 +320,30 @@ class ScoringPipeline:
 
     def _l2_summary(self, results: List[Dict]) -> Dict:
         if not results:
-            return {"total": 0, "passed": 0, "failed": 0, "pass_rate": 0}
+            return {"total": 0, "passed": 0, "failed": 0, "not_run": 0, "pass_rate": 0}
         total = len(results)
-        passed = sum(1 for r in results if r.get("L2", {}).get("passed", False))
-        scores = [r.get("L2", {}).get("total", 0) for r in results if r.get("L2", {}).get("total") is not None]
+        passed = sum(1 for r in results
+                     if r.get("L2", {}).get("status") != "not_run"
+                     and r.get("L2", {}).get("passed", False))
+        failed = sum(1 for r in results
+                     if r.get("L2", {}).get("status") != "not_run"
+                     and not r.get("L2", {}).get("passed", True)
+                     and r.get("L2", {}).get("scores"))
+        not_run = sum(1 for r in results if r.get("L2", {}).get("status") == "not_run")
+        scored_total = total - not_run
+        scores = [
+            r.get("L2", {}).get("total", 0)
+            for r in results
+            if r.get("L2", {}).get("status") != "not_run"
+            and r.get("L2", {}).get("total") is not None
+        ]
         return {
             "total": total,
+            "scored": scored_total,
             "passed": passed,
-            "failed": total - passed,
-            "pass_rate": round(passed / total * 100) if total else 0,
+            "failed": failed,
+            "not_run": not_run,
+            "pass_rate": round(passed / scored_total * 100) if scored_total else 0,
             "avg_score": round(sum(scores) / len(scores), 1) if scores else 0,
         }
 

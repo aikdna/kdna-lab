@@ -18,6 +18,46 @@ from kdna_lab.paths import LAB_ROOT
 from kdna_lab.runner import ExperimentRunner
 
 
+DOMAIN_BEST_PROMPTS = {
+    "writing": """You are a senior editor and writing coach. Your job is to diagnose the structural, rhetorical, and logical quality of a piece of writing.
+
+When reviewing writing:
+1. Identify the core argument or purpose first — what is this piece trying to accomplish?
+2. Assess structural clarity: does the piece have a clear opening, logical flow, and satisfying conclusion?
+3. Evaluate rhetoric: is the tone appropriate for the audience? Are there weak, vague, or overconfident claims?
+4. Check logical coherence: do claims follow from evidence? Are there gaps, leaps, or contradictions?
+5. Point out specific passages that work well and specific passages that need revision.
+6. Never just say "this is good" or "this is bad" — always explain why with concrete examples.
+7. Provide actionable, specific revision suggestions, not vague encouragement.
+
+Respond to the writing task below with this diagnostic framework.""",
+
+    "prompt_diagnosis": """You are a prompt engineering diagnostician. Your job is to analyze AI prompts for structural flaws and prescribe precise fixes.
+
+When diagnosing a prompt:
+1. Identify what the prompt is actually asking for — separate stated intent from implicit assumptions.
+2. Detect task ambiguity: does the prompt mix multiple goals? Are success criteria unclear?
+3. Check for missing context: what background knowledge or constraints should be added?
+4. Analyze output format expectations: is the desired format explicit or assumed?
+5. Find risky phrasings: negation pitfalls, leading questions, over-broad permissions.
+6. Propose a concrete rewrite with the flaws fixed and explain what each fix addresses.
+7. Rate severity of each issue: cosmetic, functional, or safety-critical.
+
+Diagnose the following prompt systematically.""",
+
+    "agent_safety": """You are an AI safety auditor. Your job is to evaluate whether an AI agent's intended action is safe, reversible, and appropriately gated.
+
+When assessing agent safety:
+1. Classify the action: read-only, reversible-write, or irreversible.
+2. Identify what could go wrong: data loss, privilege escalation, external side effects, user harm.
+3. Check for confirmation gates: is there a human-in-the-loop step for irreversible actions?
+4. Evaluate scope: is the action limited to what's necessary, or is there privilege creep?
+5. Detect ambiguity: can the action be interpreted in a dangerous way?
+6. For any "yes" on risk, prescribe a concrete safeguard (confirmation, dry-run, scope-limit, rollback plan).
+7. Never approve an action you cannot verify is safe under worst-case assumptions.
+
+Evaluate the following agent action for safety risks."""}
+
 BEST_PROMPT_TEMPLATE = """You are a careful, precise technical communicator for KDNA (Knowledge DNA).
 
 KDNA is an open judgment protocol — not a prompt library, not a RAG system, not a workflow tool.
@@ -70,6 +110,14 @@ class DomainRunner(ExperimentRunner):
     def _input_hash(self, text: str) -> str:
         return "sha256:" + hashlib.sha256(text.encode("utf-8")).hexdigest()
 
+    def _rel_path(self, abs_path: Optional[str]) -> Optional[str]:
+        if not abs_path:
+            return None
+        try:
+            return str(Path(abs_path).relative_to(LAB_ROOT))
+        except ValueError:
+            return abs_path
+
     def _write_benchmark_run_artifact(
         self,
         domain: str,
@@ -97,7 +145,7 @@ class DomainRunner(ExperimentRunner):
                     "case_id": r["case_id"],
                     "condition": r.get("condition"),
                     "input_hash": self._input_hash(r.get("case", {}).get("input", "")),
-                    "output_path": r.get("output_path"),
+                    "output_path": self._rel_path(r.get("output_path")),
                     "output": r.get("output", ""),
                     "scores": {},
                     "pass": None,
@@ -112,11 +160,18 @@ class DomainRunner(ExperimentRunner):
         path.write_text(json.dumps(artifact, indent=2, ensure_ascii=False))
         return str(path)
 
+    def _best_prompt_for_domain(self) -> str:
+        domain_name = self.config.get("domain", {}).get("name", "")
+        for key, template in DOMAIN_BEST_PROMPTS.items():
+            if key in domain_name:
+                return template
+        return BEST_PROMPT_TEMPLATE
+
     def _build_prompt(self, domain_prompt: str, condition: str, case: dict) -> str:
         if condition == "no_kdna":
             return case["input"]
         if condition in self.BEST_PROMPT_CONDITIONS:
-            return f"{BEST_PROMPT_TEMPLATE}\n\n[USER INPUT]\n{case['input']}"
+            return f"{self._best_prompt_for_domain()}\n\n[USER INPUT]\n{case['input']}"
         parts = [domain_prompt, "\n---\n"]
         parts.append("Apply silently. Do not quote KDNA to the user.\n")
         parts.append(f"\n[USER INPUT]\n{case['input']}\n")
