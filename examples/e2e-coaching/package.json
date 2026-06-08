@@ -1,0 +1,9 @@
+{
+  "name": "kdna-e2e-coaching-demo",
+  "private": true,
+  "description": "End-to-end demo: KDNA → Pipeline → ArtifactEnvelope → Fidelity Measure → FidelityResult",
+  "type": "module",
+  "scripts": {
+    "demo": "node demo.mjs"
+  }
+}
