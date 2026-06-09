@@ -34,9 +34,9 @@ function parseArgs() {
   };
   return {
     domain: get('--domain', '@aikdna/writing'),
-    model: get('--model', 'deepseek/deepseek-v4-pro'),
+    model: get('--model', 'deepseek-ai/DeepSeek-V4-Pro'),
     limit: parseInt(get('--limit', '0'), 10) || Infinity,
-    provider: get('--provider', 'openrouter'),
+    provider: get('--provider', 'siliconflow'),
     outputDir: get('--output', join(LAB_ROOT, 'outputs', 'benchmarks')),
     dryRun: args.includes('--dry-run'),
   };
@@ -75,7 +75,20 @@ function loadCases(domainName) {
 
 const env = loadEnv();
 
-function getApiConfig() {
+function getApiConfig(provider) {
+  if (provider === 'siliconflow') {
+    const key = env['SILICONFLOW_API_KEY'] || '';
+    if (!key) throw new Error('SILICONFLOW_API_KEY not found in ../.env');
+    const base = env['SILICONFLOW_BASE_URL'] || 'https://api.siliconflow.cn/v1';
+    return {
+      url: base.replace(/\/$/, '') + '/chat/completions',
+      key,
+      headers: (key) => ({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${key}`,
+      }),
+    };
+  }
   const openrouterKey = env['OPENROUTER_API_KEY'] || '';
   if (openrouterKey) {
     return {
@@ -88,11 +101,11 @@ function getApiConfig() {
       }),
     };
   }
-  throw new Error('No API key found. Set OPENROUTER_API_KEY in ../.env');
+  throw new Error('No API key found. Set OPENROUTER_API_KEY or SILICONFLOW_API_KEY in ../.env');
 }
 
-async function callLLM(prompt, model, systemPrompt = '') {
-  const cfg = getApiConfig();
+async function callLLM(prompt, model, systemPrompt, provider) {
+  const cfg = getApiConfig(provider);
   const messages = [];
   if (systemPrompt) messages.push({ role: 'system', content: systemPrompt });
   messages.push({ role: 'user', content: prompt });
@@ -228,7 +241,7 @@ Return JSON:
   "summary": "one sentence assessment"
 }`;
 
-  const raw = await callLLM(prompt, model);
+  const raw = await callLLM(prompt, model, '', cfg.provider);
   try {
     const match = raw.match(/\{[\s\S]*\}/);
     return match ? JSON.parse(match[0]) : null;
@@ -354,11 +367,21 @@ async function main() {
 
     for (let i = 0; i < cases.length; i++) {
       const c = cases[i];
+      const outPath = join(outputDir, 'raw', `${cond.id}_${c.id}.txt`);
+
+      if (existsSync(outPath)) {
+        const output = readFileSync(outPath, 'utf8');
+        const l1 = scoreL1(output, c.must_include, c.must_not_include);
+        results.push({ condition: cond.id, caseId: c.id, output, outputPath: outPath, l1 });
+        console.log(`  [${i + 1}/${cases.length}] ${c.id} ... (cached) L1:${l1.score}/${l1.max} ${l1.passed ? '✓' : '✗'}`);
+        continue;
+      }
+
       const prompt = cond.build(c);
       process.stdout.write(`  [${i + 1}/${cases.length}] ${c.id} ... `);
 
       try {
-        const output = await callLLM(prompt, cfg.model, cond.sys);
+        const output = await callLLM(prompt, cfg.model, cond.sys, cfg.provider);
         const outPath = join(outputDir, 'raw', `${cond.id}_${c.id}.txt`);
         writeFileSync(outPath, output);
 
@@ -377,7 +400,7 @@ async function main() {
         results.push({ condition: cond.id, caseId: c.id, output: '', l1: null, error: e.message });
       }
 
-      await new Promise(r => setTimeout(r, 500));
+      await new Promise(r => setTimeout(r, 100));
     }
   }
 
